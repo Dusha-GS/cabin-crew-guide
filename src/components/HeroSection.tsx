@@ -215,3 +215,4 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
     </div>
   );
 }
+
