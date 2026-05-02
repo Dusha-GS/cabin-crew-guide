@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { callClaude } from "../hooks/useClaude";
 import BackButton from "./BackButton";
 
@@ -411,3 +411,4 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
     </div>
   );
 }
+
