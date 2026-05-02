@@ -16,6 +16,7 @@ const navItems = [
   { id: "mock-exam", label: "Mock Exam", icon: "📝" },
   { id: "conduct", label: "Code of Conduct", icon: "🏆" },
   { id: "ai-mock-interview", label: "AI Interview", icon: "🤖" },
+  { id: "ask-cabin-crew", label: "Ask Crew", icon: "✈️" },
   { id: "premium", label: "Premium", icon: "⭐" },
 ];
 
@@ -27,10 +28,7 @@ export default function Header({ activeSection, setActiveSection }: HeaderProps)
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <button
-            onClick={() => setActiveSection("home")}
-            className="flex items-center gap-2 group"
-          >
+          <button onClick={() => setActiveSection("home")} className="flex items-center gap-2 group">
             <div className="w-9 h-9 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
               <span className="text-lg">✈</span>
             </div>
@@ -49,8 +47,10 @@ export default function Header({ activeSection, setActiveSection }: HeaderProps)
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 ${
                   activeSection === item.id
                     ? "bg-amber-500 text-slate-900"
-                    : item.id === "ai-mock-interview"
+                    : item.id === "ask-cabin-crew"
                     ? "text-amber-300 hover:text-white hover:bg-amber-500/20 border border-amber-500/30"
+                    : item.id === "ai-mock-interview"
+                    ? "text-amber-300 hover:text-white hover:bg-amber-500/20 border border-amber-500/20"
                     : "text-slate-300 hover:text-white hover:bg-white/10"
                 }`}
               >
@@ -61,10 +61,7 @@ export default function Header({ activeSection, setActiveSection }: HeaderProps)
           </nav>
 
           {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="lg:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors"
-          >
+          <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors">
             {menuOpen ? (
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -85,14 +82,11 @@ export default function Header({ activeSection, setActiveSection }: HeaderProps)
             {navItems.map((item) => (
               <button
                 key={item.id}
-                onClick={() => {
-                  setActiveSection(item.id);
-                  setMenuOpen(false);
-                }}
+                onClick={() => { setActiveSection(item.id); setMenuOpen(false); }}
                 className={`px-3 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
                   activeSection === item.id
                     ? "bg-amber-500 text-slate-900"
-                    : item.id === "ai-mock-interview"
+                    : item.id === "ask-cabin-crew"
                     ? "text-amber-300 bg-amber-500/10 border border-amber-500/30"
                     : "text-slate-300 hover:text-white hover:bg-white/10"
                 }`}

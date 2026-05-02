@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { callClaude, type ClaudeMessage } from "../hooks/useClaude";
+import { type MembershipTier, getMembershipState, recordMockInterviewUsed } from "../hooks/useMembership";
+import UpgradeGate from "./UpgradeGate";
 import BackButton from "./BackButton";
 
-interface Props { goBack: () => void; previousLabel: string; }
+interface Props { goBack: () => void; previousLabel: string; tier: MembershipTier; onNavigatePremium: () => void; }
 
 type Airline = "Emirates" | "Etihad Airways" | "Qatar Airways" | "flydubai" | "Air Arabia";
 type Stage = "setup" | "interview" | "feedback";
@@ -64,7 +66,8 @@ Provide feedback in this exact format:
 
 Be honest but encouraging. Use your real knowledge of ${airline}'s culture and hiring standards.`;
 
-export default function AIMockInterviewSection({ goBack, previousLabel }: Props) {
+export default function AIMockInterviewSection({ goBack, previousLabel, tier, onNavigatePremium }: Props) {
+  const membership = getMembershipState(tier);
   const [stage, setStage] = useState<Stage>("setup");
   const [selectedAirline, setSelectedAirline] = useState<Airline>("Emirates");
   const [difficulty, setDifficulty] = useState<"Beginner" | "Intermediate" | "Advanced">("Intermediate");
@@ -99,6 +102,7 @@ export default function AIMockInterviewSection({ goBack, previousLabel }: Props)
       setDisplayMessages([{ role: "assistant", content: response }]);
       setStage("interview");
       setQuestionCount(1);
+      if (tier === "free") recordMockInterviewUsed();
     } catch (e: unknown) {
       setError((e as Error).message || "Failed to start interview. Check your API key.");
     } finally {
@@ -172,6 +176,23 @@ export default function AIMockInterviewSection({ goBack, previousLabel }: Props)
       sendAnswer();
     }
   };
+
+  // ── UPGRADE GATE ──────────────────────────────────────────────
+  if (!membership.canUseMockInterview) {
+    return (
+      <div className="min-h-screen bg-slate-900 py-20 px-4 pt-24">
+        <div className="max-w-3xl mx-auto">
+          <BackButton onClick={goBack} label={`Back to ${previousLabel}`} />
+          <div className="text-center mb-8">
+            <span className="inline-block bg-amber-500/20 text-amber-400 text-sm font-medium px-4 py-1.5 rounded-full mb-4 border border-amber-500/30">🤖 AI Mock Interview</span>
+            <h2 className="text-3xl font-bold text-white mb-3">Free trial session complete</h2>
+            <p className="text-slate-400">Upgrade to Standard or Premium for unlimited AI mock interviews.</p>
+          </div>
+          <UpgradeGate requiredTier="standard" featureName="Unlimited AI Mock Interviews" featureDescription="Practice as many times as you need with Claude acting as a real Emirates, Qatar Airways or Etihad recruiter." onNavigatePremium={onNavigatePremium} />
+        </div>
+      </div>
+    );
+  }
 
   // ── SETUP SCREEN ──────────────────────────────────────────────
   if (stage === "setup") {
