@@ -17,7 +17,7 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <div className="relative min-h-screen" style={{backgroundImage: "url(`/images/hero-bg.jpg`)", backgroundSize: "cover", backgroundPosition: "center"}}><div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.55)"}}></div><div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0">
           <div className="w-full h-full bg-gradient-to-br from-slate-900 via-slate-800 to-amber-950" />
@@ -215,4 +215,3 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
     </div>
   );
 }
-
