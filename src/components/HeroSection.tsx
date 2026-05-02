@@ -20,10 +20,6 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
       <div className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{backgroundImage:"url(/images/hero-bg.jpg)",backgroundSize:"cover",backgroundPosition:"center"}}>
         {/* Background */}
         
-        <div className="absolute inset-0">
-          <div className="w-full h-full bg-gradient-to-br from-slate-900 via-slate-800 to-amber-950" />
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-amber-900/60" />
-        </div>
 
         {/* Decorative elements */}
         <div className="absolute top-20 left-10 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl" />
