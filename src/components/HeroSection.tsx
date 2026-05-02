@@ -19,6 +19,7 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
       {/* Hero */}
       <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background */}
+        
         <div className="absolute inset-0">
           <div className="w-full h-full bg-gradient-to-br from-slate-900 via-slate-800 to-amber-950" />
           <div className="absolute inset-0 bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-amber-900/60" />
@@ -215,8 +216,3 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
     </div>
   );
 }
-
-
-
-
-
