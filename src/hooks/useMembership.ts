@@ -43,5 +43,5 @@ export function recordCVReviewUsed() {
   localStorage.setItem("cv-reviews-used", String(used + 1));
 }
 
-export const WHOP_STANDARD_LINK = "https://whop.com/your-standard-link"; // ← Replace
-export const WHOP_PREMIUM_LINK = "https://whop.com/your-premium-link";   // ← Replace
+export const WHOP_STANDARD_LINK = "https://whop.com/cabin-crew-guidebook-through-interview/cabin-crew-interview-guidebook/"; // ← Replace
+export const WHOP_PREMIUM_LINK = "https://whop.com/cabin-crew-guidebook-through-interview/premium-access-be-74b9";   // ← Replace
