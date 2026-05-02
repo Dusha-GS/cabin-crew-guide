@@ -1,5 +1,3 @@
-// src/hooks/useClaude.ts
-
 export interface ClaudeMessage {
   role: "user" | "assistant";
   content: string;
