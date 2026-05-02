@@ -100,7 +100,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
               <li className="text-slate-500 text-sm flex items-center gap-2"><span>—</span> No forum or voice exam</li>
             </ul>
             <button
-              onClick={() => setSelectedPlan("standard")}
+              onClick={(e) => { e.stopPropagation(); setSelectedPlan("standard"); }}
               className={`w-full font-bold py-3 rounded-xl text-sm transition-all ${
                 selectedPlan === "standard"
                   ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white"
@@ -134,7 +134,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> Former Crew Q&A Library</li>
             </ul>
             <button
-              onClick={() => setSelectedPlan("premium")}
+              onClick={(e) => { e.stopPropagation(); setSelectedPlan("premium"); }}
               className={`w-full font-bold py-3 rounded-xl text-sm transition-all ${
                 selectedPlan === "premium"
                   ? "bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900"
@@ -153,32 +153,35 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
           </p>
 
           <div className="space-y-3 mb-5">
-            <label className="flex items-start gap-3 cursor-pointer group">
-              <div
-                onClick={() => { setTermsAccepted(!termsAccepted); setShowTermsError(false); }}
-                className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all ${termsAccepted ? "bg-amber-500 border-amber-500" : "border-white/30 group-hover:border-amber-500/50"}`}
-              >
+
+            {/* Terms checkbox — using div not label to prevent click bubbling to button */}
+            <div className="flex items-start gap-3 cursor-pointer group" onClick={() => { setTermsAccepted(!termsAccepted); setShowTermsError(false); }}>
+              <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all ${termsAccepted ? "bg-amber-500 border-amber-500" : "border-white/30 group-hover:border-amber-500/50"}`}>
                 {termsAccepted && <span className="text-slate-900 text-xs font-bold">✓</span>}
               </div>
               <span className="text-slate-300 text-sm leading-relaxed">
                 I have read and agree to the{" "}
-                <button onClick={() => setActiveSection("terms")} className="text-amber-400 hover:underline font-medium">Terms of Service</button>
+                <button
+                  onClick={(e) => { e.stopPropagation(); setActiveSection("terms"); }}
+                  className="text-amber-400 hover:underline font-medium"
+                >Terms of Service</button>
                 , including the cancellation and refund policy.
               </span>
-            </label>
+            </div>
 
-            <label className="flex items-start gap-3 cursor-pointer group">
-              <div
-                onClick={() => { setPrivacyAccepted(!privacyAccepted); setShowTermsError(false); }}
-                className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all ${privacyAccepted ? "bg-amber-500 border-amber-500" : "border-white/30 group-hover:border-amber-500/50"}`}
-              >
+            {/* Privacy checkbox — using div not label to prevent click bubbling to button */}
+            <div className="flex items-start gap-3 cursor-pointer group" onClick={() => { setPrivacyAccepted(!privacyAccepted); setShowTermsError(false); }}>
+              <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all ${privacyAccepted ? "bg-amber-500 border-amber-500" : "border-white/30 group-hover:border-amber-500/50"}`}>
                 {privacyAccepted && <span className="text-slate-900 text-xs font-bold">✓</span>}
               </div>
               <span className="text-slate-300 text-sm leading-relaxed">
                 I have read and agree to the{" "}
-                <button onClick={() => setActiveSection("privacy")} className="text-amber-400 hover:underline font-medium">Privacy Policy</button>.
+                <button
+                  onClick={(e) => { e.stopPropagation(); setActiveSection("privacy"); }}
+                  className="text-amber-400 hover:underline font-medium"
+                >Privacy Policy</button>.
               </span>
-            </label>
+            </div>
 
             {showTermsError && <p className="text-red-400 text-sm">⚠️ Please accept both the Terms of Service and Privacy Policy to continue.</p>}
           </div>
