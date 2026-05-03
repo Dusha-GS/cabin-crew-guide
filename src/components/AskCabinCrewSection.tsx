@@ -72,38 +72,64 @@ const SEED_POSTS: Post[] = [
   },
 ];
 
+const FORMSPREE_URL = "https://formspree.io/f/xnjwjbbl";
+
 export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, onUpgrade }: Props) {
   const [posts, setPosts] = useState<Post[]>(SEED_POSTS);
   const [activeCategory, setActiveCategory] = useState("All");
   const [newQuestion, setNewQuestion] = useState("");
   const [newQuestionCategory, setNewQuestionCategory] = useState("Interview Tips");
   const [authorName, setAuthorName] = useState("");
+  const [authorEmail, setAuthorEmail] = useState("");
   const [expandedPost, setExpandedPost] = useState<string | null>("1");
   const [replyText, setReplyText] = useState<Record<string, string>>({});
   const [replyAuthor, setReplyAuthor] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const filteredPosts = activeCategory === "All"
     ? posts
     : posts.filter(p => p.category === activeCategory);
 
-  const submitQuestion = () => {
-    if (!newQuestion.trim() || !authorName.trim()) return;
+  const submitQuestion = async () => {
+    if (!newQuestion.trim() || !authorName.trim() || !authorEmail.trim()) return;
+    setSubmitting(true);
 
-    const newPost: Post = {
-      id: Date.now().toString(),
-      author: authorName.trim(),
-      avatar: authorName.trim()[0].toUpperCase(),
-      question: newQuestion.trim(),
-      category: newQuestionCategory,
-      timestamp: "Just now",
-      replies: [],
-      likes: 0,
-      liked: false,
-    };
+    try {
+      await fetch(FORMSPREE_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: authorName.trim(),
+          email: authorEmail.trim(),
+          category: newQuestionCategory,
+          question: newQuestion.trim(),
+        }),
+      });
 
-    setPosts(prev => [newPost, ...prev]);
-    setNewQuestion("");
-    setAuthorName("");
+      const newPost: Post = {
+        id: Date.now().toString(),
+        author: authorName.trim(),
+        avatar: authorName.trim()[0].toUpperCase(),
+        question: newQuestion.trim(),
+        category: newQuestionCategory,
+        timestamp: "Just now",
+        replies: [],
+        likes: 0,
+        liked: false,
+      };
+
+      setPosts(prev => [newPost, ...prev]);
+      setNewQuestion("");
+      setAuthorName("");
+      setAuthorEmail("");
+      setSubmitted(true);
+      setTimeout(() => setSubmitted(false), 5000);
+    } catch {
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const submitReply = (postId: string) => {
@@ -159,7 +185,6 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
               ))}
             </div>
 
-            {/* Preview of locked posts */}
             <div className="space-y-3 mb-8 relative">
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/50 to-slate-900 z-10 rounded-xl" />
               {SEED_POSTS.slice(0, 2).map(post => (
@@ -188,7 +213,6 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
     );
   }
 
-  // Forum screen (premium users)
   return (
     <div className="min-h-screen bg-slate-900 py-20 px-4 pt-24">
       <div className="max-w-4xl mx-auto">
@@ -199,7 +223,7 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
             ✈️ Premium Members Only
           </span>
           <h2 className="text-4xl font-bold text-white mb-2">Ask Cabin Crew</h2>
-          <p className="text-slate-400">Post your question and our expert will answer personally. Discuss with fellow candidates.</p>
+          <p className="text-slate-400">Post your question and our expert will reply to your email personally within 24 hours.</p>
         </div>
 
         {/* Ask a question */}
@@ -207,11 +231,26 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
           <h3 className="text-white font-bold text-lg mb-4 flex items-center gap-2">
             <span>💬</span> Post Your Question
           </h3>
+
+          {submitted && (
+            <div className="bg-green-500/20 border border-green-500/30 rounded-xl p-4 mb-4 text-center">
+              <p className="text-green-400 font-bold">✅ Question submitted!</p>
+              <p className="text-slate-400 text-sm mt-1">We'll reply to your email within 24 hours.</p>
+            </div>
+          )}
+
           <div className="space-y-3">
             <input
               value={authorName}
               onChange={e => setAuthorName(e.target.value)}
               placeholder="Your first name"
+              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-amber-500/50 transition-all"
+            />
+            <input
+              value={authorEmail}
+              onChange={e => setAuthorEmail(e.target.value)}
+              placeholder="Your email address (so we can reply to you)"
+              type="email"
               className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-amber-500/50 transition-all"
             />
             <select
@@ -232,12 +271,12 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
             />
             <button
               onClick={submitQuestion}
-              disabled={!newQuestion.trim() || !authorName.trim()}
+              disabled={!newQuestion.trim() || !authorName.trim() || !authorEmail.trim() || submitting}
               className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 disabled:opacity-40 text-slate-900 font-bold py-3 rounded-xl transition-all"
             >
-              Post Question
+              {submitting ? "Sending..." : "Post Question"}
             </button>
-            <p className="text-slate-500 text-xs text-center">Our expert will personally answer your question — usually within 24 hours.</p>
+            <p className="text-slate-500 text-xs text-center">Our expert will reply directly to your email within 24 hours. ✈️</p>
           </div>
         </div>
 
@@ -293,7 +332,6 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
 
               {expandedPost === post.id && (
                 <div className="border-t border-white/10">
-                  {/* Replies */}
                   {post.replies.length > 0 && (
                     <div className="p-5 space-y-4 border-b border-white/5">
                       {post.replies.map(reply => (
@@ -324,7 +362,6 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
                     </div>
                   )}
 
-                  {/* Add reply */}
                   <div className="p-5">
                     <p className="text-slate-400 text-xs mb-3 font-medium">Add your experience or tip:</p>
                     <div className="flex gap-2">
