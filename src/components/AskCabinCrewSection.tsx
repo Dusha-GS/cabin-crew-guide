@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { callClaude } from "../hooks/useClaude";
 import BackButton from "./BackButton";
 
 interface Props {
@@ -16,8 +15,6 @@ interface Post {
   question: string;
   category: string;
   timestamp: string;
-  aiAnswer?: string;
-  aiAnswerLoading?: boolean;
   replies: Reply[];
   likes: number;
   liked: boolean;
@@ -34,10 +31,6 @@ interface Reply {
 
 const CATEGORIES = ["All", "Emirates", "Qatar Airways", "Etihad Airways", "flydubai", "Air Arabia", "Interview Tips", "CV Help", "Life as Crew"];
 
-const FORUM_SYSTEM = `You are a senior cabin crew expert with 15+ years of experience working for top Middle Eastern airlines including Emirates, Qatar Airways, and Etihad Airways. You now mentor aspiring cabin crew candidates.
-
-Answer questions with insider knowledge, practical advice, and genuine warmth. Be specific — reference real airline procedures, culture, and requirements. Keep answers concise but helpful (3-5 sentences). End with one actionable tip.`;
-
 const SEED_POSTS: Post[] = [
   {
     id: "1",
@@ -46,10 +39,9 @@ const SEED_POSTS: Post[] = [
     question: "I have my Emirates open day next week. What should I wear and what are the biggest mistakes people make on the day?",
     category: "Emirates",
     timestamp: "2 hours ago",
-    aiAnswer: "For Emirates open days, wear a smart business suit or dress in neutral colors — navy, black, or grey. Your hair must be completely off your face in a neat bun or chignon. The biggest mistakes I see: arriving late (arrive 30 mins early), not engaging with other candidates (recruiters watch group dynamics from the moment you enter), and wearing heavy makeup or strong perfume. Smile genuinely from the moment you walk in — you're being assessed before the formal process even starts. Actionable tip: Practice reaching 212cm on your tiptoes daily this week so it feels natural on the day.",
     replies: [
       { id: "r1", author: "Priya K.", avatar: "P", content: "I got through my Emirates open day last month! One thing I'd add — bring multiple copies of your CV even if they say not to. Shows initiative.", timestamp: "1 hour ago" },
-      { id: "r2", author: "Former Emirates Crew", avatar: "E", content: "Sarah is right about the smile. We were told to notice who was genuinely warm vs performing warmth. It shows.", timestamp: "45 min ago", isExpert: true }
+      { id: "r2", author: "Dubravka (Expert)", avatar: "D", content: "Wear a smart business suit in neutral colors — navy, black, or grey. Hair must be completely off your face. Arrive 30 mins early and smile genuinely from the moment you walk in — you're being assessed before the formal process even starts!", timestamp: "45 min ago", isExpert: true }
     ],
     likes: 24,
     liked: false,
@@ -61,7 +53,6 @@ const SEED_POSTS: Post[] = [
     question: "Is it true Qatar Airways rejects you if you have any tattoos? I have a small one on my ankle.",
     category: "Qatar Airways",
     timestamp: "5 hours ago",
-    aiAnswer: "Qatar Airways — like all major ME airlines — requires that tattoos are not visible when you're in uniform. A small ankle tattoo is generally fine as long as it's completely covered by your uniform socks and trousers/skirt during duty. During the assessment, wear clothing that covers it fully. The key question is: will it ever be visible in your Qatar Airways uniform? If the answer is no, you are unlikely to face rejection for it. Actionable tip: Bring or wear opaque skin-colored stockings to the assessment to ensure complete coverage during any physical checks.",
     replies: [
       { id: "r3", author: "Layla T.", avatar: "L", content: "I have two small tattoos — one on my wrist (always covered by watch) and one on my hip. Got through QR selection with no issues!", timestamp: "3 hours ago" }
     ],
@@ -75,7 +66,6 @@ const SEED_POSTS: Post[] = [
     question: "How long does the Etihad interview process take from open day to receiving an offer? I applied 3 weeks ago and heard nothing.",
     category: "Etihad Airways",
     timestamp: "1 day ago",
-    aiAnswer: "The Etihad recruitment process typically takes 4-12 weeks from open day to offer, though it can vary significantly depending on their hiring cycle and current crew requirements. Three weeks with no response after an open day is completely normal — they process hundreds of candidates. If you haven't received a rejection email, you may still be in consideration. The silence often means you're in a holding pool while they complete background checks on other candidates. Actionable tip: Use this waiting time productively — keep practicing interview questions and researching Etihad so you're ready to impress immediately when they call.",
     replies: [],
     likes: 31,
     liked: false,
@@ -88,7 +78,6 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
   const [newQuestion, setNewQuestion] = useState("");
   const [newQuestionCategory, setNewQuestionCategory] = useState("Interview Tips");
   const [authorName, setAuthorName] = useState("");
-  const [submitting, setSubmitting] = useState(false);
   const [expandedPost, setExpandedPost] = useState<string | null>("1");
   const [replyText, setReplyText] = useState<Record<string, string>>({});
   const [replyAuthor, setReplyAuthor] = useState("");
@@ -97,9 +86,8 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
     ? posts
     : posts.filter(p => p.category === activeCategory);
 
-  const submitQuestion = async () => {
+  const submitQuestion = () => {
     if (!newQuestion.trim() || !authorName.trim()) return;
-    setSubmitting(true);
 
     const newPost: Post = {
       id: Date.now().toString(),
@@ -108,7 +96,6 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
       question: newQuestion.trim(),
       category: newQuestionCategory,
       timestamp: "Just now",
-      aiAnswerLoading: true,
       replies: [],
       likes: 0,
       liked: false,
@@ -117,22 +104,6 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
     setPosts(prev => [newPost, ...prev]);
     setNewQuestion("");
     setAuthorName("");
-
-    try {
-      const answer = await callClaude(
-        [{ role: "user", content: `A cabin crew candidate asks: "${newPost.question}" — Please answer as an expert.` }],
-        { system: FORUM_SYSTEM, max_tokens: 400 }
-      );
-      setPosts(prev => prev.map(p =>
-        p.id === newPost.id ? { ...p, aiAnswer: answer, aiAnswerLoading: false } : p
-      ));
-    } catch {
-      setPosts(prev => prev.map(p =>
-        p.id === newPost.id ? { ...p, aiAnswer: "Our expert team will answer this question shortly. Check back in a few hours!", aiAnswerLoading: false } : p
-      ));
-    } finally {
-      setSubmitting(false);
-    }
   };
 
   const submitReply = (postId: string) => {
@@ -169,16 +140,16 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
             <div className="text-6xl mb-4">✈️</div>
             <h2 className="text-4xl font-bold text-white mb-4">Ask Cabin Crew</h2>
             <p className="text-slate-400 text-lg max-w-xl mx-auto">
-              Get real answers from cabin crew experts and connect with fellow candidates — exclusively for Premium members.
+              Post your questions and get personal answers from a real cabin crew expert — exclusively for Premium members.
             </p>
           </div>
 
           <div className="bg-gradient-to-br from-amber-900/30 to-slate-800 border border-amber-500/30 rounded-2xl p-8 mb-8">
             <div className="grid md:grid-cols-3 gap-6 mb-8">
               {[
-                { icon: "🤖", title: "Instant AI Answers", desc: "Every question gets an immediate expert-level AI answer powered by Claude" },
+                { icon: "✋", title: "Real Expert Answers", desc: "Every question is personally answered by a former Middle Eastern airline cabin crew professional" },
                 { icon: "👥", title: "Community Discussion", desc: "Connect with other candidates and share your experiences" },
-                { icon: "✈️", title: "Expert Insights", desc: "Answers reviewed by former Middle East cabin crew professionals" },
+                { icon: "✈️", title: "Insider Knowledge", desc: "Get honest, specific advice you won't find anywhere else" },
               ].map((item) => (
                 <div key={item.title} className="text-center">
                   <div className="text-3xl mb-3">{item.icon}</div>
@@ -209,9 +180,8 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
               onClick={onUpgrade}
               className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-900 font-bold py-4 rounded-xl text-lg transition-all hover:scale-[1.01] shadow-lg shadow-amber-500/20"
             >
-              Unlock Premium — $25 One-Time →
+              Unlock Premium — $25/month →
             </button>
-            <p className="text-slate-500 text-xs text-center mt-3">Instant access · Lifetime membership · No subscription</p>
           </div>
         </div>
       </div>
@@ -229,13 +199,13 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
             ✈️ Premium Members Only
           </span>
           <h2 className="text-4xl font-bold text-white mb-2">Ask Cabin Crew</h2>
-          <p className="text-slate-400">Ask anything. Get expert AI answers instantly. Discuss with fellow candidates.</p>
+          <p className="text-slate-400">Post your question and our expert will answer personally. Discuss with fellow candidates.</p>
         </div>
 
         {/* Ask a question */}
         <div className="bg-gradient-to-br from-slate-800 to-slate-700 border border-amber-500/20 rounded-2xl p-6 mb-8">
           <h3 className="text-white font-bold text-lg mb-4 flex items-center gap-2">
-            <span>💬</span> Ask Your Question
+            <span>💬</span> Post Your Question
           </h3>
           <div className="space-y-3">
             <input
@@ -262,11 +232,12 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
             />
             <button
               onClick={submitQuestion}
-              disabled={!newQuestion.trim() || !authorName.trim() || submitting}
+              disabled={!newQuestion.trim() || !authorName.trim()}
               className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 disabled:opacity-40 text-slate-900 font-bold py-3 rounded-xl transition-all"
             >
-              {submitting ? "Getting AI answer..." : "Post Question → Get Instant AI Answer"}
+              Post Question
             </button>
+            <p className="text-slate-500 text-xs text-center">Our expert will personally answer your question — usually within 24 hours.</p>
           </div>
         </div>
 
@@ -291,7 +262,6 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
         <div className="space-y-4">
           {filteredPosts.map(post => (
             <div key={post.id} className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-amber-500/20 transition-all">
-              {/* Post header */}
               <div
                 className="p-5 cursor-pointer"
                 onClick={() => setExpandedPost(expandedPost === post.id ? null : post.id)}
@@ -321,36 +291,15 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
                 </div>
               </div>
 
-              {/* Expanded content */}
               {expandedPost === post.id && (
                 <div className="border-t border-white/10">
-                  {/* AI Answer */}
-                  <div className="p-5 bg-amber-500/5 border-b border-white/5">
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="w-7 h-7 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center text-slate-900 text-xs font-bold">
-                        ✈
-                      </div>
-                      <span className="text-amber-400 font-bold text-sm">Expert AI Answer</span>
-                      <span className="bg-amber-500/20 text-amber-400 text-xs px-2 py-0.5 rounded-full border border-amber-500/30">Powered by Claude</span>
-                    </div>
-                    {post.aiAnswerLoading ? (
-                      <div className="flex gap-1 items-center h-5">
-                        <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                        <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                        <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
-                      </div>
-                    ) : (
-                      <p className="text-slate-300 text-sm leading-relaxed">{post.aiAnswer}</p>
-                    )}
-                  </div>
-
-                  {/* Member replies */}
+                  {/* Replies */}
                   {post.replies.length > 0 && (
                     <div className="p-5 space-y-4 border-b border-white/5">
                       {post.replies.map(reply => (
                         <div key={reply.id} className="flex gap-3">
                           <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${
-                            reply.isExpert ? "bg-green-500/20 border border-green-500/40 text-green-400" : "bg-white/10 text-slate-300"
+                            reply.isExpert ? "bg-amber-500/20 border border-amber-500/40 text-amber-400" : "bg-white/10 text-slate-300"
                           }`}>
                             {reply.avatar}
                           </div>
@@ -358,7 +307,7 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
                             <div className="flex items-center gap-2 mb-1">
                               <span className="text-white text-xs font-semibold">{reply.author}</span>
                               {reply.isExpert && (
-                                <span className="bg-green-500/20 text-green-400 text-xs px-2 py-0.5 rounded-full border border-green-500/30">Former Crew</span>
+                                <span className="bg-amber-500/20 text-amber-400 text-xs px-2 py-0.5 rounded-full border border-amber-500/30">✈ Expert</span>
                               )}
                               <span className="text-slate-500 text-xs">{reply.timestamp}</span>
                             </div>
@@ -366,6 +315,12 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
                           </div>
                         </div>
                       ))}
+                    </div>
+                  )}
+
+                  {post.replies.length === 0 && (
+                    <div className="p-5 border-b border-white/5">
+                      <p className="text-slate-500 text-sm italic">No answers yet — our expert will respond within 24 hours. ✈️</p>
                     </div>
                   )}
 
