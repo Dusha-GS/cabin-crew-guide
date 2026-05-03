@@ -45,7 +45,6 @@ const PREMIUM_SECTIONS = ["ask-cabin-crew"];
 export default function App() {
   const [activeSection, setActiveSection] = useState("home");
   const historyRef = useRef<string[]>(["home"]);
-  // In production: verify via Whop API. For demo, use state.
   const [tier, setTier] = useState<MembershipTier>("free");
 
   const handleSetSection = (section: string) => {
@@ -75,12 +74,10 @@ export default function App() {
     return "Home";
   })();
 
-  // Check if current section is gated
   const isStandardGated = STANDARD_SECTIONS.includes(activeSection) && tier === "free";
   const isPremiumGated = PREMIUM_SECTIONS.includes(activeSection) && tier !== "premium";
 
   const renderSection = () => {
-    // Standard gate
     if (isStandardGated) {
       return (
         <div className="min-h-screen bg-slate-900 py-20 px-4 pt-24">
@@ -96,7 +93,6 @@ export default function App() {
       );
     }
 
-    // Premium gate
     if (isPremiumGated) {
       return (
         <div className="min-h-screen bg-slate-900 py-20 px-4 pt-24">
