@@ -110,11 +110,11 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
               <div className="relative">
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-4xl">🤖</span>
-                  <span className="bg-amber-500/20 text-amber-400 text-xs font-bold px-3 py-1 rounded-full border border-amber-500/30">POWERED BY CLAUDE AI</span>
+                
                 </div>
                 <h3 className="text-white font-bold text-xl mb-2">AI Mock Interview</h3>
                 <p className="text-slate-400 text-sm leading-relaxed">
-                  Have a real conversation with Claude AI acting as an Emirates/Qatar recruiter. Get instant feedback on every answer.
+                  Have a real conversation with AI acting as an Emirates/Qatar recruiter. Get instant feedback on every answer.
                 </p>
                 <div className="mt-4 text-amber-400 text-sm font-semibold group-hover:gap-2 flex items-center gap-1 transition-all">
                   Start practicing →
@@ -130,9 +130,9 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
               <div className="relative">
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-4xl">📄</span>
-                  <span className="bg-green-500/20 text-green-400 text-xs font-bold px-3 py-1 rounded-full border border-green-500/30">POWERED BY CLAUDE AI</span>
+                  
                 </div>
-                <h3 className="text-white font-bold text-xl mb-2">AI CV Review</h3>
+                <h3 className="text-white font-bold text-xl mb-2"> CV Review</h3>
                 <p className="text-slate-400 text-sm leading-relaxed">
                   Paste your CV and get instant, actionable feedback tailored to cabin crew standards at ME airlines.
                 </p>
