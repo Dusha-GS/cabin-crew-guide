@@ -1,3 +1,5 @@
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
 export const handler = async (event) => {
   const cors = {
     "Access-Control-Allow-Origin": "*",
@@ -14,25 +16,65 @@ export const handler = async (event) => {
   }
 
   try {
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_KEY
+    );
+
     const payload = JSON.parse(event.body || "{}");
     const { action, data } = payload;
-
     console.log("Whop webhook received:", action, JSON.stringify(data));
 
-    // membership_activated = someone just paid and subscribed
     if (action === "membership_activated" || action === "payment.succeeded") {
       const membership = data?.membership || data;
       const email = membership?.user?.email || data?.email;
+      const whopUserId = membership?.user?.id || data?.user_id || null;
+      const whopMembershipId = membership?.id || null;
       const planId = membership?.product_id || data?.product_id || "";
 
-      // Determine tier based on which Whop product they bought
       const PREMIUM_PRODUCT = "premium-access-be-74b9";
       const tier = planId.includes(PREMIUM_PRODUCT) ? "premium" : "standard";
 
       console.log(`User ${email} activated ${tier} membership`);
 
-      // In production: save to database here
-      // For now: log it so you can see it in Netlify logs
+      if (email) {
+        const { error } = await supabase
+          .from("users")
+          .upsert(
+            {
+              email,
+              tier,
+              whop_user_id: whopUserId,
+              whop_membership_id: whopMembershipId,
+              updated_at: new Date().toISOString(),
+            },
+            { onConflict: "email" }
+          );
+
+        if (error) {
+          console.error("Supabase error:", error);
+        } else {
+          console.log(`Saved ${email} as ${tier} in Supabase`);
+        }
+      }
+    }
+
+    if (action === "membership_deactivated") {
+      const membership = data?.membership || data;
+      const email = membership?.user?.email || data?.email;
+
+      if (email) {
+        const { error } = await supabase
+          .from("users")
+          .update({ tier: "free", updated_at: new Date().toISOString() })
+          .eq("email", email);
+
+        if (error) {
+          console.error("Supabase error on deactivate:", error);
+        } else {
+          console.log(`Downgraded ${email} to free in Supabase`);
+        }
+      }
     }
 
     return {
