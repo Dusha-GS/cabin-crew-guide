@@ -2,7 +2,7 @@ import { useState } from "react";
 import { callClaude } from "../hooks/useClaude";
 import BackButton from "./BackButton";
 
-interface Props { goBack: () => void; previousLabel: string; }
+interface Props { goBack: () => void; previousLabel: string; tier?: string; onNavigatePremium?: () => void; }
 
 const QUESTIONS = [
   {
