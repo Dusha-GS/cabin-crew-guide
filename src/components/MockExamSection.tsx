@@ -31,7 +31,7 @@ const difficultyColor: Record<string, string> = {
 export default function MockExamSection({ goBack, previousLabel, tier, onNavigatePremium }: Props) {
   const isUnlocked = tier === "standard" || tier === "premium";
   const [demoMode, setDemoMode] = useState(false);
-  const [started, setStarted] = useState(false);
+  
   const [currentQ, setCurrentQ] = useState(0);
   const [answer, setAnswer] = useState("");
   const [feedback, setFeedback] = useState("");
