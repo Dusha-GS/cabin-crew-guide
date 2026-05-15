@@ -87,9 +87,8 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
                   {loading ? <><span className="w-4 h-4 border-2 border-slate-900/40 border-t-slate-900 rounded-full animate-spin" />Signing in…</> : "Sign In"}
                 </button>
               </form>
-              <div className="mt-4 bg-slate-800/50 border border-white/5 rounded-xl px-4 py-3">
-                <p className="text-slate-500 text-xs text-center">Demo: <span className="text-slate-300">demo@cabincrew.com</span> / <span className="text-slate-300">demo1234</span></p>
-              </div>
+             
+                
               <p className="text-center text-slate-400 text-sm mt-4">No account? <button onClick={() => switchView("register")} className="text-amber-400 font-medium">Create one free</button></p>
             </>
           )}
