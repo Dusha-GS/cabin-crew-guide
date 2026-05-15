@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { WHOP_STANDARD_LINK, WHOP_PREMIUM_LINK } from "../hooks/useMembership";
+import { WHOP_STANDARD_LINK, WHOP_PREMIUM_LINK, AuthUser } from "../hooks/useAuth";
 import BackButton from "./BackButton";
 
 interface Props {
@@ -7,6 +7,8 @@ interface Props {
   previousLabel: string;
   setActiveSection: (s: string) => void;
   onPremiumUnlock: () => void;
+  user?: AuthUser | null;
+  onLoginClick?: () => void;
 }
 
 export default function PremiumSection({ goBack, previousLabel, setActiveSection }: Props) {
