@@ -26,12 +26,13 @@ async function getTierFromSupabase(email: string): Promise<MembershipTier> {
         },
       }
     );
+    if (!response.ok) return "free";
     const data = await response.json();
     if (data && data.length > 0) {
       return data[0].tier as MembershipTier;
     }
   } catch {
-    // fall through to default
+    // fall through
   }
   return "free";
 }
@@ -60,7 +61,7 @@ export async function loginUser(email: string, password: string): Promise<AuthUs
     const user: AuthUser = {
       id: "demo-001",
       email,
-      name: "Dusha",
+      name: "Demo User",
       tier: "premium",
       tosAccepted: true,
       createdAt: new Date().toISOString(),
@@ -69,13 +70,29 @@ export async function loginUser(email: string, password: string): Promise<AuthUs
     return user;
   }
 
+  // Check localStorage first
   const stored = getStoredUser();
   if (stored && stored.email === email) {
-    // Refresh tier from Supabase
     const tier = await getTierFromSupabase(email);
     const updated = { ...stored, tier };
     storeUser(updated);
     return updated;
+  }
+
+  // Not in localStorage — check Supabase directly
+  const tier = await getTierFromSupabase(email);
+  if (tier !== "free") {
+    // They're a paid user — let them in
+    const user: AuthUser = {
+      id: `user-${Date.now()}`,
+      email,
+      name: email.split("@")[0],
+      tier,
+      tosAccepted: true,
+      createdAt: new Date().toISOString(),
+    };
+    storeUser(user);
+    return user;
   }
 
   throw new Error("Invalid email or password. Please try again.");
@@ -86,7 +103,6 @@ export async function registerUser(email: string, password: string, name: string
   if (!email || !password || !name) throw new Error("All fields are required.");
   if (password.length < 8) throw new Error("Password must be at least 8 characters.");
 
-  // Check if they already paid via Whop
   const tier = await getTierFromSupabase(email);
 
   const user: AuthUser = {
