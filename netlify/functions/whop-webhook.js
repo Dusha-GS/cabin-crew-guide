@@ -1,5 +1,3 @@
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
 export const handler = async (event) => {
   const cors = {
     "Access-Control-Allow-Origin": "*",
@@ -16,14 +14,32 @@ export const handler = async (event) => {
   }
 
   try {
-    const supabase = createClient(
-      process.env.SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_KEY
-    );
+    const SUPABASE_URL = process.env.SUPABASE_URL;
+    const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 
     const payload = JSON.parse(event.body || "{}");
     const { action, data } = payload;
     console.log("Whop webhook received:", action, JSON.stringify(data));
+
+    async function upsertUser(email, tier, whopUserId, whopMembershipId) {
+      const response = await fetch(`${SUPABASE_URL}/rest/v1/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": SUPABASE_SERVICE_KEY,
+          "Authorization": `Bearer ${SUPABASE_SERVICE_KEY}`,
+          "Prefer": "resolution=merge-duplicates",
+        },
+        body: JSON.stringify({
+          email,
+          tier,
+          whop_user_id: whopUserId,
+          whop_membership_id: whopMembershipId,
+          updated_at: new Date().toISOString(),
+        }),
+      });
+      return response;
+    }
 
     if (action === "membership_activated" || action === "payment.succeeded") {
       const membership = data?.membership || data;
@@ -38,24 +54,8 @@ export const handler = async (event) => {
       console.log(`User ${email} activated ${tier} membership`);
 
       if (email) {
-        const { error } = await supabase
-          .from("users")
-          .upsert(
-            {
-              email,
-              tier,
-              whop_user_id: whopUserId,
-              whop_membership_id: whopMembershipId,
-              updated_at: new Date().toISOString(),
-            },
-            { onConflict: "email" }
-          );
-
-        if (error) {
-          console.error("Supabase error:", error);
-        } else {
-          console.log(`Saved ${email} as ${tier} in Supabase`);
-        }
+        const res = await upsertUser(email, tier, whopUserId, whopMembershipId);
+        console.log("Supabase response status:", res.status);
       }
     }
 
@@ -64,16 +64,22 @@ export const handler = async (event) => {
       const email = membership?.user?.email || data?.email;
 
       if (email) {
-        const { error } = await supabase
-          .from("users")
-          .update({ tier: "free", updated_at: new Date().toISOString() })
-          .eq("email", email);
-
-        if (error) {
-          console.error("Supabase error on deactivate:", error);
-        } else {
-          console.log(`Downgraded ${email} to free in Supabase`);
-        }
+        const response = await fetch(
+          `${SUPABASE_URL}/rest/v1/users?email=eq.${encodeURIComponent(email)}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              "apikey": SUPABASE_SERVICE_KEY,
+              "Authorization": `Bearer ${SUPABASE_SERVICE_KEY}`,
+            },
+            body: JSON.stringify({
+              tier: "free",
+              updated_at: new Date().toISOString(),
+            }),
+          }
+        );
+        console.log("Downgrade response status:", response.status);
       }
     }
 
