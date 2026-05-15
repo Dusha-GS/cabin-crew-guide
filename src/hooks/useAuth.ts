@@ -32,7 +32,7 @@ export function clearStoredUser() {
 export async function loginUser(email: string, password: string): Promise<AuthUser> {
   await new Promise((r) => setTimeout(r, 800));
   if (email === "demo@cabincrew.com" && password === "demo1234") {
-    const user: AuthUser = { id: "demo-001", email, name: "Demo User", tier: "standard", tosAccepted: true, createdAt: new Date().toISOString() };
+    const user: AuthUser = { id: "demo-001", email, name: "Dusha", tier: "premium", tosAccepted: true, createdAt: new Date().toISOString() };
     storeUser(user);
     return user;
   }
