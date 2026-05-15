@@ -47,15 +47,9 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
   };
 
   return (
-    <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
-    >
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
-      <div
-        className="relative w-full max-w-md bg-slate-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative w-full max-w-md bg-slate-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
         <div className="h-1 w-full bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500" />
         <div className="p-8">
           <div className="flex items-center gap-3 mb-6">
@@ -117,7 +111,7 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
                     <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">{showPass ? "🙈" : "👁"}</button>
                   </div>
                 </div>
-                <div className="space-y-3 bg-slate-800/50 border border-white/5 rounded-xl p-4">
+                <div className="space-y-3 bg-slate-800/50 border border-white/5 rounded-xl p-4" onClick={(e) => e.stopPropagation()}>
                   <p className="text-slate-400 text-xs font-medium uppercase tracking-wider">Required agreements</p>
                   <div className="flex items-start gap-3 cursor-pointer" onClick={() => setTosAccepted(!tosAccepted)}>
                     <div className={`mt-0.5 w-5 h-5 rounded border-2 flex-shrink-0 flex items-center justify-center ${tosAccepted ? "bg-amber-500 border-amber-500" : "border-slate-600"}`}>
