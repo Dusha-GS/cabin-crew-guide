@@ -47,9 +47,15 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
-      <div className="relative w-full max-w-md bg-slate-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
+      <div
+        className="relative w-full max-w-md bg-slate-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="h-1 w-full bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500" />
         <div className="p-8">
           <div className="flex items-center gap-3 mb-6">
@@ -87,8 +93,6 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
                   {loading ? <><span className="w-4 h-4 border-2 border-slate-900/40 border-t-slate-900 rounded-full animate-spin" />Signing in…</> : "Sign In"}
                 </button>
               </form>
-             
-                
               <p className="text-center text-slate-400 text-sm mt-4">No account? <button onClick={() => switchView("register")} className="text-amber-400 font-medium">Create one free</button></p>
             </>
           )}
@@ -115,18 +119,18 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
                 </div>
                 <div className="space-y-3 bg-slate-800/50 border border-white/5 rounded-xl p-4">
                   <p className="text-slate-400 text-xs font-medium uppercase tracking-wider">Required agreements</p>
-                  <label className="flex items-start gap-3 cursor-pointer" onClick={() => setTosAccepted(!tosAccepted)}>
+                  <div className="flex items-start gap-3 cursor-pointer" onClick={() => setTosAccepted(!tosAccepted)}>
                     <div className={`mt-0.5 w-5 h-5 rounded border-2 flex-shrink-0 flex items-center justify-center ${tosAccepted ? "bg-amber-500 border-amber-500" : "border-slate-600"}`}>
                       {tosAccepted && <svg className="w-3 h-3 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
                     </div>
                     <span className="text-slate-300 text-sm">I agree to the <button type="button" onClick={(e) => { e.stopPropagation(); onNavigate("terms"); }} className="text-amber-400 hover:underline">Terms of Service</button></span>
-                  </label>
-                  <label className="flex items-start gap-3 cursor-pointer" onClick={() => setPrivacyAccepted(!privacyAccepted)}>
+                  </div>
+                  <div className="flex items-start gap-3 cursor-pointer" onClick={() => setPrivacyAccepted(!privacyAccepted)}>
                     <div className={`mt-0.5 w-5 h-5 rounded border-2 flex-shrink-0 flex items-center justify-center ${privacyAccepted ? "bg-amber-500 border-amber-500" : "border-slate-600"}`}>
                       {privacyAccepted && <svg className="w-3 h-3 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
                     </div>
                     <span className="text-slate-300 text-sm">I agree to the <button type="button" onClick={(e) => { e.stopPropagation(); onNavigate("privacy"); }} className="text-amber-400 hover:underline">Privacy Policy</button></span>
-                  </label>
+                  </div>
                 </div>
                 {error && <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 text-red-400 text-sm">{error}</div>}
                 <button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 font-bold py-3 rounded-xl disabled:opacity-50 flex items-center justify-center gap-2">
