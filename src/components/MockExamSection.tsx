@@ -83,7 +83,7 @@ Format: Start with "Score: X/10" then a brief assessment.`,
   const restart = () => {
     setCurrentQ(0); setAnswer(""); setFeedback("");
     setShowModel(false); setExamComplete(false);
-    setScores({}); setDemoMode(false); setStarted(false);
+    setScores({}); setDemoMode(false);
   };
 
   const avgScore = Object.keys(scores).length > 0
@@ -105,7 +105,7 @@ Format: Start with "Score: X/10" then a brief assessment.`,
             <div className="bg-slate-800/60 border border-white/10 rounded-2xl p-6 max-w-sm mx-auto mb-6">
               <p className="text-white font-bold mb-1">Try a free demo</p>
               <p className="text-slate-400 text-sm mb-4">Preview 1 question with full feedback — no account needed</p>
-              <button onClick={() => { setDemoMode(true); setStarted(true); }} className="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold py-3 rounded-xl text-sm transition-all hover:scale-[1.01]">
+              <button onClick={() => { setDemoMode(true); }} className="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold py-3 rounded-xl text-sm transition-all hover:scale-[1.01]">
                 🎯 Try Demo Question
               </button>
             </div>
