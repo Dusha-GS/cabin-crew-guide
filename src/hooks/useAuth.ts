@@ -12,29 +12,19 @@ export type MembershipTier = "free" | "standard" | "premium";
 export const WHOP_STANDARD_LINK = "https://whop.com/cabin-crew-guidebook-through-interview/cabin-crew-interview-guidebook/";
 export const WHOP_PREMIUM_LINK = "https://whop.com/cabin-crew-guidebook-through-interview/premium-access-be-74b9/";
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
 async function getTierFromSupabase(email: string): Promise<MembershipTier> {
   try {
-    const response = await fetch(
-      `${SUPABASE_URL}/rest/v1/users?email=eq.${encodeURIComponent(email)}&select=tier`,
-      {
-        headers: {
-          "apikey": SUPABASE_ANON_KEY,
-          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
-        },
-      }
-    );
+    const response = await fetch("/.netlify/functions/get-tier", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
     if (!response.ok) return "free";
     const data = await response.json();
-    if (data && data.length > 0) {
-      return data[0].tier as MembershipTier;
-    }
+    return (data.tier as MembershipTier) || "free";
   } catch {
-    // fall through
+    return "free";
   }
-  return "free";
 }
 
 export function getStoredUser(): AuthUser | null {
@@ -79,7 +69,7 @@ export async function loginUser(email: string, password: string): Promise<AuthUs
     return updated;
   }
 
-  // Not in localStorage — check Supabase
+  // Not in localStorage — check Supabase via function
   const tier = await getTierFromSupabase(email);
   const user: AuthUser = {
     id: `user-${Date.now()}`,
