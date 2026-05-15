@@ -69,7 +69,7 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
               onClick={() => setActiveSection("ai-mock-interview")}
               className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-900 font-bold px-8 py-4 rounded-xl shadow-lg shadow-amber-500/30 transition-all hover:scale-105 text-lg flex items-center justify-center gap-2"
             >
-              🤖 Try Free AI Interview
+              🤖 Try Free Interview
             </button>
             <button
               onClick={() => setActiveSection("premium")}
