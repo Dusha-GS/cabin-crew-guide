@@ -1,5 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { AuthUser, getStoredUser, clearStoredUser } from "./hooks/useAuth";
+import { supabase } from "./supabaseClient";
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
 import AirlinesSection from "./components/AirlinesSection";
@@ -19,6 +20,7 @@ import PrivacyPolicySection from "./components/PrivacyPolicySection";
 import CookieConsent from "./components/CookieConsent";
 import UpgradeGate from "./components/UpgradeGate";
 import AuthModal from "./components/AuthModal";
+import ResetPasswordSection from "./components/ResetPasswordSection";
 
 const sectionLabels: Record<string, string> = {
   home: "Home", airlines: "Airlines", requirements: "Requirements",
@@ -37,6 +39,16 @@ export default function App() {
   const historyRef = useRef<string[]>(["home"]);
   const [user, setUser] = useState<AuthUser | null>(() => getStoredUser());
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showResetPassword, setShowResetPassword] = useState(false);
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "PASSWORD_RECOVERY") {
+        setShowResetPassword(true);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, []);
 
   const handleSetSection = (section: string) => {
     historyRef.current.push(section);
@@ -67,6 +79,12 @@ export default function App() {
   const tier = user?.tier ?? "free";
   const isStandardGated = STANDARD_SECTIONS.includes(activeSection) && tier === "free";
   const isPremiumGated = PREMIUM_SECTIONS.includes(activeSection) && tier !== "premium";
+
+  if (showResetPassword) {
+    return (
+      <ResetPasswordSection onDone={() => { setShowResetPassword(false); handleSetSection("home"); }} />
+    );
+  }
 
   const renderSection = () => {
     if (isStandardGated) return (
