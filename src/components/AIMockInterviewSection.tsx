@@ -184,11 +184,11 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
         <div className="max-w-3xl mx-auto">
           <BackButton onClick={goBack} label={`Back to ${previousLabel}`} />
           <div className="text-center mb-8">
-            <span className="inline-block bg-amber-500/20 text-amber-400 text-sm font-medium px-4 py-1.5 rounded-full mb-4 border border-amber-500/30">🤖 AI Mock Interview</span>
+            <span className="inline-block bg-amber-500/20 text-amber-400 text-sm font-medium px-4 py-1.5 rounded-full mb-4 border border-amber-500/30">🤖 Mock Interview</span>
             <h2 className="text-3xl font-bold text-white mb-3">Free trial session complete</h2>
-            <p className="text-slate-400">Upgrade to Standard or Premium for unlimited AI mock interviews.</p>
+            <p className="text-slate-400">Upgrade to Standard or Premium for unlimited mock interviews.</p>
           </div>
-          <UpgradeGate requiredTier="standard" featureName="Unlimited AI Mock Interviews" featureDescription="Practice as many times as you need with Claude acting as a real Emirates, Qatar Airways or Etihad recruiter." onNavigatePremium={onNavigatePremium} />
+          <UpgradeGate requiredTier="standard" featureName="Unlimited Mock Interviews" featureDescription="Practice as many times as you need with AI acting as a real Emirates, Qatar Airways or Etihad recruiter." onNavigatePremium={onNavigatePremium} />
         </div>
       </div>
     );
@@ -202,11 +202,11 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
           <BackButton onClick={goBack} label={`Back to ${previousLabel}`} />
           <div className="text-center mb-10">
             <span className="inline-block bg-amber-500/20 text-amber-400 text-sm font-medium px-4 py-1.5 rounded-full mb-4 border border-amber-500/30">
-              🤖 Powered by Claude AI
+              🤖 Mock Interview
             </span>
-            <h2 className="text-4xl font-bold text-white mb-4">AI Mock Interview</h2>
+            <h2 className="text-4xl font-bold text-white mb-4">Mock Interview</h2>
             <p className="text-slate-400 text-lg max-w-xl mx-auto">
-              Practice with Claude acting as a real recruiter from your chosen airline. Get instant feedback on every answer.
+              Practice with AI acting as a real recruiter from your chosen airline. Get instant feedback on every answer.
             </p>
           </div>
 
@@ -276,7 +276,7 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
           <div className="grid grid-cols-3 gap-4">
             {[
               { icon: "💬", title: "Real Questions", desc: "Airline-specific questions from a simulated recruiter" },
-              { icon: "⚡", title: "Instant Feedback", desc: "Claude reviews each answer as you go" },
+              { icon: "⚡", title: "Instant Feedback", desc: "Get feedback on each answer as you go" },
               { icon: "📊", title: "Final Assessment", desc: "Detailed score & action plan at the end" },
             ].map((item) => (
               <div key={item.title} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
@@ -305,7 +305,7 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
           {feedbackLoading ? (
             <div className="bg-white/5 border border-white/10 rounded-2xl p-12 text-center">
               <div className="w-12 h-12 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-slate-400">Claude is reviewing your interview...</p>
+              <p className="text-slate-400">Reviewing your interview...</p>
             </div>
           ) : (
             <div className="bg-white/5 border border-white/10 rounded-2xl p-8 mb-6">
@@ -344,16 +344,10 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
           )}
 
           <div className="flex gap-4">
-            <button
-              onClick={reset}
-              className="flex-1 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-900 font-bold py-4 rounded-xl transition-all"
-            >
+            <button onClick={reset} className="flex-1 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-900 font-bold py-4 rounded-xl transition-all">
               🔄 Practice Again
             </button>
-            <button
-              onClick={goBack}
-              className="flex-1 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-semibold py-4 rounded-xl transition-all"
-            >
+            <button onClick={goBack} className="flex-1 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-semibold py-4 rounded-xl transition-all">
               Back to Guide
             </button>
           </div>
@@ -365,13 +359,12 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
   // ── INTERVIEW CHAT SCREEN ─────────────────────────────────────
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col pt-16">
-      {/* Top bar */}
       <div className="border-b border-white/10 bg-slate-900/95 backdrop-blur px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <BackButton onClick={() => { if (confirm("End this interview session?")) reset(); }} label="End Interview" />
         </div>
         <div className="text-center">
-          <p className="text-white font-bold text-sm">🤖 {selectedAirline} Recruiter</p>
+          <p className="text-white font-bold text-sm">✈ {selectedAirline} Recruiter</p>
           <p className="text-slate-400 text-xs">{difficulty} • {questionCount} exchanges</p>
         </div>
         <button
@@ -383,26 +376,20 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
         </button>
       </div>
 
-      {/* Messages */}
       <div className="flex-1 overflow-y-auto px-4 py-6 max-w-3xl w-full mx-auto">
         <div className="space-y-4">
           {displayMessages.map((msg, i) => (
-            <div
-              key={i}
-              className={`flex gap-3 animate-fadeIn ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-            >
+            <div key={i} className={`flex gap-3 animate-fadeIn ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
               {msg.role === "assistant" && (
                 <div className="w-9 h-9 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center text-slate-900 font-bold text-sm flex-shrink-0 mt-1">
                   ✈
                 </div>
               )}
-              <div
-                className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
-                  msg.role === "user"
-                    ? "bg-amber-500/20 border border-amber-500/30 text-white ml-auto"
-                    : "bg-white/5 border border-white/10 text-slate-200"
-                }`}
-              >
+              <div className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+                msg.role === "user"
+                  ? "bg-amber-500/20 border border-amber-500/30 text-white ml-auto"
+                  : "bg-white/5 border border-white/10 text-slate-200"
+              }`}>
                 {msg.content}
               </div>
               {msg.role === "user" && (
@@ -438,7 +425,6 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
         </div>
       </div>
 
-      {/* Input */}
       <div className="border-t border-white/10 bg-slate-900/95 backdrop-blur px-4 py-4">
         <div className="max-w-3xl mx-auto flex gap-3">
           <textarea
