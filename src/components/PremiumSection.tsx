@@ -40,9 +40,9 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
     { feature: "Mock Exam with AI scoring", free: false, standard: true, premium: true },
     { feature: "AI Essay Assessment", free: false, standard: true, premium: true },
     { feature: "Aviation Math Practice", free: false, standard: true, premium: true },
-    { feature: "Voice Exam (25 questions)", free: false, standard: false, premium: true },
-    { feature: "Ask Cabin Crew Forum", free: false, standard: false, premium: true },
-    { feature: "Former Crew Q&A Library", free: false, standard: false, premium: true },
+    { feature: "AI Interview", free: false, standard: false, premium: true },
+    { feature: "Ask Cabin Crew (former crew feedback)", free: false, standard: false, premium: true },
+    { feature: "Group Discussion", free: false, standard: false, premium: true },
   ];
 
   const renderCell = (val: boolean | string) => {
@@ -121,7 +121,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-blue-400">✓</span> Unlimited AI Mock Interviews</li>
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-blue-400">✓</span> CV file upload + AI review</li>
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-blue-400">✓</span> Mock Exam, Essay, Math tools</li>
-              <li className="text-slate-500 text-sm flex items-center gap-2"><span>—</span> No forum or voice exam</li>
+              <li className="text-slate-500 text-sm flex items-center gap-2"><span>—</span> No AI Interview or forum</li>
             </ul>
             {isStandard ? (
               <div className="w-full bg-blue-500/20 border border-blue-500/30 text-blue-400 font-semibold py-3 rounded-xl text-center text-sm">
@@ -170,9 +170,9 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
             <p className="text-slate-500 text-sm mb-6">per month · cancel anytime</p>
             <ul className="space-y-2 mb-6">
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> Everything in Standard</li>
-              <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> Ask Cabin Crew Forum</li>
-              <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> Voice Exam (25 questions)</li>
-              <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> Former Crew Q&A Library</li>
+              <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> AI Interview (unlimited)</li>
+              <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> Ask Cabin Crew (former crew feedback)</li>
+              <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> Group Discussion access</li>
             </ul>
             {isPremium ? (
               <div className="w-full bg-amber-500/20 border border-amber-500/30 text-amber-400 font-semibold py-3 rounded-xl text-center text-sm">
@@ -193,7 +193,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
           </div>
         </div>
 
-        {/* Terms + CTA — only show if not already on premium */}
+        {/* Terms + CTA */}
         {!isPremium && (
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-10">
             <p className="text-white font-bold text-base mb-4">
@@ -201,7 +201,6 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
                 ? `Upgrade to Premium — $10.99/month (Standard members price):`
                 : `Before subscribing to ${selectedPlan === "standard" ? "Standard ($15/month)" : "Premium ($25/month)"}:`}
             </p>
-
             <div className="space-y-3 mb-5">
               <div className="flex items-start gap-3 cursor-pointer group" onClick={() => { setTermsAccepted(!termsAccepted); setShowTermsError(false); }}>
                 <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all ${termsAccepted ? "bg-amber-500 border-amber-500" : "border-white/30 group-hover:border-amber-500/50"}`}>
@@ -213,7 +212,6 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
                   , including the cancellation and refund policy.
                 </span>
               </div>
-
               <div className="flex items-start gap-3 cursor-pointer group" onClick={() => { setPrivacyAccepted(!privacyAccepted); setShowTermsError(false); }}>
                 <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all ${privacyAccepted ? "bg-amber-500 border-amber-500" : "border-white/30 group-hover:border-amber-500/50"}`}>
                   {privacyAccepted && <span className="text-slate-900 text-xs font-bold">✓</span>}
@@ -223,10 +221,8 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
                   <button onClick={(e) => { e.stopPropagation(); setActiveSection("privacy"); }} className="text-amber-400 hover:underline font-medium">Privacy Policy</button>.
                 </span>
               </div>
-
               {showTermsError && <p className="text-red-400 text-sm">⚠️ Please accept both the Terms of Service and Privacy Policy to continue.</p>}
             </div>
-
             <button
               onClick={handleUnlock}
               className={`w-full font-bold py-4 rounded-xl text-lg transition-all ${
@@ -247,7 +243,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
           </div>
         )}
 
-        {/* Full comparison table */}
+        {/* Comparison table */}
         <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden mb-10">
           <div className="p-5 border-b border-white/10">
             <h3 className="text-white font-bold text-lg">Full Feature Comparison</h3>
