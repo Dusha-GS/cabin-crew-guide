@@ -18,23 +18,16 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
     <div className="min-h-screen">
       {/* Hero */}
       <div className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{backgroundImage:"url(/images/hero-bg.jpg)",backgroundSize:"cover",backgroundPosition:"center"}}>
-        {/* Background */}
-        
-
-        {/* Decorative elements */}
         <div className="absolute top-20 left-10 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
 
-        {/* Content */}
         <div className="relative z-10 text-center px-4 max-w-5xl mx-auto pt-16">
-          {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-amber-500/20 border border-amber-500/40 rounded-full px-5 py-2 mb-6 backdrop-blur-sm">
             <span className="text-amber-400 text-sm">✦</span>
             <span className="text-amber-300 text-sm font-medium">Middle Eastern Airlines Edition 2024-2025</span>
             <span className="text-amber-400 text-sm">✦</span>
           </div>
 
-          {/* Title */}
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 leading-tight">
             Cabin Crew
             <span className="block bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 bg-clip-text text-transparent">
@@ -51,25 +44,20 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
             from CV preparation to final interview, dress code, group discussions, and mock exam questions.
           </p>
 
-          {/* Airline tags */}
           <div className="flex flex-wrap justify-center gap-3 mb-10">
             {["Emirates", "Etihad Airways", "Qatar Airways", "flydubai", "Air Arabia"].map((airline) => (
-              <span
-                key={airline}
-                className="bg-white/10 backdrop-blur-sm border border-white/20 text-white text-sm px-4 py-1.5 rounded-full font-medium"
-              >
+              <span key={airline} className="bg-white/10 backdrop-blur-sm border border-white/20 text-white text-sm px-4 py-1.5 rounded-full font-medium">
                 ✈ {airline}
               </span>
             ))}
           </div>
 
-          {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
             <button
-              onClick={() => setActiveSection("ai-mock-interview")}
+              onClick={() => setActiveSection("mock-exam")}
               className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-900 font-bold px-8 py-4 rounded-xl shadow-lg shadow-amber-500/30 transition-all hover:scale-105 text-lg flex items-center justify-center gap-2"
             >
-              🤖 Try Free Interview
+              📝 Try Mock Exam
             </button>
             <button
               onClick={() => setActiveSection("premium")}
@@ -79,7 +67,6 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
             </button>
           </div>
 
-          {/* Scroll indicator */}
           <div className="animate-bounce">
             <div className="w-6 h-10 border-2 border-amber-400/60 rounded-full mx-auto flex items-start justify-center pt-2">
               <div className="w-1.5 h-3 bg-amber-400/60 rounded-full" />
@@ -100,7 +87,6 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
             </p>
           </div>
 
-          {/* AI Features highlight */}
           <div className="grid md:grid-cols-2 gap-4 mb-6">
             <button
               onClick={() => setActiveSection("ai-mock-interview")}
@@ -110,7 +96,6 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
               <div className="relative">
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-4xl">🤖</span>
-                
                 </div>
                 <h3 className="text-white font-bold text-xl mb-2">AI Mock Interview</h3>
                 <p className="text-slate-400 text-sm leading-relaxed">
@@ -130,9 +115,8 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
               <div className="relative">
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-4xl">📄</span>
-                  
                 </div>
-                <h3 className="text-white font-bold text-xl mb-2"> CV Review</h3>
+                <h3 className="text-white font-bold text-xl mb-2">CV Review</h3>
                 <p className="text-slate-400 text-sm leading-relaxed">
                   Paste your CV and get instant, actionable feedback tailored to cabin crew standards at ME airlines.
                 </p>
@@ -143,7 +127,6 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
             </button>
           </div>
 
-          {/* Standard sections */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {sections.map((section) => (
               <button
@@ -160,7 +143,6 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
             ))}
           </div>
 
-          {/* Premium */}
           <div className="mt-8 flex flex-col items-center">
             <div className="flex items-center gap-3 mb-4">
               <span className="h-px w-16 bg-amber-500/40" />
@@ -182,7 +164,7 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
                   </div>
                   <h3 className="text-slate-900 font-bold text-2xl leading-tight mb-1">Premium Final Lab</h3>
                   <p className="text-slate-800 text-sm leading-relaxed">
-                    Members-only voice exam with 25 questions + former Middle East cabin crew Q&A, AI essay assessment, and aviation math.
+                    Unlock AI Interview, Ask Cabin Crew forum with former crew feedback, and Group Discussion access.
                   </p>
                 </div>
                 <div className="hidden md:flex items-center gap-2 bg-slate-900 text-amber-400 font-bold px-5 py-3 rounded-xl group-hover:bg-slate-800 transition-colors">
@@ -192,7 +174,6 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
             </button>
           </div>
 
-          {/* Stats */}
           <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { value: "5", label: "Airlines Covered", icon: "✈️" },
@@ -212,5 +193,3 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
     </div>
   );
 }
-
-
