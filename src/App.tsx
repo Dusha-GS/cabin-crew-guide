@@ -25,12 +25,12 @@ const sectionLabels: Record<string, string> = {
   "dress-code": "Dress Code", "cv-guide": "CV Guide", questions: "Interview Q&A",
   "group-discussion": "Group Discussion", "mock-exam": "Mock Exam",
   conduct: "Code of Conduct", premium: "Premium",
-  "ai-mock-interview": "AI Mock Interview", "ai-cv-review": "AI CV Review",
+  "ai-mock-interview": "AI Interview", "ai-cv-review": "AI CV Review",
   "ask-cabin-crew": "Ask Cabin Crew", terms: "Terms of Service", privacy: "Privacy Policy",
 };
 
-const STANDARD_SECTIONS = ["airlines", "requirements", "dress-code", "cv-guide", "questions", "group-discussion", "conduct"];
-const PREMIUM_SECTIONS = ["ask-cabin-crew"];
+const STANDARD_SECTIONS = ["airlines", "requirements", "dress-code", "cv-guide", "questions", "conduct"];
+const PREMIUM_SECTIONS = ["ask-cabin-crew", "group-discussion", "ai-mock-interview"];
 
 export default function App() {
   const [activeSection, setActiveSection] = useState("home");
@@ -71,16 +71,24 @@ export default function App() {
   const renderSection = () => {
     if (isStandardGated) return (
       <div className="min-h-screen bg-slate-900 py-20 px-4 pt-24"><div className="max-w-3xl mx-auto">
-        <UpgradeGate requiredTier="standard" featureName={sectionLabels[activeSection] || "This Section"}
+        <UpgradeGate
+          requiredTier="standard"
+          featureName={sectionLabels[activeSection] || "This Section"}
           featureDescription="This content is available to Standard and Premium members."
-          onNavigatePremium={() => handleSetSection("premium")} />
+          onNavigatePremium={() => handleSetSection("premium")}
+          user={user}
+        />
       </div></div>
     );
     if (isPremiumGated) return (
       <div className="min-h-screen bg-slate-900 py-20 px-4 pt-24"><div className="max-w-3xl mx-auto">
-        <UpgradeGate requiredTier="premium" featureName={sectionLabels[activeSection] || "This Section"}
+        <UpgradeGate
+          requiredTier="premium"
+          featureName={sectionLabels[activeSection] || "This Section"}
           featureDescription="This feature is exclusively available to Premium members."
-          onNavigatePremium={() => handleSetSection("premium")} />
+          onNavigatePremium={() => handleSetSection("premium")}
+          user={user}
+        />
       </div></div>
     );
     switch (activeSection) {
