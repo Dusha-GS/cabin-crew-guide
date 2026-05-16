@@ -97,7 +97,6 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-3xl md:text-4xl">🤖</span>
                 </div>
-                {/* CHANGED: "AI Mock Interview" → "Mock Interview" */}
                 <h3 className="text-white font-bold text-lg md:text-xl mb-2">Mock Interview</h3>
                 <p className="text-slate-400 text-sm leading-relaxed">
                   Have a real conversation with AI acting as an Emirates/Qatar recruiter. Get instant feedback on every answer.
@@ -144,12 +143,14 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
             ))}
           </div>
 
-          <div className="mt-8 flex flex-col items-center">
-            <div className="flex items-center gap-3 mb-4">
+          <div className="mt-8 flex flex-col items-center gap-4">
+            <div className="flex items-center gap-3">
               <span className="h-px w-16 bg-amber-500/40" />
               <span className="text-amber-400 text-xs font-bold uppercase tracking-widest">Exclusive</span>
               <span className="h-px w-16 bg-amber-500/40" />
             </div>
+
+            {/* Premium Final Lab card */}
             <button
               onClick={() => setActiveSection("premium")}
               className="group relative w-full max-w-2xl bg-gradient-to-br from-amber-400 via-yellow-500 to-amber-600 p-6 md:p-8 rounded-3xl hover:scale-[1.02] transition-all duration-300 shadow-2xl shadow-amber-500/30 text-left overflow-hidden border-2 border-amber-300/50"
@@ -173,6 +174,27 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
                 </div>
               </div>
             </button>
+
+            {/* Coming Soon — Live Open Days card */}
+            <div className="relative w-full max-w-2xl bg-slate-800/60 border border-slate-600/40 p-6 md:p-8 rounded-3xl text-left overflow-hidden">
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-blue-500/5 rounded-full blur-2xl" />
+              <div className="relative flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-5">
+                <div className="text-5xl md:text-6xl drop-shadow-lg grayscale opacity-60">📅</div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2 flex-wrap">
+                    <span className="bg-blue-500/20 text-blue-400 text-xs font-bold px-3 py-1 rounded-full border border-blue-500/30">COMING SOON</span>
+                  </div>
+                  <h3 className="text-white font-bold text-xl md:text-2xl leading-tight mb-1">Live Airline Open Days</h3>
+                  <p className="text-slate-400 text-sm leading-relaxed">
+                    Updated open day dates and recruitment events for Emirates, Qatar Airways, Etihad and more — all in one place.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 bg-slate-700/50 text-slate-500 font-bold px-5 py-3 rounded-xl self-start md:self-auto cursor-not-allowed">
+                  Soon →
+                </div>
+              </div>
+            </div>
+
           </div>
 
           <div className="mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
