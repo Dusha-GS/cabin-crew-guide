@@ -11,6 +11,7 @@ export type MembershipTier = "free" | "standard" | "premium";
 
 export const WHOP_STANDARD_LINK = "https://whop.com/cabin-crew-guidebook-through-interview/cabin-crew-interview-guidebook/";
 export const WHOP_PREMIUM_LINK = "https://whop.com/cabin-crew-guidebook-through-interview/premium-access-be-74b9/";
+export const WHOP_UPGRADE_LINK = "https://whop.com/cabin-crew-guidebook-through-interview/upgrade-to-premium-f2/";
 
 async function getTierFromSupabase(email: string): Promise<MembershipTier> {
   try {
