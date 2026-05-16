@@ -21,6 +21,7 @@ import CookieConsent from "./components/CookieConsent";
 import UpgradeGate from "./components/UpgradeGate";
 import AuthModal from "./components/AuthModal";
 import ResetPasswordSection from "./components/ResetPasswordSection";
+import AccountSection from "./components/AccountSection";
 
 const sectionLabels: Record<string, string> = {
   home: "Home", airlines: "Airlines", requirements: "Requirements",
@@ -29,6 +30,7 @@ const sectionLabels: Record<string, string> = {
   conduct: "Code of Conduct", premium: "Premium",
   "ai-mock-interview": "AI Interview", "ai-cv-review": "AI CV Review",
   "ask-cabin-crew": "Ask Cabin Crew", terms: "Terms of Service", privacy: "Privacy Policy",
+  account: "My Account",
 };
 
 const STANDARD_SECTIONS = ["airlines", "requirements", "dress-code", "cv-guide", "questions", "conduct"];
@@ -125,6 +127,9 @@ export default function App() {
       case "ask-cabin-crew": return <AskCabinCrewSection goBack={goBack} previousLabel={previousLabel} isPremium={tier === "premium"} onUpgrade={() => handleSetSection("premium")} />;
       case "terms": return <TermsOfServiceSection goBack={goBack} previousLabel={previousLabel} />;
       case "privacy": return <PrivacyPolicySection goBack={goBack} previousLabel={previousLabel} />;
+      case "account": return user
+        ? <AccountSection user={user} goBack={goBack} previousLabel={previousLabel} onLogout={handleLogout} onNavigatePremium={() => handleSetSection("premium")} />
+        : <HeroSection setActiveSection={handleSetSection} />;
       default: return <HeroSection setActiveSection={handleSetSection} />;
     }
   };
