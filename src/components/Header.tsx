@@ -15,15 +15,15 @@ const navItems = [
   { id: "dress-code", label: "Dress Code", icon: "👗" },
   { id: "cv-guide", label: "CV Guide", icon: "📄" },
   { id: "questions", label: "Interview Q&A", icon: "💬" },
-  { id: "conduct", label: "Code of Conduct", icon: "🏆" },
   { id: "mock-exam", label: "Mock Exam", icon: "📝" },
+  { id: "conduct", label: "Code of Conduct", icon: "🏆" },
   { id: "ai-mock-interview", label: "AI Interview", icon: "🤖" },
   { id: "ask-cabin-crew", label: "Ask Crew", icon: "✈️" },
   { id: "group-discussion", label: "Group Discussion", icon: "👥" },
   { id: "premium", label: "Pricing", icon: "⭐" },
 ];
 
-const premiumNavIds = ["mock-exam", "ai-mock-interview", "ask-cabin-crew", "group-discussion"];
+const premiumNavIds = ["ai-mock-interview", "ask-cabin-crew", "group-discussion"];
 
 export default function Header({ activeSection, setActiveSection, user, onLoginClick, onLogout }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
