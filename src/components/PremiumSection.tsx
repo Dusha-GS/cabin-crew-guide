@@ -35,7 +35,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
   const comparisonRows = [
     { feature: "Full interview guidebook", free: false, standard: true, premium: true },
     { feature: "AI Mock Interview", free: "1 session", standard: "Unlimited", premium: "Unlimited" },
-    { feature: "AI CV Review (text paste)", free: "1 review", standard: true, premium: true },
+    { feature: "AI CV Review (text paste)", free: false, standard: true, premium: true },
     { feature: "CV File Upload (PDF/Word)", free: false, standard: true, premium: true },
     { feature: "Mock Exam with AI scoring", free: false, standard: true, premium: true },
     { feature: "AI Essay Assessment", free: false, standard: true, premium: true },
@@ -89,7 +89,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
             <p className="text-slate-500 text-sm mb-6">No account needed</p>
             <ul className="space-y-2 mb-6">
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> 1 AI Mock Interview session</li>
-              <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> 1 AI CV Review</li>
+              
               <li className="text-slate-500 text-sm flex items-center gap-2"><span>—</span> No guide access</li>
               <li className="text-slate-500 text-sm flex items-center gap-2"><span>—</span> No forum</li>
             </ul>
