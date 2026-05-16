@@ -17,7 +17,7 @@ const navItems = [
   { id: "questions", label: "Interview Q&A", icon: "💬" },
   { id: "mock-exam", label: "Mock Exam", icon: "📝" },
   { id: "conduct", label: "Code of Conduct", icon: "🏆" },
-  { id: "ai-mock-interview", label: "AI Interview", icon: "🤖" },
+  { id: "ai-mock-interview", label: "Mock Interview", icon: "🤖" },
   { id: "ask-cabin-crew", label: "Ask Crew", icon: "✈️" },
   { id: "group-discussion", label: "Group Discussion", icon: "👥" },
   { id: "premium", label: "Pricing", icon: "⭐" },
