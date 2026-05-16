@@ -29,7 +29,7 @@ const sectionLabels: Record<string, string> = {
   "ask-cabin-crew": "Ask Cabin Crew", terms: "Terms of Service", privacy: "Privacy Policy",
 };
 
-const STANDARD_SECTIONS = ["airlines", "requirements", "dress-code", "cv-guide", "questions", "conduct"];
+const STANDARD_SECTIONS = ["airlines", "requirements", "dress-code", "cv-guide", "questions", "mock-exam", "conduct"];
 const PREMIUM_SECTIONS = ["ask-cabin-crew", "group-discussion", "ai-mock-interview"];
 
 export default function App() {
