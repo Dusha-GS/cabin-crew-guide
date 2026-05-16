@@ -66,8 +66,9 @@ export default function Header({ activeSection, setActiveSection, user, onLoginC
                   <span className="text-white text-xs font-medium hidden sm:block max-w-[80px] truncate">{user.name}</span>
                   <span className="text-slate-400 text-xs capitalize hidden sm:block bg-slate-700 px-1.5 py-0.5 rounded">{user.tier}</span>
                 </button>
+                {/* FIX: max-w-[90vw] prevents dropdown clipping on narrow screens */}
                 {userMenuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-52 bg-slate-800 border border-white/10 rounded-xl shadow-2xl py-1 z-50">
+                  <div className="absolute right-0 top-full mt-2 w-52 max-w-[90vw] bg-slate-800 border border-white/10 rounded-xl shadow-2xl py-1 z-50">
                     <div className="px-4 py-3 border-b border-white/5">
                       <p className="text-white text-sm font-medium truncate">{user.name}</p>
                       <p className="text-slate-400 text-xs truncate">{user.email}</p>
@@ -99,16 +100,18 @@ export default function Header({ activeSection, setActiveSection, user, onLoginC
         </div>
       </div>
 
+      {/* FIX: text-xs on menu items so long labels like "Group Discussion" don't truncate */}
       {menuOpen && (
         <div className="lg:hidden bg-slate-900 border-t border-white/10">
           <div className="px-4 py-3 grid grid-cols-2 gap-2">
             {[{ id: "home", label: "Home", icon: "🏠" }, ...navItems].map((item) => (
               <button key={item.id} onClick={() => { setActiveSection(item.id); setMenuOpen(false); }}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
+                className={`px-3 py-2.5 rounded-lg text-xs font-medium transition-all flex items-center gap-2 ${
                   activeSection === item.id ? "bg-amber-500 text-slate-900"
                   : premiumNavIds.includes(item.id) ? "text-amber-300 bg-amber-500/10 border border-amber-500/30"
                   : "text-slate-300 hover:text-white hover:bg-white/10"}`}>
-                <span>{item.icon}</span>{item.label}
+                <span className="text-base flex-shrink-0">{item.icon}</span>
+                <span className="leading-tight">{item.label}</span>
               </button>
             ))}
           </div>
