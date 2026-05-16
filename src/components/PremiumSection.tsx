@@ -51,7 +51,8 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
   };
 
   const premiumPrice = isStandard ? "$10.99" : "$25";
-  const premiumLabel = isStandard ? "Upgrade to Premium — $10.99/month →" : "Subscribe to Premium — $25/month →";
+  // FIX: shorter button text so it doesn't wrap on mobile
+  const premiumLabel = isStandard ? "Upgrade to Premium — $10.99/mo →" : "Subscribe to Premium — $25/mo →";
 
   return (
     <div className="min-h-screen bg-slate-900 py-20 px-4 pt-24">
@@ -60,11 +61,12 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
 
         <div className="text-center mb-12">
           <div className="text-5xl mb-4">⭐</div>
-          <h2 className="text-4xl font-bold text-white mb-4">
+          {/* FIX: smaller heading on mobile */}
+          <h2 className="text-2xl sm:text-4xl font-bold text-white mb-4">
             Choose Your{" "}
             <span className="bg-gradient-to-r from-amber-400 to-yellow-300 bg-clip-text text-transparent">Plan</span>
           </h2>
-          <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+          <p className="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto">
             Cancel anytime. No long-term commitment. Start with what you need.
           </p>
           {isStandard && (
@@ -80,9 +82,9 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
         </div>
 
         {/* Pricing cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
+        <div className="grid md:grid-cols-3 gap-4 md:gap-6 mb-12">
           {/* Free */}
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6">
             <p className="text-slate-400 font-bold text-sm uppercase tracking-wider mb-3">Free</p>
             <div className="text-4xl font-bold text-white mb-1">$0</div>
             <p className="text-slate-500 text-sm mb-6">No account needed</p>
@@ -100,7 +102,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
           {/* Standard */}
           <div
             onClick={() => !isStandard && !isPremium && setSelectedPlan("standard")}
-            className={`border-2 rounded-2xl p-6 transition-all ${
+            className={`border-2 rounded-2xl p-4 md:p-6 transition-all ${
               isStandard || isPremium
                 ? "border-blue-500/40 bg-blue-500/5 cursor-default"
                 : selectedPlan === "standard"
@@ -147,7 +149,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
           {/* Premium */}
           <div
             onClick={() => !isPremium && setSelectedPlan("premium")}
-            className={`border-2 rounded-2xl p-6 transition-all relative overflow-hidden ${
+            className={`border-2 rounded-2xl p-4 md:p-6 transition-all relative overflow-hidden ${
               isPremium
                 ? "border-amber-500/40 bg-amber-500/5 cursor-default"
                 : selectedPlan === "premium"
@@ -194,11 +196,11 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
 
         {/* Terms + CTA */}
         {!isPremium && (
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-10">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6 mb-10">
             <p className="text-white font-bold text-base mb-4">
               {isStandard && selectedPlan === "premium"
-                ? `Upgrade to Premium — $10.99/month (Standard members price):`
-                : `Before subscribing to ${selectedPlan === "standard" ? "Standard ($15/month)" : "Premium ($25/month)"}:`}
+                ? `Upgrade to Premium — $10.99/mo (Standard members price):`
+                : `Before subscribing to ${selectedPlan === "standard" ? "Standard ($15/mo)" : "Premium ($25/mo)"}:`}
             </p>
             <div className="space-y-3 mb-5">
               <div className="flex items-start gap-3 cursor-pointer group" onClick={() => { setTermsAccepted(!termsAccepted); setShowTermsError(false); }}>
@@ -222,9 +224,10 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
               </div>
               {showTermsError && <p className="text-red-400 text-sm">⚠️ Please accept both the Terms of Service and Privacy Policy to continue.</p>}
             </div>
+            {/* FIX: text-base instead of text-lg so button text fits on mobile */}
             <button
               onClick={handleUnlock}
-              className={`w-full font-bold py-4 rounded-xl text-lg transition-all ${
+              className={`w-full font-bold py-4 rounded-xl text-base transition-all ${
                 termsAccepted && privacyAccepted
                   ? selectedPlan === "standard"
                     ? "bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 text-white shadow-lg hover:scale-[1.01]"
@@ -234,7 +237,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
             >
               {termsAccepted && privacyAccepted
                 ? selectedPlan === "standard"
-                  ? "Subscribe to Standard — $15/month →"
+                  ? "Subscribe to Standard — $15/mo →"
                   : premiumLabel
                 : "Accept Terms Above to Continue"}
             </button>
@@ -242,13 +245,13 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
           </div>
         )}
 
-        {/* Comparison table */}
+        {/* FIX: comparison table — min-w on table ensures it scrolls horizontally on mobile rather than squishing */}
         <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden mb-10">
           <div className="p-5 border-b border-white/10">
             <h3 className="text-white font-bold text-lg">Full Feature Comparison</h3>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full min-w-[480px]">
               <thead>
                 <tr className="border-b border-white/10">
                   <th className="text-left text-slate-400 text-xs font-bold uppercase tracking-wider p-4">Feature</th>
