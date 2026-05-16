@@ -14,7 +14,7 @@ export default function UpgradeGate({ requiredTier, featureName, featureDescript
   const premiumPrice = isStandard ? "$10.99" : "$25";
   const premiumButtonLabel = isStandard ? "Upgrade to Premium — $10.99/month →" : "Get Premium — $25/month →";
 
-  const standardFeatures = ["Complete interview guidebook", "Unlimited AI Mock Interviews", "CV upload & AI review", "Mock Exam with AI scoring", "AI Essay Assessment", "Aviation Math Practice"];
+  const standardFeatures = ["Full interview guidebook", "Full Mock Exam", "CV Guide", "Interview Questions & Answers"];
   const premiumFeatures = ["Everything in Standard", "AI Interview (unlimited)", "Ask Cabin Crew (former crew feedback)", "Group Discussion access"];
 
   return (
@@ -30,7 +30,7 @@ export default function UpgradeGate({ requiredTier, featureName, featureDescript
               <div className="flex items-center justify-between mb-3">
                 <div className="text-left">
                   <p className="text-white font-bold text-lg">Standard</p>
-                  <p className="text-slate-400 text-sm">Full guide + all AI tools</p>
+                  <p className="text-slate-400 text-sm">Full guide + exam tools</p>
                 </div>
                 <div className="text-right">
                   <p className="text-blue-400 font-bold text-2xl">$15</p>
