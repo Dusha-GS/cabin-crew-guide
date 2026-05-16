@@ -15,13 +15,15 @@ const navItems = [
   { id: "dress-code", label: "Dress Code", icon: "👗" },
   { id: "cv-guide", label: "CV Guide", icon: "📄" },
   { id: "questions", label: "Interview Q&A", icon: "💬" },
-  { id: "group-discussion", label: "Group Discussion", icon: "👥" },
-  { id: "mock-exam", label: "Mock Exam", icon: "📝" },
   { id: "conduct", label: "Code of Conduct", icon: "🏆" },
+  { id: "mock-exam", label: "Mock Exam", icon: "📝" },
   { id: "ai-mock-interview", label: "AI Interview", icon: "🤖" },
   { id: "ask-cabin-crew", label: "Ask Crew", icon: "✈️" },
+  { id: "group-discussion", label: "Group Discussion", icon: "👥" },
   { id: "premium", label: "Pricing", icon: "⭐" },
 ];
+
+const premiumNavIds = ["mock-exam", "ai-mock-interview", "ask-cabin-crew", "group-discussion"];
 
 export default function Header({ activeSection, setActiveSection, user, onLoginClick, onLogout }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -46,7 +48,7 @@ export default function Header({ activeSection, setActiveSection, user, onLoginC
               <button key={item.id} onClick={() => setActiveSection(item.id)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 ${
                   activeSection === item.id ? "bg-amber-500 text-slate-900"
-                  : item.id === "ask-cabin-crew" || item.id === "ai-mock-interview" ? "text-amber-300 hover:text-white hover:bg-amber-500/20 border border-amber-500/20"
+                  : premiumNavIds.includes(item.id) ? "text-amber-300 hover:text-white hover:bg-amber-500/20 border border-amber-500/20"
                   : item.id === "premium" ? "text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30"
                   : "text-slate-300 hover:text-white hover:bg-white/10"}`}>
                 <span className="text-sm">{item.icon}</span>{item.label}
@@ -104,7 +106,7 @@ export default function Header({ activeSection, setActiveSection, user, onLoginC
               <button key={item.id} onClick={() => { setActiveSection(item.id); setMenuOpen(false); }}
                 className={`px-3 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
                   activeSection === item.id ? "bg-amber-500 text-slate-900"
-                  : item.id === "ask-cabin-crew" ? "text-amber-300 bg-amber-500/10 border border-amber-500/30"
+                  : premiumNavIds.includes(item.id) ? "text-amber-300 bg-amber-500/10 border border-amber-500/30"
                   : "text-slate-300 hover:text-white hover:bg-white/10"}`}>
                 <span>{item.icon}</span>{item.label}
               </button>
