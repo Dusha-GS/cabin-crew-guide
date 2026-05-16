@@ -28,7 +28,6 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
             <span className="text-amber-400 text-sm">✦</span>
           </div>
 
-          {/* FIX 1: text-3xl base instead of text-5xl — prevents overflow on 360px screens */}
           <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold text-white mb-4 leading-tight">
             Cabin Crew
             <span className="block bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 bg-clip-text text-transparent">
@@ -98,7 +97,8 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-3xl md:text-4xl">🤖</span>
                 </div>
-                <h3 className="text-white font-bold text-lg md:text-xl mb-2">AI Mock Interview</h3>
+                {/* CHANGED: "AI Mock Interview" → "Mock Interview" */}
+                <h3 className="text-white font-bold text-lg md:text-xl mb-2">Mock Interview</h3>
                 <p className="text-slate-400 text-sm leading-relaxed">
                   Have a real conversation with AI acting as an Emirates/Qatar recruiter. Get instant feedback on every answer.
                 </p>
@@ -128,7 +128,6 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
             </button>
           </div>
 
-          {/* FIX 2: reduced padding and emoji size on mobile */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
             {sections.map((section) => (
               <button
@@ -169,7 +168,6 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
                     Unlock AI Interview, Ask Cabin Crew forum with former crew feedback, and Group Discussion access.
                   </p>
                 </div>
-                {/* FIX 3: visible on mobile, not hidden */}
                 <div className="flex items-center gap-2 bg-slate-900 text-amber-400 font-bold px-5 py-3 rounded-xl group-hover:bg-slate-800 transition-colors self-start md:self-auto">
                   Unlock →
                 </div>
