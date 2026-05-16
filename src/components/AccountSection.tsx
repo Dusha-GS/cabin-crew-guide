@@ -105,7 +105,7 @@ export default function AccountSection({ user, goBack, previousLabel, onLogout, 
             </div>
             <div className="flex gap-3 mt-4">
               
-                href={upgradeLink}
+                <a href={upgradeLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 font-bold py-2.5 rounded-xl text-sm text-center transition-all hover:scale-[1.01]"
