@@ -33,13 +33,12 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
   };
 
   const comparisonRows = [
+    { feature: "Airline Requirements", free: true, standard: true, premium: true },
+    { feature: "1 Mock Interview session", free: true, standard: false, premium: false },
+    { feature: "Full Mock Exam", free: false, standard: true, premium: true },
     { feature: "Full interview guidebook", free: false, standard: true, premium: true },
-    { feature: "AI Mock Interview", free: "1 session", standard: "Unlimited", premium: "Unlimited" },
-    { feature: "AI CV Review (text paste)", free: false, standard: true, premium: true },
-    { feature: "CV File Upload (PDF/Word)", free: false, standard: true, premium: true },
-    { feature: "Mock Exam with AI scoring", free: false, standard: true, premium: true },
-    { feature: "AI Essay Assessment", free: false, standard: true, premium: true },
-    { feature: "Aviation Math Practice", free: false, standard: true, premium: true },
+    { feature: "CV Guide", free: false, standard: true, premium: true },
+    { feature: "Interview Questions & Answers", free: false, standard: true, premium: true },
     { feature: "AI Interview", free: false, standard: false, premium: true },
     { feature: "Ask Cabin Crew (former crew feedback)", free: false, standard: false, premium: true },
     { feature: "Group Discussion", free: false, standard: false, premium: true },
@@ -88,8 +87,8 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
             <div className="text-4xl font-bold text-white mb-1">$0</div>
             <p className="text-slate-500 text-sm mb-6">No account needed</p>
             <ul className="space-y-2 mb-6">
-              <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> 1 AI Mock Interview session</li>
-              
+              <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> 1 Mock Interview session</li>
+              <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> Airline Requirements</li>
               <li className="text-slate-500 text-sm flex items-center gap-2"><span>—</span> No guide access</li>
               <li className="text-slate-500 text-sm flex items-center gap-2"><span>—</span> No forum</li>
             </ul>
@@ -118,9 +117,9 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
             <p className="text-slate-500 text-sm mb-6">per month · cancel anytime</p>
             <ul className="space-y-2 mb-6">
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-blue-400">✓</span> Full interview guidebook</li>
-              <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-blue-400">✓</span> Unlimited AI Mock Interviews</li>
-              <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-blue-400">✓</span> CV file upload + AI review</li>
-              <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-blue-400">✓</span> Mock Exam, Essay, Math tools</li>
+              <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-blue-400">✓</span> Full Mock Exam</li>
+              <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-blue-400">✓</span> CV Guide</li>
+              <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-blue-400">✓</span> Interview Questions & Answers</li>
               <li className="text-slate-500 text-sm flex items-center gap-2"><span>—</span> No AI Interview or forum</li>
             </ul>
             {isStandard ? (
