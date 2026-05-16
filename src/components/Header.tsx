@@ -66,7 +66,6 @@ export default function Header({ activeSection, setActiveSection, user, onLoginC
                   <span className="text-white text-xs font-medium hidden sm:block max-w-[80px] truncate">{user.name}</span>
                   <span className="text-slate-400 text-xs capitalize hidden sm:block bg-slate-700 px-1.5 py-0.5 rounded">{user.tier}</span>
                 </button>
-                {/* FIX: max-w-[90vw] prevents dropdown clipping on narrow screens */}
                 {userMenuOpen && (
                   <div className="absolute right-0 top-full mt-2 w-52 max-w-[90vw] bg-slate-800 border border-white/10 rounded-xl shadow-2xl py-1 z-50">
                     <div className="px-4 py-3 border-b border-white/5">
@@ -74,6 +73,10 @@ export default function Header({ activeSection, setActiveSection, user, onLoginC
                       <p className="text-slate-400 text-xs truncate">{user.email}</p>
                       <span className="inline-block mt-1 text-xs text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded capitalize">{user.tier} plan</span>
                     </div>
+                    {/* My Account link */}
+                    <button onClick={() => { setUserMenuOpen(false); setActiveSection("account"); }} className="w-full text-left px-4 py-2.5 text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-colors flex items-center gap-2">
+                      <span>👤</span> My Account
+                    </button>
                     {user.tier !== "premium" && (
                       <button onClick={() => { setUserMenuOpen(false); setActiveSection("premium"); }} className="w-full text-left px-4 py-2.5 text-sm text-amber-400 hover:bg-amber-500/10 transition-colors flex items-center gap-2">
                         <span>⭐</span> Upgrade Plan
@@ -100,7 +103,6 @@ export default function Header({ activeSection, setActiveSection, user, onLoginC
         </div>
       </div>
 
-      {/* FIX: text-xs on menu items so long labels like "Group Discussion" don't truncate */}
       {menuOpen && (
         <div className="lg:hidden bg-slate-900 border-t border-white/10">
           <div className="px-4 py-3 grid grid-cols-2 gap-2">
@@ -115,7 +117,13 @@ export default function Header({ activeSection, setActiveSection, user, onLoginC
               </button>
             ))}
           </div>
-          {!user && (
+          {user ? (
+            <div className="px-4 pb-4">
+              <button onClick={() => { setActiveSection("account"); setMenuOpen(false); }} className="w-full bg-white/5 border border-white/10 text-slate-300 font-medium py-2.5 rounded-xl text-sm transition-all hover:bg-white/10">
+                👤 My Account
+              </button>
+            </div>
+          ) : (
             <div className="px-4 pb-4">
               <button onClick={() => { onLoginClick(); setMenuOpen(false); }} className="w-full bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold py-2.5 rounded-xl text-sm transition-all">
                 Sign In / Create Account
