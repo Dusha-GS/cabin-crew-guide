@@ -102,7 +102,7 @@ export default function TermsOfServiceSection({ goBack, previousLabel }: Props) 
 
           <section>
             <h3 className="text-white font-bold text-lg mb-3">12. Contact</h3>
-            <p>For questions about these Terms, please contact us through the platform. We aim to respond within 2 business days.</p>
+            <p>For questions about these Terms, please contact us at <a href="mailto:support@cabincrewguidebook.com" className="text-amber-400 hover:underline">support@cabincrewguidebook.com</a>. We aim to respond within 2 business days.</p>
           </section>
 
         </div>
