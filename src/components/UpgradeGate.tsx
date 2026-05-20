@@ -47,10 +47,13 @@ export default function UpgradeGate({ requiredTier, featureName, featureDescript
         {/* PAYMENT DISCLAIMER */}
         <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-4 mb-4 text-left">
           <p className="text-red-400 text-xs font-bold uppercase tracking-wider mb-2">⚠️ PAYMENT NOTICE — PLEASE READ</p>
-          <p className="text-slate-300 text-xs leading-relaxed">
+          <p className="text-slate-300 text-xs leading-relaxed mb-2">
             All payments are processed securely via Whop. If you already have a Whop account, make sure you are logged in with the same email address you used to register on this site
             {user?.email && <span className="text-amber-400 font-bold"> ({user.email})</span>}.
             {" "}If your Whop account uses a different email, <span className="text-white font-semibold">please log out of Whop before proceeding to payment</span> — otherwise your access will not be activated automatically.
+          </p>
+          <p className="text-slate-300 text-xs leading-relaxed">
+            After payment, Whop will send a confirmation email to your address. <span className="text-white font-semibold">Keep this email</span> — it contains your subscription management link to pause or cancel your subscription anytime. No separate Whop account registration is required.
           </p>
         </div>
 
