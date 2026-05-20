@@ -10,7 +10,14 @@ interface Props {
 
 export default function UpgradeGate({ requiredTier, featureName, featureDescription, onNavigatePremium, user }: Props) {
   const isStandard = user?.tier === "standard";
-  const premiumLink = isStandard ? WHOP_UPGRADE_LINK : WHOP_PREMIUM_LINK;
+
+  const getWhopLink = (baseLink: string) => {
+    if (user?.email) return `${baseLink}?email=${encodeURIComponent(user.email)}`;
+    return baseLink;
+  };
+
+  const premiumLink = getWhopLink(isStandard ? WHOP_UPGRADE_LINK : WHOP_PREMIUM_LINK);
+  const standardLink = getWhopLink(WHOP_STANDARD_LINK);
   const premiumPrice = isStandard ? "$10.99" : "$25";
   const premiumButtonLabel = isStandard ? "Upgrade to Premium — $10.99/month →" : "Get Premium — $25/month →";
 
@@ -44,7 +51,15 @@ export default function UpgradeGate({ requiredTier, featureName, featureDescript
                   </li>
                 ))}
               </ul>
-              <a href={WHOP_STANDARD_LINK} target="_blank" rel="noopener noreferrer" className="block w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 text-white font-bold py-3 rounded-xl transition-all hover:scale-[1.01]">
+              {/* Email warning */}
+              {user?.email && (
+                <div className="bg-slate-900/60 border border-blue-500/20 rounded-xl p-3 mb-4 text-left">
+                  <p className="text-slate-400 text-xs mb-1">⚠️ Use this email on Whop to activate your access:</p>
+                  <p className="text-amber-400 font-bold text-sm">{user.email}</p>
+                  <p className="text-slate-500 text-xs mt-1">If you have a Whop account, make sure you're logged in with this email.</p>
+                </div>
+              )}
+              <a href={standardLink} target="_blank" rel="noopener noreferrer" className="block w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 text-white font-bold py-3 rounded-xl transition-all hover:scale-[1.01]">
                 Get Standard — $15/month →
               </a>
             </div>
@@ -72,6 +87,14 @@ export default function UpgradeGate({ requiredTier, featureName, featureDescript
                 </li>
               ))}
             </ul>
+            {/* Email warning */}
+            {user?.email && (
+              <div className="bg-slate-900/60 border border-amber-500/20 rounded-xl p-3 mb-4 text-left">
+                <p className="text-slate-400 text-xs mb-1">⚠️ Use this email on Whop to activate your access:</p>
+                <p className="text-amber-400 font-bold text-sm">{user.email}</p>
+                <p className="text-slate-500 text-xs mt-1">If you have a Whop account, make sure you're logged in with this email.</p>
+              </div>
+            )}
             <a href={premiumLink} target="_blank" rel="noopener noreferrer" className="block w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-900 font-bold py-3 rounded-xl transition-all hover:scale-[1.01]">
               {premiumButtonLabel}
             </a>
