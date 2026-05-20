@@ -20,14 +20,21 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
   const isStandard = user?.tier === "standard";
   const isPremium = user?.tier === "premium";
 
+  const getWhopLink = (baseLink: string) => {
+    if (user?.email) {
+      return `${baseLink}?email=${encodeURIComponent(user.email)}`;
+    }
+    return baseLink;
+  };
+
   const handleUnlock = () => {
     if (!termsAccepted || !privacyAccepted) {
       setShowTermsError(true);
       return;
     }
-    let link = WHOP_STANDARD_LINK;
+    let link = getWhopLink(WHOP_STANDARD_LINK);
     if (selectedPlan === "premium") {
-      link = isStandard ? WHOP_UPGRADE_LINK : WHOP_PREMIUM_LINK;
+      link = isStandard ? getWhopLink(WHOP_UPGRADE_LINK) : getWhopLink(WHOP_PREMIUM_LINK);
     }
     window.open(link, "_blank");
   };
@@ -51,7 +58,6 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
   };
 
   const premiumPrice = isStandard ? "$10.99" : "$25";
-  // FIX: shorter button text so it doesn't wrap on mobile
   const premiumLabel = isStandard ? "Upgrade to Premium — $10.99/mo →" : "Subscribe to Premium — $25/mo →";
 
   return (
@@ -61,7 +67,6 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
 
         <div className="text-center mb-12">
           <div className="text-5xl mb-4">⭐</div>
-          {/* FIX: smaller heading on mobile */}
           <h2 className="text-2xl sm:text-4xl font-bold text-white mb-4">
             Choose Your{" "}
             <span className="bg-gradient-to-r from-amber-400 to-yellow-300 bg-clip-text text-transparent">Plan</span>
@@ -224,7 +229,23 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
               </div>
               {showTermsError && <p className="text-red-400 text-sm">⚠️ Please accept both the Terms of Service and Privacy Policy to continue.</p>}
             </div>
-            {/* FIX: text-base instead of text-lg so button text fits on mobile */}
+
+            {/* EMAIL WARNING BOX */}
+            {user?.email && (
+              <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4 mb-4">
+                <p className="text-blue-400 text-xs font-bold uppercase tracking-wider mb-2">⚠️ Important — Read before paying</p>
+                <p className="text-slate-300 text-sm leading-relaxed mb-2">
+                  Complete your payment on Whop using this email address:
+                </p>
+                <div className="bg-slate-900 rounded-lg px-4 py-2 mb-2 text-center">
+                  <span className="text-amber-400 font-bold text-sm">{user.email}</span>
+                </div>
+                <p className="text-slate-400 text-xs leading-relaxed">
+                  If you already have a Whop account, make sure you are logged in with the same email above. Using a different email will prevent your access from being activated automatically.
+                </p>
+              </div>
+            )}
+
             <button
               onClick={handleUnlock}
               className={`w-full font-bold py-4 rounded-xl text-base transition-all ${
@@ -245,7 +266,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
           </div>
         )}
 
-        {/* FIX: comparison table — min-w on table ensures it scrolls horizontally on mobile rather than squishing */}
+        {/* Comparison table */}
         <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden mb-10">
           <div className="p-5 border-b border-white/10">
             <h3 className="text-white font-bold text-lg">Full Feature Comparison</h3>
