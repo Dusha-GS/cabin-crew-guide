@@ -44,6 +44,16 @@ export default function UpgradeGate({ requiredTier, featureName, featureDescript
         <h3 className="text-2xl font-bold text-white mb-3">{featureName}</h3>
         <p className="text-slate-400 mb-6 leading-relaxed">{featureDescription}</p>
 
+        {/* PAYMENT DISCLAIMER */}
+        <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-4 mb-4 text-left">
+          <p className="text-red-400 text-xs font-bold uppercase tracking-wider mb-2">⚠️ PAYMENT NOTICE — PLEASE READ</p>
+          <p className="text-slate-300 text-xs leading-relaxed">
+            All payments are processed securely via Whop. If you already have a Whop account, make sure you are logged in with the same email address you used to register on this site
+            {user?.email && <span className="text-amber-400 font-bold"> ({user.email})</span>}.
+            {" "}If your Whop account uses a different email, <span className="text-white font-semibold">please log out of Whop before proceeding to payment</span> — otherwise your access will not be activated automatically.
+          </p>
+        </div>
+
         {/* Terms checkboxes */}
         <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-6 text-left space-y-3">
           <div className="flex items-start gap-3 cursor-pointer group" onClick={() => { setTermsAccepted(!termsAccepted); setShowError(false); }}>
@@ -85,13 +95,6 @@ export default function UpgradeGate({ requiredTier, featureName, featureDescript
                   </li>
                 ))}
               </ul>
-              {user?.email && (
-                <div className="bg-slate-900/60 border border-blue-500/20 rounded-xl p-3 mb-4 text-left">
-                  <p className="text-slate-400 text-xs mb-1">⚠️ Use this email on Whop to activate your access:</p>
-                  <p className="text-amber-400 font-bold text-sm">{user.email}</p>
-                  <p className="text-slate-500 text-xs mt-1">If you have a Whop account, make sure you're logged in with this email.</p>
-                </div>
-              )}
               <button
                 onClick={() => handlePay(standardLink)}
                 className="block w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 text-white font-bold py-3 rounded-xl transition-all hover:scale-[1.01]"
@@ -123,13 +126,6 @@ export default function UpgradeGate({ requiredTier, featureName, featureDescript
                 </li>
               ))}
             </ul>
-            {user?.email && (
-              <div className="bg-slate-900/60 border border-amber-500/20 rounded-xl p-3 mb-4 text-left">
-                <p className="text-slate-400 text-xs mb-1">⚠️ Use this email on Whop to activate your access:</p>
-                <p className="text-amber-400 font-bold text-sm">{user.email}</p>
-                <p className="text-slate-500 text-xs mt-1">If you have a Whop account, make sure you're logged in with this email.</p>
-              </div>
-            )}
             <button
               onClick={() => handlePay(premiumLink)}
               className="block w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-900 font-bold py-3 rounded-xl transition-all hover:scale-[1.01]"
