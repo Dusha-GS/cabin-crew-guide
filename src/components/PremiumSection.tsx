@@ -140,16 +140,18 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
                 Included in Premium
               </div>
             ) : (
-              <button
-                onClick={(e) => { e.stopPropagation(); setSelectedPlan("standard"); }}
-                className={`w-full font-bold py-3 rounded-xl text-sm transition-all ${
-                  selectedPlan === "standard"
-                    ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white"
-                    : "bg-white/5 border border-white/10 text-slate-300"
-                }`}
-              >
-                {selectedPlan === "standard" ? "✓ Selected" : "Select Standard"}
-              </button>
+              <>
+                <button
+                  onClick={(e) => { e.stopPropagation(); setSelectedPlan("standard"); termsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }); }}
+                  className={`w-full font-bold py-3 rounded-xl text-sm transition-all ${
+                    selectedPlan === "standard"
+                      ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white"
+                      : "bg-white/5 border border-white/10 text-slate-300"
+                  }`}
+                >
+                  {selectedPlan === "standard" ? "✓ Selected — accept terms below ↓" : "Select Standard"}
+                </button>
+              </>
             )}
           </div>
 
@@ -188,14 +190,16 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
               </div>
             ) : (
               <button
-                onClick={(e) => { e.stopPropagation(); setSelectedPlan("premium"); }}
+                onClick={(e) => { e.stopPropagation(); setSelectedPlan("premium"); termsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }); }}
                 className={`w-full font-bold py-3 rounded-xl text-sm transition-all ${
                   selectedPlan === "premium"
                     ? "bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900"
                     : "bg-amber-500/20 border border-amber-500/30 text-amber-400"
                 }`}
               >
-                {selectedPlan === "premium" ? "✓ Selected" : isStandard ? `Upgrade for ${premiumPrice}/mo` : "Select Premium"}
+                {selectedPlan === "premium"
+                  ? "✓ Selected — accept terms below ↓"
+                  : isStandard ? `Upgrade for ${premiumPrice}/mo` : "Select Premium"}
               </button>
             )}
           </div>
@@ -210,7 +214,6 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
                 : `Before subscribing to ${selectedPlan === "standard" ? "Standard ($15/mo)" : "Premium ($25/mo)"}:`}
             </p>
 
-            {/* TERMS CHECKBOXES — with ref for auto-scroll */}
             <div className="space-y-3 mb-5" ref={termsRef}>
               <div className="flex items-start gap-3 cursor-pointer group" onClick={() => { setTermsAccepted(!termsAccepted); setShowTermsError(false); }}>
                 <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all ${termsAccepted ? "bg-amber-500 border-amber-500" : "border-white/30 group-hover:border-amber-500/50"}`}>
