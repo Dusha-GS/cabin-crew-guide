@@ -140,18 +140,16 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
                 Included in Premium
               </div>
             ) : (
-              <>
-                <button
-                  onClick={(e) => { e.stopPropagation(); setSelectedPlan("standard"); termsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }); }}
-                  className={`w-full font-bold py-3 rounded-xl text-sm transition-all ${
-                    selectedPlan === "standard"
-                      ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white"
-                      : "bg-white/5 border border-white/10 text-slate-300"
-                  }`}
-                >
-                  {selectedPlan === "standard" ? "✓ Selected — accept terms below ↓" : "Select Standard"}
-                </button>
-              </>
+              <button
+                onClick={(e) => { e.stopPropagation(); setSelectedPlan("standard"); termsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }); }}
+                className={`w-full font-bold py-3 rounded-xl text-sm transition-all ${
+                  selectedPlan === "standard"
+                    ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white"
+                    : "bg-white/5 border border-white/10 text-slate-300"
+                }`}
+              >
+                {selectedPlan === "standard" ? "✓ Selected — accept terms below ↓" : "Select Standard"}
+              </button>
             )}
           </div>
 
@@ -214,6 +212,17 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
                 : `Before subscribing to ${selectedPlan === "standard" ? "Standard ($15/mo)" : "Premium ($25/mo)"}:`}
             </p>
 
+            {/* PAYMENT DISCLAIMER */}
+            <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 mb-5">
+              <p className="text-red-400 text-xs font-bold uppercase tracking-wider mb-2">⚠️ PAYMENT NOTICE — PLEASE READ</p>
+              <p className="text-slate-300 text-xs leading-relaxed">
+                All payments are processed securely via Whop. If you already have a Whop account, make sure you are logged in with the same email address you used to register on this site
+                {user?.email && <span className="text-amber-400 font-bold"> ({user.email})</span>}.
+                {" "}If your Whop account uses a different email, <span className="text-white font-semibold">please log out of Whop before proceeding to payment</span> — otherwise your access will not be activated automatically.
+              </p>
+            </div>
+
+            {/* TERMS CHECKBOXES */}
             <div className="space-y-3 mb-5" ref={termsRef}>
               <div className="flex items-start gap-3 cursor-pointer group" onClick={() => { setTermsAccepted(!termsAccepted); setShowTermsError(false); }}>
                 <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all ${termsAccepted ? "bg-amber-500 border-amber-500" : "border-white/30 group-hover:border-amber-500/50"}`}>
@@ -242,16 +251,10 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
             {/* EMAIL WARNING BOX */}
             {user?.email && (
               <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4 mb-4">
-                <p className="text-blue-400 text-xs font-bold uppercase tracking-wider mb-2">⚠️ Important — Read before paying</p>
-                <p className="text-slate-300 text-sm leading-relaxed mb-2">
-                  Complete your payment on Whop using this email address:
-                </p>
-                <div className="bg-slate-900 rounded-lg px-4 py-2 mb-2 text-center">
+                <p className="text-blue-400 text-xs font-bold uppercase tracking-wider mb-2">Your registration email</p>
+                <div className="bg-slate-900 rounded-lg px-4 py-2 text-center">
                   <span className="text-amber-400 font-bold text-sm">{user.email}</span>
                 </div>
-                <p className="text-slate-400 text-xs leading-relaxed">
-                  If you already have a Whop account, make sure you are logged in with the same email above. Using a different email will prevent your access from being activated automatically.
-                </p>
               </div>
             )}
 
