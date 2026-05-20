@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { WHOP_STANDARD_LINK, WHOP_PREMIUM_LINK, WHOP_UPGRADE_LINK, AuthUser } from "../hooks/useAuth";
 
 interface Props {
@@ -9,6 +10,10 @@ interface Props {
 }
 
 export default function UpgradeGate({ requiredTier, featureName, featureDescription, onNavigatePremium, user }: Props) {
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
+  const [showError, setShowError] = useState(false);
+
   const isStandard = user?.tier === "standard";
 
   const getWhopLink = (baseLink: string) => {
@@ -19,17 +24,46 @@ export default function UpgradeGate({ requiredTier, featureName, featureDescript
   const premiumLink = getWhopLink(isStandard ? WHOP_UPGRADE_LINK : WHOP_PREMIUM_LINK);
   const standardLink = getWhopLink(WHOP_STANDARD_LINK);
   const premiumPrice = isStandard ? "$10.99" : "$25";
-  const premiumButtonLabel = isStandard ? "Upgrade to Premium — $10.99/month →" : "Get Premium — $25/month →";
+  const premiumButtonLabel = isStandard ? "Upgrade to Premium — $10.99/mo →" : "Get Premium — $25/mo →";
 
   const standardFeatures = ["Full interview guidebook", "Full Mock Exam", "CV Guide", "Interview Questions & Answers"];
   const premiumFeatures = ["Everything in Standard", "AI Interview (unlimited)", "Ask Cabin Crew (former crew feedback)", "Group Discussion access"];
+
+  const handlePay = (link: string) => {
+    if (!termsAccepted || !privacyAccepted) {
+      setShowError(true);
+      return;
+    }
+    window.open(link, "_blank");
+  };
 
   return (
     <div className="min-h-[60vh] flex items-center justify-center px-4">
       <div className="max-w-lg w-full text-center">
         <div className="text-5xl mb-4">🔒</div>
         <h3 className="text-2xl font-bold text-white mb-3">{featureName}</h3>
-        <p className="text-slate-400 mb-8 leading-relaxed">{featureDescription}</p>
+        <p className="text-slate-400 mb-6 leading-relaxed">{featureDescription}</p>
+
+        {/* Terms checkboxes */}
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-6 text-left space-y-3">
+          <div className="flex items-start gap-3 cursor-pointer group" onClick={() => { setTermsAccepted(!termsAccepted); setShowError(false); }}>
+            <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all ${termsAccepted ? "bg-amber-500 border-amber-500" : "border-white/30 group-hover:border-amber-500/50"}`}>
+              {termsAccepted && <span className="text-slate-900 text-xs font-bold">✓</span>}
+            </div>
+            <span className="text-slate-300 text-sm leading-relaxed">
+              I agree to the <button onClick={(e) => { e.stopPropagation(); onNavigatePremium(); }} className="text-amber-400 hover:underline font-medium">Terms of Service</button> and cancellation policy.
+            </span>
+          </div>
+          <div className="flex items-start gap-3 cursor-pointer group" onClick={() => { setPrivacyAccepted(!privacyAccepted); setShowError(false); }}>
+            <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all ${privacyAccepted ? "bg-amber-500 border-amber-500" : "border-white/30 group-hover:border-amber-500/50"}`}>
+              {privacyAccepted && <span className="text-slate-900 text-xs font-bold">✓</span>}
+            </div>
+            <span className="text-slate-300 text-sm leading-relaxed">
+              I agree to the <span className="text-amber-400 font-medium">Privacy Policy</span>.
+            </span>
+          </div>
+          {showError && <p className="text-red-400 text-xs">⚠️ Please accept both to continue.</p>}
+        </div>
 
         <div className="space-y-4">
           {requiredTier === "standard" && !isStandard && (
@@ -51,7 +85,6 @@ export default function UpgradeGate({ requiredTier, featureName, featureDescript
                   </li>
                 ))}
               </ul>
-              {/* Email warning */}
               {user?.email && (
                 <div className="bg-slate-900/60 border border-blue-500/20 rounded-xl p-3 mb-4 text-left">
                   <p className="text-slate-400 text-xs mb-1">⚠️ Use this email on Whop to activate your access:</p>
@@ -59,9 +92,12 @@ export default function UpgradeGate({ requiredTier, featureName, featureDescript
                   <p className="text-slate-500 text-xs mt-1">If you have a Whop account, make sure you're logged in with this email.</p>
                 </div>
               )}
-              <a href={standardLink} target="_blank" rel="noopener noreferrer" className="block w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 text-white font-bold py-3 rounded-xl transition-all hover:scale-[1.01]">
-                Get Standard — $15/month →
-              </a>
+              <button
+                onClick={() => handlePay(standardLink)}
+                className="block w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 text-white font-bold py-3 rounded-xl transition-all hover:scale-[1.01]"
+              >
+                Get Standard — $15/mo →
+              </button>
             </div>
           )}
 
@@ -87,7 +123,6 @@ export default function UpgradeGate({ requiredTier, featureName, featureDescript
                 </li>
               ))}
             </ul>
-            {/* Email warning */}
             {user?.email && (
               <div className="bg-slate-900/60 border border-amber-500/20 rounded-xl p-3 mb-4 text-left">
                 <p className="text-slate-400 text-xs mb-1">⚠️ Use this email on Whop to activate your access:</p>
@@ -95,9 +130,12 @@ export default function UpgradeGate({ requiredTier, featureName, featureDescript
                 <p className="text-slate-500 text-xs mt-1">If you have a Whop account, make sure you're logged in with this email.</p>
               </div>
             )}
-            <a href={premiumLink} target="_blank" rel="noopener noreferrer" className="block w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-900 font-bold py-3 rounded-xl transition-all hover:scale-[1.01]">
+            <button
+              onClick={() => handlePay(premiumLink)}
+              className="block w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-900 font-bold py-3 rounded-xl transition-all hover:scale-[1.01]"
+            >
               {premiumButtonLabel}
-            </a>
+            </button>
           </div>
         </div>
 
