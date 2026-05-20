@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { WHOP_STANDARD_LINK, WHOP_PREMIUM_LINK, WHOP_UPGRADE_LINK, AuthUser } from "../hooks/useAuth";
 import BackButton from "./BackButton";
 
@@ -16,6 +16,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [showTermsError, setShowTermsError] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<"standard" | "premium">("standard");
+  const termsRef = useRef<HTMLDivElement>(null);
 
   const isStandard = user?.tier === "standard";
   const isPremium = user?.tier === "premium";
@@ -30,6 +31,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
   const handleUnlock = () => {
     if (!termsAccepted || !privacyAccepted) {
       setShowTermsError(true);
+      termsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
     let link = getWhopLink(WHOP_STANDARD_LINK);
@@ -207,7 +209,9 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
                 ? `Upgrade to Premium — $10.99/mo (Standard members price):`
                 : `Before subscribing to ${selectedPlan === "standard" ? "Standard ($15/mo)" : "Premium ($25/mo)"}:`}
             </p>
-            <div className="space-y-3 mb-5">
+
+            {/* TERMS CHECKBOXES — with ref for auto-scroll */}
+            <div className="space-y-3 mb-5" ref={termsRef}>
               <div className="flex items-start gap-3 cursor-pointer group" onClick={() => { setTermsAccepted(!termsAccepted); setShowTermsError(false); }}>
                 <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all ${termsAccepted ? "bg-amber-500 border-amber-500" : "border-white/30 group-hover:border-amber-500/50"}`}>
                   {termsAccepted && <span className="text-slate-900 text-xs font-bold">✓</span>}
@@ -227,7 +231,9 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
                   <button onClick={(e) => { e.stopPropagation(); setActiveSection("privacy"); }} className="text-amber-400 hover:underline font-medium">Privacy Policy</button>.
                 </span>
               </div>
-              {showTermsError && <p className="text-red-400 text-sm">⚠️ Please accept both the Terms of Service and Privacy Policy to continue.</p>}
+              {showTermsError && (
+                <p className="text-red-400 text-sm">⚠️ Please accept both the Terms of Service and Privacy Policy to continue.</p>
+              )}
             </div>
 
             {/* EMAIL WARNING BOX */}
