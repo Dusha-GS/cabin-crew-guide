@@ -33,7 +33,7 @@ const sectionLabels: Record<string, string> = {
   account: "My Account",
 };
 
-const STANDARD_SECTIONS = ["airlines", "requirements", "dress-code", "cv-guide", "questions", "conduct"];
+const STANDARD_SECTIONS = ["requirements", "dress-code", "cv-guide", "questions", "conduct"];
 const PREMIUM_SECTIONS = ["ask-cabin-crew", "group-discussion", "ai-mock-interview"];
 
 export default function App() {
