@@ -175,25 +175,28 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
               </div>
             </button>
 
-            {/* Coming Soon — Live Open Days card */}
-            <div className="relative w-full max-w-2xl bg-slate-800/60 border border-slate-600/40 p-6 md:p-8 rounded-3xl text-left overflow-hidden">
-              <div className="absolute -top-10 -right-10 w-40 h-40 bg-blue-500/5 rounded-full blur-2xl" />
+            {/* Live Open Days card */}
+            <button
+              onClick={() => setActiveSection("open-days")}
+              className="group relative w-full max-w-2xl bg-gradient-to-br from-blue-900/40 to-slate-800 border border-blue-500/30 p-6 md:p-8 rounded-3xl hover:scale-[1.02] transition-all duration-300 shadow-lg text-left overflow-hidden hover:border-blue-400/50"
+            >
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl" />
               <div className="relative flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-5">
-                <div className="text-5xl md:text-6xl drop-shadow-lg grayscale opacity-60">📅</div>
+                <div className="text-5xl md:text-6xl drop-shadow-lg">📅</div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2 flex-wrap">
-                    <span className="bg-blue-500/20 text-blue-400 text-xs font-bold px-3 py-1 rounded-full border border-blue-500/30">COMING SOON</span>
+                    <span className="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/30">LIVE — UPDATED WEEKLY</span>
                   </div>
-                  <h3 className="text-white font-bold text-xl md:text-2xl leading-tight mb-1">Live Airline Open Days</h3>
+                  <h3 className="text-white font-bold text-xl md:text-2xl leading-tight mb-1">Airline Open Days</h3>
                   <p className="text-slate-400 text-sm leading-relaxed">
-                    Updated open day dates and recruitment events for Emirates, Qatar Airways, Etihad and more — all in one place.
+                    Open day dates and recruitment events for Emirates, Qatar Airways, Etihad and more — filter by country, sorted by month.
                   </p>
                 </div>
-                <div className="flex items-center gap-2 bg-slate-700/50 text-slate-500 font-bold px-5 py-3 rounded-xl self-start md:self-auto cursor-not-allowed">
-                  Soon →
+                <div className="flex items-center gap-2 bg-blue-600/80 text-white font-bold px-5 py-3 rounded-xl group-hover:bg-blue-500 transition-colors self-start md:self-auto">
+                  View →
                 </div>
               </div>
-            </div>
+            </button>
 
           </div>
 
