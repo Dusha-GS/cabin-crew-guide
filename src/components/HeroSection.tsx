@@ -99,7 +99,7 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
                 </div>
                 <h3 className="text-white font-bold text-lg md:text-xl mb-2">Mock Interview</h3>
                 <p className="text-slate-400 text-sm leading-relaxed">
-                  Have a real conversation with AI acting as an Emirates/Qatar recruiter. Get instant feedback on every answer.
+                  Practice with a simulated Emirates/Qatar recruiter. Get instant feedback on every answer.
                 </p>
                 <div className="mt-4 text-amber-400 text-sm font-semibold group-hover:gap-2 flex items-center gap-1 transition-all">
                   Start practicing →
@@ -185,7 +185,7 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
                   </div>
                   <h3 className="text-slate-900 font-bold text-xl md:text-2xl leading-tight mb-1">Premium Final Lab</h3>
                   <p className="text-slate-800 text-sm leading-relaxed">
-                    Unlock AI Interview, Ask Cabin Crew forum with former crew feedback, and Group Discussion access.
+                    Unlock Mock Interview, Ask Cabin Crew forum with former crew feedback, and Group Discussion access.
                   </p>
                 </div>
                 <div className="flex items-center gap-2 bg-slate-900 text-amber-400 font-bold px-5 py-3 rounded-xl group-hover:bg-slate-800 transition-colors self-start md:self-auto">
@@ -229,7 +229,7 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
             {[
               { value: "5", label: "Airlines Covered", icon: "✈️" },
               { value: "50+", label: "Interview Questions", icon: "💬" },
-              { value: "∞", label: "AI Practice Sessions", icon: "🤖" },
+              { value: "∞", label: "Practice Sessions", icon: "🤖" },
               { value: "100%", label: "Comprehensive Guide", icon: "🏆" },
             ].map((stat) => (
               <div key={stat.label} className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6 text-center">
