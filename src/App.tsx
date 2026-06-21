@@ -30,7 +30,7 @@ const sectionLabels: Record<string, string> = {
   "dress-code": "Dress Code", "cv-guide": "CV Guide", questions: "Interview Q&A",
   "group-discussion": "Group Discussion", "mock-exam": "Mock Exam",
   conduct: "Code of Conduct", premium: "Premium",
-  "ai-mock-interview": "AI Interview", "ai-cv-review": "AI CV Review",
+  "ai-mock-interview": "Mock Interview", "ai-cv-review": "CV Review",
   "ask-cabin-crew": "Ask Cabin Crew", "open-days": "Open Days",
   terms: "Terms of Service", privacy: "Privacy Policy",
   account: "My Account",
@@ -160,7 +160,7 @@ export default function App() {
             <div>
               <p className="text-white font-bold text-sm mb-3">Quick Navigation</p>
               <div className="grid grid-cols-2 gap-1">
-                {[{id:"ai-mock-interview",label:"AI Interview"},{id:"ai-cv-review",label:"AI CV Review"},{id:"questions",label:"Interview Q&A"},{id:"mock-exam",label:"Mock Exam"},{id:"open-days",label:"Open Days"},{id:"ask-cabin-crew",label:"Ask Cabin Crew"},{id:"premium",label:"Pricing"},{id:"terms",label:"Terms"},{id:"privacy",label:"Privacy"}].map((item) => (
+                {[{id:"ai-mock-interview",label:"Mock Interview"},{id:"ai-cv-review",label:"CV Review"},{id:"questions",label:"Interview Q&A"},{id:"mock-exam",label:"Mock Exam"},{id:"open-days",label:"Open Days"},{id:"ask-cabin-crew",label:"Ask Cabin Crew"},{id:"premium",label:"Pricing"},{id:"terms",label:"Terms"},{id:"privacy",label:"Privacy"}].map((item) => (
                   <button key={item.id} onClick={() => handleSetSection(item.id)} className="text-slate-400 hover:text-amber-400 text-sm text-left transition-colors">› {item.label}</button>
                 ))}
               </div>
