@@ -48,7 +48,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
     { feature: "Full interview guidebook", free: false, standard: true, premium: true },
     { feature: "CV Guide", free: false, standard: true, premium: true },
     { feature: "Interview Questions & Answers", free: false, standard: true, premium: true },
-    { feature: "AI Interview", free: false, standard: false, premium: true },
+    { feature: "Mock Interview (unlimited)", free: false, standard: false, premium: true },
     { feature: "Ask Cabin Crew (former crew feedback)", free: false, standard: false, premium: true },
     { feature: "Group Discussion", free: false, standard: false, premium: true },
   ];
@@ -129,7 +129,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-blue-400">✓</span> Full Mock Exam</li>
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-blue-400">✓</span> CV Guide</li>
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-blue-400">✓</span> Interview Questions & Answers</li>
-              <li className="text-slate-500 text-sm flex items-center gap-2"><span>—</span> No AI Interview or forum</li>
+              <li className="text-slate-500 text-sm flex items-center gap-2"><span>—</span> No Mock Interview or forum</li>
             </ul>
             {isStandard ? (
               <div className="w-full bg-blue-500/20 border border-blue-500/30 text-blue-400 font-semibold py-3 rounded-xl text-center text-sm">
@@ -178,7 +178,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
             <p className="text-slate-500 text-sm mb-6">per month · cancel anytime</p>
             <ul className="space-y-2 mb-6">
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> Everything in Standard</li>
-              <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> AI Interview (unlimited)</li>
+              <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> Mock Interview (unlimited)</li>
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> Ask Cabin Crew (former crew feedback)</li>
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> Group Discussion access</li>
             </ul>
@@ -310,20 +310,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
           </div>
         </div>
 
-        {/* Social proof */}
-        <div className="grid md:grid-cols-3 gap-4">
-          {[
-            { quote: "Got my Emirates offer after 2 weeks of using this guidebook.", name: "Sarah M., Dubai" },
-            { quote: "The AI mock interview was scary-realistic. Prepared me perfectly.", name: "Aisha K., London" },
-            { quote: "Worth every dirham. The forum alone is gold.", name: "Priya R., Mumbai" },
-          ].map((t, i) => (
-            <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5">
-              <div className="text-amber-400 text-lg mb-3">★★★★★</div>
-              <p className="text-slate-300 text-sm italic leading-relaxed mb-3">"{t.quote}"</p>
-              <p className="text-slate-500 text-xs">— {t.name}</p>
-            </div>
-          ))}
-        </div>
+
       </div>
     </div>
   );
