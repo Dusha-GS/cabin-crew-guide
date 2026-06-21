@@ -74,6 +74,7 @@ export default function PrivacyPolicySection({ goBack, previousLabel }: Props) {
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Anthropic's Privacy Policy applies to this processing</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> We do not store your CV content or interview conversations on our servers</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Payment processing is handled by our payment provider. We receive only confirmation of successful payment and never access your card or banking details.</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Community forum questions submitted via the Ask Cabin Crew feature are processed by Formspree, Inc. (formspree.io), a US-based form processing service. Your name, email, and question are transmitted to Formspree for delivery. Formspree's Privacy Policy applies to this processing.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> User account data is stored securely in our database hosted in Ireland (EU).</li>
             </ul>
           </section>
