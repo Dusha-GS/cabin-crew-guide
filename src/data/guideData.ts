@@ -10,7 +10,6 @@ export const airlines = [
     founded: "1985",
     fleet: "260+ aircraft",
     destinations: "150+ countries",
-    tagline: "Fly Better",
     color: "#C41E3A",
   },
   {
@@ -21,7 +20,6 @@ export const airlines = [
     founded: "2003",
     fleet: "100+ aircraft",
     destinations: "68+ countries",
-    tagline: "From Abu Dhabi to the World",
     color: "#C8A96E",
   },
   {
@@ -32,7 +30,6 @@ export const airlines = [
     founded: "1997",
     fleet: "200+ aircraft",
     destinations: "160+ countries",
-    tagline: "Going Places Together",
     color: "#8B0000",
   },
   {
@@ -43,7 +40,6 @@ export const airlines = [
     founded: "2009",
     fleet: "70+ aircraft",
     destinations: "90+ destinations",
-    tagline: "Open up your world",
     color: "#FF6B35",
   },
   {
@@ -54,7 +50,6 @@ export const airlines = [
     founded: "2003",
     fleet: "60+ aircraft",
     destinations: "170+ destinations",
-    tagline: "Your Affordable Airline",
     color: "#E4002B",
   },
 ];
@@ -279,7 +274,7 @@ export const cvGuide = {
         "Consistent font throughout (professional, readable)",
         "Use color accents sparingly — gold, navy, or the airline's brand color",
         "White space is your friend — don't overcrowd",
-        "Submit as a PDF — never Word document",
+        "For open day drop-offs and email submissions, use a PDF. For online portal applications that use ATS scanning systems, a clean single-column Word (.docx) document often performs better — check the specific airline's application guidance.",
         "File name: FirstName_LastName_CabinCrew_CV.pdf",
       ],
     },
@@ -293,7 +288,7 @@ export const cvGuide = {
       "List all languages with proficiency levels",
       "Include relevant certifications (first aid, CPR)",
       "Keep to 1-2 pages maximum",
-      "Export as a PDF before submitting",
+      "For open day submissions, export as a PDF. For online ATS applications, use a clean single-column Word (.docx) file",
       "Proofread multiple times for errors",
       "Have someone else review before submitting",
     ],
@@ -304,7 +299,7 @@ export const cvGuide = {
       "Leave unexplained employment gaps",
       "Include irrelevant personal hobbies (unless aviation/travel related)",
       "Use fancy fonts that are hard to read",
-      "Submit a Word document instead of PDF",
+      "Use a multi-column or heavily designed CV for online portal applications",
       "Include a photo with sunglasses, hats, or filters",
       "Lie or exaggerate qualifications",
       "Include negative comments about previous employers",
