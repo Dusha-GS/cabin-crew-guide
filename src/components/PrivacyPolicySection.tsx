@@ -27,7 +27,7 @@ export default function PrivacyPolicySection({ goBack, previousLabel }: Props) {
 
           <section>
             <h3 className="text-white font-bold text-lg mb-3">1. Introduction</h3>
-            <p>Cabin Crew Interview Guidebook ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our platform. We comply with applicable data protection laws, including UAE Federal Decree-Law No. 45 of 2021 on Personal Data Protection and, where applicable, the EU General Data Protection Regulation (GDPR).</p>
+            <p>Cabin Crew Interview Guidebook ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our platform. We comply with applicable data protection laws, including UAE Federal Decree-Law No. 45 of 2021 on Personal Data Protection and, where applicable, the EU General Data Protection Regulation (GDPR). For users based in Egypt, we note the applicability of Egypt’s Personal Data Protection Law (Law No. 151 of 2020) and aim to handle all personal data in a manner consistent with its principles. Please note that full Egyptian PDPL compliance verification is pending qualified legal review.</p>
           </section>
 
           <section>
