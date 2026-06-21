@@ -188,7 +188,7 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
             <h2 className="text-3xl font-bold text-white mb-3">Free trial session complete</h2>
             <p className="text-slate-400">Upgrade to Standard or Premium for unlimited mock interviews.</p>
           </div>
-          <UpgradeGate requiredTier="standard" featureName="Unlimited Mock Interviews" featureDescription="Practice as many times as you need with AI acting as a real Emirates, Qatar Airways or Etihad recruiter." onNavigatePremium={onNavigatePremium} />
+          <UpgradeGate requiredTier="standard" featureName="Unlimited Mock Interviews" featureDescription="Practice as many times as you need with a simulated Emirates, Qatar Airways or Etihad recruiter." onNavigatePremium={onNavigatePremium} />
         </div>
       </div>
     );
@@ -206,7 +206,7 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
             </span>
             <h2 className="text-4xl font-bold text-white mb-4">Mock Interview</h2>
             <p className="text-slate-400 text-lg max-w-xl mx-auto">
-              Practice with AI acting as a real recruiter from your chosen airline. Get instant feedback on every answer.
+              Practice with a simulated recruiter from your chosen airline. Get instant feedback on every answer.
             </p>
           </div>
 
