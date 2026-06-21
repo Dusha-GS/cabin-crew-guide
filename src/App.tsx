@@ -23,6 +23,7 @@ import UpgradeGate from "./components/UpgradeGate";
 import AuthModal from "./components/AuthModal";
 import ResetPasswordSection from "./components/ResetPasswordSection";
 import AccountSection from "./components/AccountSection";
+import RejectionDecodedSection from "./components/RejectionDecodedSection";
 
 const sectionLabels: Record<string, string> = {
   home: "Home", airlines: "Airlines", requirements: "Requirements",
@@ -130,6 +131,7 @@ export default function App() {
       case "open-days": return <OpenDaysSection goBack={goBack} previousLabel={previousLabel} />;
       case "terms": return <TermsOfServiceSection goBack={goBack} previousLabel={previousLabel} />;
       case "privacy": return <PrivacyPolicySection goBack={goBack} previousLabel={previousLabel} />;
+      case "rejection-decoded": return <RejectionDecodedSection goBack={goBack} previousLabel={previousLabel} tier={tier} onNavigatePremium={() => handleSetSection("premium")} />;
       case "account": return user
         ? <AccountSection user={user} goBack={goBack} previousLabel={previousLabel} onLogout={handleLogout} onNavigatePremium={() => handleSetSection("premium")} />
         : <HeroSection setActiveSection={handleSetSection} />;
