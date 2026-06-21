@@ -200,7 +200,7 @@ export default function RejectionDecodedSection({
   tier,
   onNavigatePremium,
 }: RejectionDecodedSectionProps) {
-  const [openCard, setOpenCard] = useState<number | null>(1);
+  const [openCard, setOpenCard] = useState<number | null>(null);
   const isLocked = (free: boolean) => !free && tier === "free";
 
   const handleCardClick = (id: number, free: boolean) => {
