@@ -13,7 +13,7 @@ const reasons = [
     emoji: "📄",
     label: "REASON 1",
     title: "Your CV Was Filtered Before a Human Saw It",
-    subtitle: "The ATS trap eliminates up to 90% of applicants before any recruiter reads a single word.",
+    subtitle: "The ATS trap is widely reported to eliminate the majority of applicants before any recruiter reads a single word.",
     accentColor: "text-red-400",
     borderColor: "border-red-500/30",
     bgColor: "from-red-950/40 to-slate-800",
@@ -32,7 +32,7 @@ The ATS reads your document the way a computer reads text — left to right, top
       { step: "State height and arm reach explicitly — e.g. 'Height: 165cm | Arm Reach: 212cm (standing on tiptoes)' — in your personal profile header", icon: "📏" },
       { step: "Include a professional photo (UAE airlines expect this — Western advice to omit photos does NOT apply here)", icon: "📸" },
       { step: "Keep it to 1–2 pages maximum with clear section headers: Personal Profile, Work Experience, Education, Skills, Languages", icon: "📐" },
-      { step: "Answer the 'Why Emirates?' field in 500 words — never say 'I love to travel' or 'I want to see the world' — this is explicitly flagged as a red flag", icon: "⚠️" },
+      { step: "Answer the 'Why Emirates?' field in 500 words — never say 'I love to travel' or 'I want to see the world' — widely reported by candidates as an immediate rejection trigger", icon: "⚠️" },
     ],
     youtubeSearch: "Emirates cabin crew CV ATS tips 2024",
     youtubeLabel: "How to Write an ATS-Proof Cabin Crew CV",
@@ -80,7 +80,7 @@ Visible acne, exposed tattoos, incorrect makeup, visible piercings, the wrong at
     bgColor: "from-blue-950/40 to-slate-800",
     badgeBg: "bg-blue-500/20 text-blue-300 border-blue-500/30",
     free: false,
-    why: `Emirates's online application route includes a HireVue digital interview and an English language assessment before you ever meet a recruiter. JobTestPrep — which has studied thousands of Emirates applications — confirms that this stage eliminates more candidates than any other part of the process.
+    why: `Emirates's online application route includes a HireVue digital interview and an English language assessment before you ever meet a recruiter. Candidates widely report this as the stage where the highest number of applicants are eliminated, consistent with analysis across multiple recruitment preparation platforms.
 
 The HireVue consists of approximately 6 questions (some STAR-based, one gamified speed task), plus a written English comprehension and essay section. You typically have 30 seconds to prepare per question and 2–3 minutes to answer. Many candidates underestimate this stage because it feels less "real" than a face-to-face interview — that's the mistake.`,
     testimonial: {
@@ -112,13 +112,13 @@ The HireVue consists of approximately 6 questions (some STAR-based, one gamified
     free: false,
     why: `This is the most common reason candidates fail the final interview despite feeling it went well. The recruiter is not looking for perfect answers — they're looking for real people with genuine stories. When candidates memorise scripted responses, their answers lack the specific detail, emotional truth, and natural language that makes a story believable.
 
-Emirates, Etihad, and Qatar Airways all use STAR-format situational questions. The failure is almost always in the detail: stories without a clear Result, conflict examples where the candidate claims they "never really have conflicts," or motivational answers that mention travel — something all three airlines explicitly flag as a red flag.`,
+Emirates, Etihad, and Qatar Airways all use STAR-format situational questions. The failure is almost always in the detail: stories without a clear Result, conflict examples where the candidate claims they "never really have conflicts," or motivational answers that mention travel — something candidates consistently report as an immediate rejection trigger across all three airlines.`,
     testimonial: {
       quote: "I attempted Emirates six times. Every time I made it to the final interview and was rejected. A coach reviewed my answers and told me immediately: 'Your story is good but you never tell them what happened in the end. You always describe what you did but never the outcome. The recruiter needs a complete story.' That was it. One change — adding the result — and I passed on my seventh attempt.",
       source: "Composite experience drawn from cabin crew applicant community forums",
     },
     fix: [
-      { step: "NEVER say: 'I want to be cabin crew because I love to travel / meet people / see the world.' This is explicitly listed as a red flag by Emirates, JobTestPrep, and Studio Images UK. Instead, speak about service, safety, and the specific airline's values", icon: "🚫" },
+      { step: "NEVER say: 'I want to be cabin crew because I love to travel / meet people / see the world.' This is consistently flagged across candidate forums, coaching communities, and airline application guides as an immediate red flag. Instead, speak about service, safety, and the specific airline's values", icon: "🚫" },
       { step: "Every answer must follow STAR completely: Situation (brief context), Task (your specific role), Action (exactly what YOU did — use 'I', not 'we'), Result (measurable or observable outcome)", icon: "⭐" },
       { step: "For conflict questions: If you say 'I rarely have conflicts' or 'I get along with everyone' — you will be eliminated. Every professional has experienced conflict. Prepare a real example that shows you resolved it professionally", icon: "⚡" },
       { step: "Practice your answers OUT LOUD until they sound like a natural conversation, not a performance. Record yourself and listen back — if you sound like you're reading from a script, practice more", icon: "🎙️" },
@@ -258,6 +258,14 @@ export default function RejectionDecodedSection({
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Legal disclaimer notice */}
+        <div className="bg-slate-800/50 border border-slate-700/40 rounded-xl px-5 py-4 mb-6 flex items-start gap-3">
+          <span className="text-slate-500 text-base flex-shrink-0 mt-0.5">ℹ️</span>
+          <p className="text-slate-500 text-xs leading-relaxed">
+            The rejection reasons and recruitment process details on this page are based on publicly reported candidate experiences from forums, community platforms, and open candidate discussions. They do not represent confirmed policies of any airline. Always verify current requirements directly with the airline before applying.
+          </p>
         </div>
 
         {/* Tier notice for free users */}
