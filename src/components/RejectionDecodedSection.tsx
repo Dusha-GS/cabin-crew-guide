@@ -24,7 +24,7 @@ const reasons = [
 The ATS reads your document the way a computer reads text — left to right, top to bottom. Multi-column layouts, text boxes, embedded graphics, and design elements confuse the parser. It reads your carefully designed Canva CV as a near-empty document and scores it below the threshold. A clean, unqualified candidate with a plain Word document consistently beats a highly qualified candidate with a beautifully designed layout.`,
     testimonial: {
       quote: "I applied to Emirates three times using a two-column Canva CV I was really proud of. Each time: silence, then rejection within 48 hours. A friend who was already flying told me to delete the design entirely and use a plain Word document with the exact keywords from the job listing. My next application got me an assessment day invitation within 11 days.",
-      source: "Cabin crew forum, verified community post",
+      source: "Composite experience drawn from cabin crew applicant community forums",
     },
     fix: [
       { step: "Use a single-column Word (.docx) document only — no Canva, no tables, no columns, no graphics", icon: "✅" },
@@ -54,7 +54,7 @@ The ATS reads your document the way a computer reads text — left to right, top
 Visible acne, exposed tattoos, incorrect makeup, visible piercings, the wrong attire, or the wrong hair style can all result in immediate elimination — even if your interview performance is excellent. Critically, many candidates are eliminated at this stage who never understand why, because the airline won't tell them.`,
     testimonial: {
       quote: "I made it to the Emirates final interview twice and both times received a rejection. I later spoke to someone who had been on the panel and they mentioned my exposed forearm tattoo — which I thought was small and unimportant. Emirates requires all tattoos to be fully covered by the uniform at all times. I hadn't checked the specific uniform coverage areas.",
-      source: "Quora, verified Emirates cabin crew applicant thread",
+      source: "Composite experience drawn from cabin crew applicant community forums",
     },
     fix: [
       { step: "Skin: Clear skin is expected. Visible acne, prominent scars, or birthmarks on visible areas are noted. See a dermatologist if needed — this is a professional requirement, not a beauty standard", icon: "✨" },
@@ -85,7 +85,7 @@ Visible acne, exposed tattoos, incorrect makeup, visible piercings, the wrong at
 The HireVue consists of approximately 6 questions (some STAR-based, one gamified speed task), plus a written English comprehension and essay section. You typically have 30 seconds to prepare per question and 2–3 minutes to answer. Many candidates underestimate this stage because it feels less "real" than a face-to-face interview — that's the mistake.`,
     testimonial: {
       quote: "I thought the HireVue would be easy because English is my strong suit. What I didn't prepare for was the gamified speed task — it tests your cognitive processing under time pressure. I hesitated, started and restarted, and ran out of time. I never made it to the assessment day.",
-      source: "Glassdoor Emirates cabin crew interview review, 2025",
+      source: "Composite experience from candidate accounts shared across public recruitment forums",
     },
     fix: [
       { step: "Set up your recording environment before the interview: good lighting (face the light, don't sit with a window behind you), clean background, stable internet, phone or laptop at eye level", icon: "💡" },
@@ -115,7 +115,7 @@ The HireVue consists of approximately 6 questions (some STAR-based, one gamified
 Emirates, Etihad, and Qatar Airways all use STAR-format situational questions. The failure is almost always in the detail: stories without a clear Result, conflict examples where the candidate claims they "never really have conflicts," or motivational answers that mention travel — something all three airlines explicitly flag as a red flag.`,
     testimonial: {
       quote: "I attempted Emirates six times. Every time I made it to the final interview and was rejected. A coach reviewed my answers and told me immediately: 'Your story is good but you never tell them what happened in the end. You always describe what you did but never the outcome. The recruiter needs a complete story.' That was it. One change — adding the result — and I passed on my seventh attempt.",
-      source: "Studio Images UK coaching client testimonial, published case study",
+      source: "Composite experience drawn from cabin crew applicant community forums",
     },
     fix: [
       { step: "NEVER say: 'I want to be cabin crew because I love to travel / meet people / see the world.' This is explicitly listed as a red flag by Emirates, JobTestPrep, and Studio Images UK. Instead, speak about service, safety, and the specific airline's values", icon: "🚫" },
@@ -145,7 +145,7 @@ Emirates, Etihad, and Qatar Airways all use STAR-format situational questions. T
 Multiple recruiters observe simultaneously, watching for: listening behaviour, how candidates treat quieter group members, whether they interrupt, how they respond to disagreement, and whether they maintain composure under social pressure. This maps directly to the cabin crew role — where crew interact with 300+ passengers of different cultures, temperaments, and needs in a high-pressure environment.`,
     testimonial: {
       quote: "I went into three Emirates assessment days thinking I needed to show leadership — speak up, contribute ideas, make the group follow a clear direction. Three rejections. Then someone who had passed told me: 'They're not hiring a manager. They want someone their passengers would feel safe with. Be warm, include everyone, listen more than you talk.' I passed the fourth time after completely changing my approach.",
-      source: "Cabin crew assessment day forum, 2024",
+      source: "Composite experience drawn from cabin crew applicant community forums",
     },
     fix: [
       { step: "Use inclusive language throughout: 'What does everyone think about this?', 'I'd like to build on what [name] said...', 'We as a group feel...', 'That's a great point — and I'd add...'", icon: "🤝" },
@@ -178,7 +178,7 @@ Multiple recruiters observe simultaneously, watching for: listening behaviour, h
 What you can control: your energy, your alignment with their values, and your consistency throughout the entire day.`,
     testimonial: {
       quote: "I passed every stage of the Emirates assessment day with flying colours — grooming check, English test, group exercise, and I thought my final interview was excellent. Rejection email that evening. I contacted a coach who had been an Emirates recruiter. She told me: 'You were performing. The recruiter could feel the difference between who you were in the formal interview and who you were during the break. Emirates wants to see the same person in both.' That stuck with me.",
-      source: "Studio Images UK coaching case study, published with permission",
+      source: "Composite experience drawn from cabin crew applicant community forums",
     },
     fix: [
       { step: "Research the airline's stated values before your interview. Emirates: 'Fly Better' (excellence, diversity, innovation, safety). Qatar: 'Going Places Together' (hospitality, perfection, care). Etihad: 'Choose Well' (empathy, diversity, responsibility). Prepare one real personal example for each value", icon: "🔍" },
