@@ -125,6 +125,25 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
                 </div>
               </div>
             </button>
+
+            <button
+              onClick={() => setActiveSection("rejection-decoded")}
+              className="group relative bg-gradient-to-br from-red-900/40 to-slate-800 border border-red-500/40 p-5 md:p-6 rounded-2xl hover:scale-[1.02] transition-all duration-300 shadow-lg text-left overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/10 rounded-full blur-2xl" />
+              <div className="relative">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-3xl md:text-4xl">🔍</span>
+                </div>
+                <h3 className="text-white font-bold text-lg md:text-xl mb-2">Rejection Decoded</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">
+                  Find out exactly why Emirates, Qatar and Etihad rejected you — and how to fix it before you reapply.
+                </p>
+                <div className="mt-4 text-red-400 text-sm font-semibold group-hover:gap-2 flex items-center gap-1 transition-all">
+                  Decode my rejection →
+                </div>
+              </div>
+            </button>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
