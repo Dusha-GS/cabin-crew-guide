@@ -48,7 +48,6 @@ export default function AirlinesSection({ goBack, previousLabel }: Props) {
               ✈
             </div>
             <h3 className="text-2xl font-bold text-white mb-1">{airline.name}</h3>
-            <p className="text-amber-400 font-medium mb-4 italic">"{airline.tagline}"</p>
             <div className="space-y-3">
               {[
                 { label: "Base", value: airline.base },
