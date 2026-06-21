@@ -71,7 +71,6 @@ export default function Header({ activeSection, setActiveSection, user, onLoginC
     setUserMenuOpen(false);
   };
 
-  const allGroupItems = navGroups.flatMap((g) => g.items);
   const isGroupActive = (group: typeof navGroups[0]) =>
     group.items.some((item) => item.id === activeSection);
 
