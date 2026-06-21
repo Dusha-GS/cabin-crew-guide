@@ -3,7 +3,7 @@ import BackButton from "./BackButton";
 interface Props { goBack: () => void; previousLabel: string; }
 
 export default function TermsOfServiceSection({ goBack, previousLabel }: Props) {
-  const lastUpdated = "1 May 2025";
+  const lastUpdated = "21 June 2026";
 
   return (
     <div className="min-h-screen bg-slate-900 py-20 px-4 pt-24">
@@ -19,6 +19,12 @@ export default function TermsOfServiceSection({ goBack, previousLabel }: Props) 
 
         <div className="bg-white/5 border border-white/10 rounded-2xl p-8 space-y-8 text-slate-300 text-sm leading-relaxed">
 
+          <section className="bg-white/3 border border-white/10 rounded-xl p-4">
+            <p className="text-slate-400 text-xs leading-relaxed">
+              The Cabin Crew Interview Guidebook platform is operated by <strong className="text-white">Elysium Living FZ-LLC</strong>, a company registered in the Ras Al Khaimah Economic Zone, United Arab Emirates (Licence No. 5034743). References to "we," "us," or "our" in these Terms refer to Elysium Living FZ-LLC.
+            </p>
+          </section>
+
           <section>
             <h3 className="text-white font-bold text-lg mb-3">1. Acceptance of Terms</h3>
             <p>By accessing or using the Cabin Crew Interview Guidebook platform ("Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the Service. These Terms apply to all visitors, users, and others who access or use the Service.</p>
@@ -26,7 +32,7 @@ export default function TermsOfServiceSection({ goBack, previousLabel }: Props) 
 
           <section>
             <h3 className="text-white font-bold text-lg mb-3">2. Description of Service</h3>
-            <p>The Cabin Crew Interview Guidebook is an educational platform providing preparation resources, AI-powered mock interviews, CV review tools, and community forum access for individuals seeking cabin crew positions at Middle Eastern airlines. The Service includes both free and premium paid features.</p>
+            <p>The Cabin Crew Interview Guidebook is an educational platform providing preparation resources, mock interviews, CV review tools, and community forum access for individuals seeking cabin crew positions at Middle Eastern airlines. The Service includes both free and premium paid features.</p>
           </section>
 
           <section>
@@ -42,18 +48,20 @@ export default function TermsOfServiceSection({ goBack, previousLabel }: Props) 
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Payments are processed in USD. Applicable taxes may apply based on your jurisdiction.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Premium memberships are non-transferable and for personal use only.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Refunds are available within 24 hours of purchase. After 24 hours, all sales are final.</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> You may cancel your subscription at any time from your Account page. Cancellation takes effect at the end of the current billing period.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> We reserve the right to modify Premium features with reasonable notice to members.</li>
             </ul>
           </section>
 
           <section>
-            <h3 className="text-white font-bold text-lg mb-3">5. AI-Generated Content Disclaimer</h3>
-            <p className="mb-3">The Service uses artificial intelligence (Claude by Anthropic) to generate interview feedback, CV reviews, and forum responses. You acknowledge and agree that:</p>
+            <h3 className="text-white font-bold text-lg mb-3">5. Content Disclaimer</h3>
+            <p className="mb-3">The Service provides educational and preparation content powered by technology. You acknowledge and agree that:</p>
             <ul className="list-none space-y-2 pl-4">
-              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> AI-generated content is for educational and preparation purposes only and does not constitute professional career advice.</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> All content is for educational and preparation purposes only and does not constitute professional career advice.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> We do not guarantee employment outcomes or interview success.</li>
-              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> AI responses may occasionally contain inaccuracies. Always verify information directly with the relevant airline.</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Generated responses may occasionally contain inaccuracies. Always verify information directly with the relevant airline.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> The Service is not affiliated with, endorsed by, or officially connected to Emirates, Etihad Airways, Qatar Airways, flydubai, Air Arabia, or any other airline.</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Candidate experiences referenced on this platform are composite accounts drawn from public applicant communities and forums. They do not represent the views of any specific individual, organisation, or airline.</li>
             </ul>
           </section>
 
@@ -62,7 +70,7 @@ export default function TermsOfServiceSection({ goBack, previousLabel }: Props) 
             <p className="mb-3">When using the forum and community features, you agree not to:</p>
             <ul className="list-none space-y-2 pl-4">
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Post content that is offensive, discriminatory, harassing, or harmful to others.</li>
-              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Share your Premium login credentials or provide access to unauthorized users.</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Share your Premium login credentials or provide access to unauthorised users.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Reproduce, distribute, or resell any content from the Service without written permission.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Post spam, advertisements, or solicitations in the forum.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Impersonate airline recruiters, crew members, or other users.</li>
@@ -72,12 +80,12 @@ export default function TermsOfServiceSection({ goBack, previousLabel }: Props) 
 
           <section>
             <h3 className="text-white font-bold text-lg mb-3">7. Intellectual Property</h3>
-            <p>All content on the Service, including text, graphics, guides, interview questions, and AI-generated materials, is the intellectual property of Cabin Crew Interview Guidebook. You may not copy, reproduce, distribute, or create derivative works without our express written consent. Your personal CV content submitted for review remains your own property.</p>
+            <p>All content on the Service, including text, graphics, guides, interview questions, and generated materials, is the intellectual property of Elysium Living FZ-LLC, operating as Cabin Crew Interview Guidebook. You may not copy, reproduce, distribute, or create derivative works without our express written consent. Your personal CV content submitted for review remains your own property.</p>
           </section>
 
           <section>
             <h3 className="text-white font-bold text-lg mb-3">8. Privacy & Data</h3>
-            <p>Your use of the Service is also governed by our Privacy Policy, which is incorporated into these Terms by reference. By using the Service, you consent to the collection and use of your information as described in our Privacy Policy. CV content submitted for AI review is processed by Anthropic's API and is not stored on our servers beyond the duration of your session.</p>
+            <p>Your use of the Service is also governed by our Privacy Policy, which is incorporated into these Terms by reference. By using the Service, you consent to the collection and use of your information as described in our Privacy Policy. CV content submitted for review is processed in real time and is not stored on our servers beyond the duration of your session.</p>
           </section>
 
           <section>
@@ -92,7 +100,7 @@ export default function TermsOfServiceSection({ goBack, previousLabel }: Props) 
 
           <section>
             <h3 className="text-white font-bold text-lg mb-3">10. Governing Law</h3>
-            <p>These Terms shall be governed by and construed in accordance with the laws of the United Arab Emirates. Any disputes arising under these Terms shall be subject to the exclusive jurisdiction of the courts of Dubai, UAE. For users in other Middle Eastern jurisdictions, we comply with applicable local consumer protection laws.</p>
+            <p>These Terms shall be governed by and construed in accordance with the laws of the United Arab Emirates. Any disputes arising under these Terms shall be subject to the exclusive jurisdiction of the courts of Ras Al Khaimah, UAE. For users in other jurisdictions, we comply with applicable local consumer protection laws.</p>
           </section>
 
           <section>
