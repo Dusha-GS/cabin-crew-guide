@@ -38,10 +38,10 @@ const SEED_POSTS: Post[] = [
     avatar: "S",
     question: "I have my Emirates open day next week. What should I wear and what are the biggest mistakes people make on the day?",
     category: "Emirates",
-    timestamp: "2 hours ago",
+    timestamp: "June 2025",
     replies: [
-      { id: "r1", author: "Priya K.", avatar: "P", content: "I got through my Emirates open day last month! One thing I'd add — bring multiple copies of your CV even if they say not to. Shows initiative.", timestamp: "1 hour ago" },
-      { id: "r2", author: "Dubravka (Expert)", avatar: "D", content: "Wear a smart business suit in neutral colors — navy, black, or grey. Hair must be completely off your face. Arrive 30 mins early and smile genuinely from the moment you walk in — you're being assessed before the formal process even starts!", timestamp: "45 min ago", isExpert: true }
+      { id: "r1", author: "Priya K.", avatar: "P", content: "I got through my Emirates open day last month! One thing I'd add — bring multiple copies of your CV even if they say not to. Shows initiative.", timestamp: "June 2025" },
+      { id: "r2", author: "Dubravka (Expert)", avatar: "D", content: "Wear a smart business suit in neutral colors — navy, black, or grey. Hair must be completely off your face. Arrive 30 mins early and smile genuinely from the moment you walk in — you're being assessed before the formal process even starts!", timestamp: "June 2025", isExpert: true }
     ],
     likes: 24,
     liked: false,
@@ -52,7 +52,7 @@ const SEED_POSTS: Post[] = [
     avatar: "A",
     question: "Is it true Qatar Airways rejects you if you have any tattoos? I have a small one on my ankle.",
     category: "Qatar Airways",
-    timestamp: "5 hours ago",
+    timestamp: "June 2025",
     replies: [
       { id: "r3", author: "Layla T.", avatar: "L", content: "I have two small tattoos — one on my wrist (always covered by watch) and one on my hip. Got through QR selection with no issues!", timestamp: "3 hours ago" }
     ],
@@ -65,7 +65,7 @@ const SEED_POSTS: Post[] = [
     avatar: "M",
     question: "How long does the Etihad interview process take from open day to receiving an offer? I applied 3 weeks ago and heard nothing.",
     category: "Etihad Airways",
-    timestamp: "1 day ago",
+    timestamp: "May 2025",
     replies: [],
     likes: 31,
     liked: false,
@@ -223,7 +223,7 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
             ✈️ Premium Members Only
           </span>
           <h2 className="text-4xl font-bold text-white mb-2">Ask Cabin Crew</h2>
-          <p className="text-slate-400">Post your question and our expert will reply to your email personally within 24 hours.</p>
+          <p className="text-slate-400">Post your question and our expert will reply to your email as soon as possible, typically within 2–3 business days.</p>
         </div>
 
         {/* Ask a question */}
@@ -235,7 +235,7 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
           {submitted && (
             <div className="bg-green-500/20 border border-green-500/30 rounded-xl p-4 mb-4 text-center">
               <p className="text-green-400 font-bold">✅ Question submitted!</p>
-              <p className="text-slate-400 text-sm mt-1">We'll reply to your email within 24 hours.</p>
+              <p className="text-slate-400 text-sm mt-1">We'll reply to your email as soon as possible, typically within 2–3 business days.</p>
             </div>
           )}
 
@@ -276,7 +276,7 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
             >
               {submitting ? "Sending..." : "Post Question"}
             </button>
-            <p className="text-slate-500 text-xs text-center">Our expert will reply directly to your email within 24 hours. ✈️</p>
+            <p className="text-slate-500 text-xs text-center">Our expert will reply directly to your email as soon as possible, typically within 2–3 business days. ✈️</p>
           </div>
         </div>
 
@@ -358,7 +358,7 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
 
                   {post.replies.length === 0 && (
                     <div className="p-5 border-b border-white/5">
-                      <p className="text-slate-500 text-sm italic">No answers yet — our expert will respond within 24 hours. ✈️</p>
+                      <p className="text-slate-500 text-sm italic">No answers yet — our expert will respond as soon as possible, typically within 2–3 business days. ✈️</p>
                     </div>
                   )}
 
