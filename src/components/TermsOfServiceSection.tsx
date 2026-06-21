@@ -62,6 +62,7 @@ export default function TermsOfServiceSection({ goBack, previousLabel }: Props) 
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Generated responses may occasionally contain inaccuracies. Always verify information directly with the relevant airline.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> The Service is not affiliated with, endorsed by, or officially connected to Emirates, Etihad Airways, Qatar Airways, flydubai, Air Arabia, or any other airline.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Candidate experiences referenced on this platform are composite accounts drawn from public applicant communities and forums. They do not represent the views of any specific individual, organisation, or airline.</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> All rejection analysis, recruitment process descriptions, and candidate experience content on this platform is based on publicly available candidate accounts and community reports, and does not represent confirmed policies, internal procedures, or official statements of any airline.</li>
             </ul>
           </section>
 
