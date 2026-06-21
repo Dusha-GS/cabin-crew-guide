@@ -54,7 +54,7 @@ export default function CodeOfConductSection({ goBack, previousLabel }: Props) {
           <blockquote className="text-white text-xl font-light italic leading-relaxed mb-4">
             "You are not just cabin crew — you are an ambassador of your airline, your country, and the aviation industry."
           </blockquote>
-          <p className="text-amber-400 font-semibold text-sm">— Middle Eastern Aviation Industry Standard</p>
+          <p className="text-amber-400 font-semibold text-sm">— Cabin crew industry principle</p>
         </div>
       </div>
     </div>
