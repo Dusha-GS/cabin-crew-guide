@@ -87,7 +87,7 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4 mb-6">
+          <div className="grid md:grid-cols-3 gap-4 mb-6">
             <button
               onClick={() => setActiveSection("ai-mock-interview")}
               className="group relative bg-gradient-to-br from-amber-900/40 to-slate-800 border border-amber-500/40 p-5 md:p-6 rounded-2xl hover:scale-[1.02] transition-all duration-300 shadow-lg text-left overflow-hidden"
@@ -225,3 +225,4 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
     </div>
   );
 }
+
