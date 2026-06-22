@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 
 interface AfterTheInterviewSectionProps {
   goBack: () => void;
@@ -270,17 +270,6 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
   const isLocked = (free: boolean) => !free && tier === "free";
   const phaseRefs = useRef<Record<number, HTMLDivElement | null>>({});
   const topRef = useRef<HTMLDivElement>(null);
-  const [showTopButton, setShowTopButton] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY || document.documentElement.scrollTop;
-      setShowTopButton(scrollY > 300);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   const handleStepClick = (id: number, free: boolean) => {
     if (isLocked(free)) return;
     setOpenPhase(id);
