@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 interface AfterTheInterviewSectionProps {
   goBack: () => void;
@@ -268,6 +268,27 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
   const [openPhase, setOpenPhase] = useState<number | null>(null);
 
   const isLocked = (free: boolean) => !free && tier === "free";
+  const phaseRefs = useRef<Record<number, HTMLDivElement | null>>({});
+  const topRef = useRef<HTMLDivElement>(null);
+  const [showTopButton, setShowTopButton] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setShowTopButton(window.scrollY > 500);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleStepClick = (id: number, free: boolean) => {
+    if (isLocked(free)) return;
+    setOpenPhase(id);
+    setTimeout(() => {
+      phaseRefs.current[id]?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 60);
+  };
+
+  const scrollToTop = () => {
+    topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
   const airline = selectedAirline ? airlineProfiles[selectedAirline] : null;
 
   const handlePhaseClick = (id: number, free: boolean) => {
@@ -277,7 +298,7 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
 
   return (
     <div className="min-h-screen bg-slate-900 pt-20">
-      <div className="max-w-4xl mx-auto px-4 pt-6">
+      <div ref={topRef} className="max-w-4xl mx-auto px-4 pt-6">
         <button onClick={goBack} className="flex items-center gap-2 text-slate-400 hover:text-amber-400 transition-colors text-sm mb-6">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -455,6 +476,7 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
             return (
               <div
                 key={phase.id}
+                ref={(el) => { phaseRefs.current[phase.id] = el; }}
                 className={`rounded-2xl border overflow-hidden transition-all duration-300 ${
                   locked
                     ? "border-white/8 bg-slate-800/30"
@@ -465,7 +487,7 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
               >
                 {/* Card header */}
                 <button
-                  onClick={() => handlePhaseClick(phase.id, phase.free)}
+                  onClick={() => handleStepClick(phase.id, phase.free)}
                   disabled={locked}
                   className="w-full text-left p-5 md:p-6"
                 >
@@ -632,6 +654,20 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
         )}
 
       </div>
+
+      {/* Back to top button */}
+      {showTopButton && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-6 z-50 bg-slate-800 hover:bg-slate-700 border border-white/20 text-white w-11 h-11 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110 group"
+          aria-label="Back to top"
+        >
+          <svg className="w-5 h-5 group-hover:text-amber-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+          </svg>
+        </button>
+      )}
+
     </div>
   );
 }
