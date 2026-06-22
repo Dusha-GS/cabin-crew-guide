@@ -31,14 +31,14 @@ const sectionLabels: Record<string, string> = {
   "dress-code": "Dress Code", "cv-guide": "CV Guide", questions: "Interview Q&A",
   "group-discussion": "Group Discussion", "mock-exam": "Mock Exam",
   conduct: "Code of Conduct", premium: "Premium",
-  "ai-mock-interview": "Mock Interview", "ai-cv-review": "CV Review",
+  "mock-interview": "Mock Interview", "cv-review": "CV Review",
   "ask-cabin-crew": "Ask Cabin Crew", "open-days": "Open Days",
   terms: "Terms of Service", privacy: "Privacy Policy",
   account: "My Account",
 };
 
 const STANDARD_SECTIONS = ["requirements", "dress-code", "cv-guide", "questions", "conduct"];
-const PREMIUM_SECTIONS = ["ask-cabin-crew", "group-discussion", "ai-mock-interview"];
+const PREMIUM_SECTIONS = ["ask-cabin-crew", "group-discussion", "mock-interview"];
 
 export default function App() {
   const [activeSection, setActiveSection] = useState(() => {
@@ -151,8 +151,8 @@ export default function App() {
       case "mock-exam": return <MockExamSection goBack={goBack} previousLabel={previousLabel} tier={tier} onNavigatePremium={() => handleSetSection("premium")} />;
       case "conduct": return <CodeOfConductSection goBack={goBack} previousLabel={previousLabel} />;
       case "premium": return <PremiumSection goBack={goBack} previousLabel={previousLabel} setActiveSection={handleSetSection} onPremiumUnlock={() => {}} user={user} onLoginClick={openLogin} />;
-      case "ai-mock-interview": return <AIMockInterviewSection goBack={goBack} previousLabel={previousLabel} tier={tier} onNavigatePremium={() => handleSetSection("premium")} />;
-      case "ai-cv-review": return <AICVReviewSection goBack={goBack} previousLabel={previousLabel} tier={tier} onNavigatePremium={() => handleSetSection("premium")} />;
+      case "mock-interview": return <AIMockInterviewSection goBack={goBack} previousLabel={previousLabel} tier={tier} onNavigatePremium={() => handleSetSection("premium")} />;
+      case "cv-review": return <AICVReviewSection goBack={goBack} previousLabel={previousLabel} tier={tier} onNavigatePremium={() => handleSetSection("premium")} />;
       case "ask-cabin-crew": return <AskCabinCrewSection goBack={goBack} previousLabel={previousLabel} isPremium={tier === "premium"} onUpgrade={() => handleSetSection("premium")} />;
       case "open-days": return <OpenDaysSection goBack={goBack} previousLabel={previousLabel} />;
       case "terms": return <TermsOfServiceSection goBack={goBack} previousLabel={previousLabel} />;
@@ -187,7 +187,7 @@ export default function App() {
             <div>
               <p className="text-white font-bold text-sm mb-3">Quick Navigation</p>
               <div className="grid grid-cols-2 gap-1">
-                {[{id:"ai-mock-interview",label:"Mock Interview"},{id:"ai-cv-review",label:"CV Review"},{id:"questions",label:"Interview Q&A"},{id:"mock-exam",label:"Mock Exam"},{id:"open-days",label:"Open Days"},{id:"ask-cabin-crew",label:"Ask Cabin Crew"},{id:"premium",label:"Pricing"},{id:"terms",label:"Terms"},{id:"privacy",label:"Privacy"}].map((item) => (
+                {[{id:"mock-interview",label:"Mock Interview"},{id:"cv-review",label:"CV Review"},{id:"questions",label:"Interview Q&A"},{id:"mock-exam",label:"Mock Exam"},{id:"open-days",label:"Open Days"},{id:"ask-cabin-crew",label:"Ask Cabin Crew"},{id:"premium",label:"Pricing"},{id:"terms",label:"Terms"},{id:"privacy",label:"Privacy"}].map((item) => (
                   <button key={item.id} onClick={() => handleSetSection(item.id)} className="text-slate-400 hover:text-amber-400 text-sm text-left transition-colors">› {item.label}</button>
                 ))}
               </div>
