@@ -23,25 +23,20 @@ const navGroups = [
   {
     label: "Practice",
     items: [
-      { id: "questions", label: "Interview Q&A", icon: "💬", desc: "50+ real interview questions" },
-      { id: "mock-exam", label: "Mock Exam", icon: "📝", desc: "25-question assessment simulator" },
+      { id: "questions", label: "Interview Q&A", icon: "💬", desc: "50+ real interview questions", premium: false },
+      { id: "mock-exam", label: "Mock Exam", icon: "📝", desc: "25-question assessment simulator", premium: false },
       { id: "group-discussion", label: "Group Discussion", icon: "👥", desc: "Assessment day group scenarios", premium: true },
-      { id: "open-days", label: "Open Days", icon: "📅", desc: "Live recruitment events worldwide" },
+      { id: "open-days", label: "Open Days", icon: "📅", desc: "Live recruitment events worldwide", premium: false },
     ],
   },
   {
     label: "Coaching",
     items: [
       { id: "ai-mock-interview", label: "Mock Interview", icon: "🤖", desc: "Practice with a simulated recruiter", premium: true },
-      { id: "ai-cv-review", label: "CV Review", icon: "📄", desc: "Instant CV feedback for ME airlines" },
+      { id: "ai-cv-review", label: "CV Review", icon: "📄", desc: "Instant CV feedback for ME airlines", premium: false },
       { id: "ask-cabin-crew", label: "Ask Cabin Crew", icon: "✈️", desc: "Get answers from former crew", premium: true },
     ],
   },
-];
-
-const standaloneItems = [
-  { id: "rejection-decoded", label: "Rejection Decoded", icon: "🔍", featured: true },
-  { id: "premium", label: "Pricing", icon: "⭐", pricing: true },
 ];
 
 export default function Header({ activeSection, setActiveSection, user, onLoginClick, onLogout }: HeaderProps) {
@@ -92,7 +87,6 @@ export default function Header({ activeSection, setActiveSection, user, onLoginC
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-1" ref={dropdownRef}>
-            {/* Dropdown groups */}
             {navGroups.map((group) => (
               <div key={group.label} className="relative">
                 <button
@@ -112,7 +106,6 @@ export default function Header({ activeSection, setActiveSection, user, onLoginC
                   </svg>
                 </button>
 
-                {/* Dropdown panel */}
                 {openDropdown === group.label && (
                   <div className="absolute top-full left-0 mt-2 w-64 bg-slate-800 border border-white/10 rounded-2xl shadow-2xl shadow-black/40 py-2 z-50">
                     {group.items.map((item) => (
@@ -142,31 +135,43 @@ export default function Header({ activeSection, setActiveSection, user, onLoginC
               </div>
             ))}
 
-            {/* Divider */}
             <div className="w-px h-5 bg-white/10 mx-1" />
 
-            {/* Standalone items */}
-            {standaloneItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => navigate(item.id)}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 ${
-                  activeSection === item.id
-                    ? item.featured ? "bg-red-500 text-white" : "bg-amber-500 text-slate-900"
-                    : item.featured
-                    ? "text-red-300 hover:text-white hover:bg-red-500/20 border border-red-500/25"
-                    : item.pricing
-                    ? "text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30"
-                    : "text-slate-300 hover:text-white hover:bg-white/10"
-                }`}
-              >
-                <span>{item.icon}</span>
-                {item.label}
-              </button>
-            ))}
+            <button
+              onClick={() => navigate("rejection-decoded")}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 border ${
+                activeSection === "rejection-decoded"
+                  ? "bg-red-500 text-white border-red-500"
+                  : "text-red-300 hover:text-white hover:bg-red-500/20 border-red-500/25"
+              }`}
+            >
+              🔍 Rejection Decoded
+            </button>
+
+            <button
+              onClick={() => navigate("after-interview")}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 border ${
+                activeSection === "after-interview"
+                  ? "bg-blue-500 text-white border-blue-500"
+                  : "text-blue-300 hover:text-white hover:bg-blue-500/20 border-blue-500/25"
+              }`}
+            >
+              ⏳ After the Interview
+            </button>
+
+            <button
+              onClick={() => navigate("premium")}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 ${
+                activeSection === "premium"
+                  ? "bg-amber-500 text-slate-900"
+                  : "text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30"
+              }`}
+            >
+              ⭐ Pricing
+            </button>
           </nav>
 
-          {/* Right side — user + mobile toggle */}
+          {/* Right — user + hamburger */}
           <div className="flex items-center gap-2">
             {user ? (
               <div className="relative" ref={userMenuRef}>
@@ -213,7 +218,6 @@ export default function Header({ activeSection, setActiveSection, user, onLoginC
               </button>
             )}
 
-            {/* Mobile hamburger */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="lg:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors"
@@ -230,8 +234,6 @@ export default function Header({ activeSection, setActiveSection, user, onLoginC
       {menuOpen && (
         <div className="lg:hidden bg-slate-900 border-t border-white/10 max-h-[80vh] overflow-y-auto">
           <div className="px-4 py-4 space-y-4">
-
-            {/* Featured items first */}
             <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={() => navigate("rejection-decoded")}
@@ -243,6 +245,17 @@ export default function Header({ activeSection, setActiveSection, user, onLoginC
               >
                 <span className="text-base">🔍</span>
                 <span>Rejection Decoded</span>
+              </button>
+              <button
+                onClick={() => navigate("after-interview")}
+                className={`px-3 py-3 rounded-xl text-xs font-bold transition-all flex items-center gap-2 border ${
+                  activeSection === "after-interview"
+                    ? "bg-blue-500 text-white border-blue-500"
+                    : "text-blue-300 bg-blue-500/10 border-blue-500/30"
+                }`}
+              >
+                <span className="text-base">⏳</span>
+                <span>After the Interview</span>
               </button>
               <button
                 onClick={() => navigate("premium")}
@@ -257,7 +270,6 @@ export default function Header({ activeSection, setActiveSection, user, onLoginC
               </button>
             </div>
 
-            {/* Groups */}
             {navGroups.map((group) => (
               <div key={group.label}>
                 <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest px-1 mb-2">{group.label}</p>
@@ -271,7 +283,7 @@ export default function Header({ activeSection, setActiveSection, user, onLoginC
                           ? "bg-amber-500 text-slate-900"
                           : item.premium
                           ? "text-amber-300 bg-amber-500/10 border border-amber-500/30"
-                          : "text-slate-300 hover:text-white bg-white/5 hover:bg-white/10"
+                          : "text-slate-300 bg-white/5 hover:bg-white/10"
                       }`}
                     >
                       <span className="text-base flex-shrink-0">{item.icon}</span>
@@ -282,16 +294,14 @@ export default function Header({ activeSection, setActiveSection, user, onLoginC
               </div>
             ))}
 
-            {/* Sign in */}
-            {!user && (
+            {!user ? (
               <button
                 onClick={() => { onLoginClick(); setMenuOpen(false); }}
                 className="w-full bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold py-2.5 rounded-xl text-sm transition-all"
               >
                 Sign In / Create Account
               </button>
-            )}
-            {user && (
+            ) : (
               <button
                 onClick={() => navigate("account")}
                 className="w-full bg-white/5 border border-white/10 text-slate-300 font-medium py-2.5 rounded-xl text-sm transition-all hover:bg-white/10"
