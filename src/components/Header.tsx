@@ -35,8 +35,8 @@ const navGroups: NavGroup[] = [
   {
     label: "Coaching",
     items: [
-      { id: "ai-mock-interview", label: "Mock Interview", icon: "🤖", desc: "Practice with a simulated recruiter", premium: true },
-      { id: "ai-cv-review", label: "CV Review", icon: "📄", desc: "Instant CV feedback for ME airlines", premium: false },
+      { id: "mock-interview", label: "Mock Interview", icon: "🤖", desc: "Practice with a simulated recruiter", premium: true },
+      { id: "cv-review", label: "CV Review", icon: "📄", desc: "Instant CV feedback for ME airlines", premium: false },
       { id: "ask-cabin-crew", label: "Ask Cabin Crew", icon: "✈️", desc: "Get answers from former crew", premium: true },
     ],
   },
