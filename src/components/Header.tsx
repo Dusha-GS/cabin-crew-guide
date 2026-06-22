@@ -9,15 +9,18 @@ interface HeaderProps {
   onLogout: () => void;
 }
 
-const navGroups = [
+type NavItem = { id: string; label: string; icon: string; desc: string; premium?: boolean };
+type NavGroup = { label: string; items: NavItem[] };
+
+const navGroups: NavGroup[] = [
   {
     label: "Prepare",
     items: [
-      { id: "airlines", label: "Airlines Overview", icon: "✈️", desc: "Emirates, Etihad, Qatar & more" },
-      { id: "requirements", label: "Requirements", icon: "📋", desc: "Height, age, language, visa" },
-      { id: "dress-code", label: "Dress Code", icon: "👗", desc: "What to wear to your assessment" },
-      { id: "cv-guide", label: "CV Guide", icon: "📄", desc: "Build an ATS-proof cabin crew CV" },
-      { id: "conduct", label: "Code of Conduct", icon: "🏆", desc: "Standards expected by ME airlines" },
+      { id: "airlines", label: "Airlines Overview", icon: "✈️", desc: "Emirates, Etihad, Qatar & more", premium: false },
+      { id: "requirements", label: "Requirements", icon: "📋", desc: "Height, age, language, visa", premium: false },
+      { id: "dress-code", label: "Dress Code", icon: "👗", desc: "What to wear to your assessment", premium: false },
+      { id: "cv-guide", label: "CV Guide", icon: "📄", desc: "Build an ATS-proof cabin crew CV", premium: false },
+      { id: "conduct", label: "Code of Conduct", icon: "🏆", desc: "Standards expected by ME airlines", premium: false },
     ],
   },
   {
@@ -66,7 +69,7 @@ export default function Header({ activeSection, setActiveSection, user, onLoginC
     setUserMenuOpen(false);
   };
 
-  const isGroupActive = (group: typeof navGroups[0]) =>
+  const isGroupActive = (group: NavGroup) =>
     group.items.some((item) => item.id === activeSection);
 
   return (
