@@ -273,8 +273,11 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
   const [showTopButton, setShowTopButton] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setShowTopButton(window.scrollY > 500);
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => {
+      const scrollY = window.scrollY || document.documentElement.scrollTop;
+      setShowTopButton(scrollY > 300);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -448,7 +451,7 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
           {phases.map((phase, i) => (
             <div key={phase.id} className="flex items-center gap-1 flex-shrink-0">
               <div
-                onClick={() => handlePhaseClick(phase.id, phase.free)}
+                onClick={() => handleStepClick(phase.id, phase.free)}
                 className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
                   isLocked(phase.free)
                     ? "border-white/8 bg-white/3 text-slate-600"
@@ -487,7 +490,7 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
               >
                 {/* Card header */}
                 <button
-                  onClick={() => handleStepClick(phase.id, phase.free)}
+                  onClick={() => handlePhaseClick(phase.id, phase.free)}
                   disabled={locked}
                   className="w-full text-left p-5 md:p-6"
                 >
