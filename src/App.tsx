@@ -41,7 +41,10 @@ const STANDARD_SECTIONS = ["requirements", "dress-code", "cv-guide", "questions"
 const PREMIUM_SECTIONS = ["ask-cabin-crew", "group-discussion", "ai-mock-interview"];
 
 export default function App() {
-  const [activeSection, setActiveSection] = useState("home");
+  const [activeSection, setActiveSection] = useState(() => {
+    const hash = window.location.hash.replace('#', '');
+    return hash || "home";
+  });
   const historyRef = useRef<string[]>(["home"]);
   const [user, setUser] = useState<AuthUser | null>(() => getStoredUser());
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -56,18 +59,40 @@ export default function App() {
     return () => subscription.unsubscribe();
   }, []);
 
+  // Sync browser back/forward buttons with app state
+  useEffect(() => {
+    const handlePopState = () => {
+      const hash = window.location.hash.replace("#", "");
+      setActiveSection(hash || "home");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
   const handleSetSection = (section: string) => {
     historyRef.current.push(section);
     setActiveSection(section);
     window.scrollTo({ top: 0, behavior: "smooth" });
+    if (section === "home") {
+      window.history.pushState(null, "", window.location.pathname);
+    } else {
+      window.history.pushState(null, "", "#" + section);
+    }
   };
 
   const goBack = () => {
     const history = historyRef.current;
     if (history.length > 1) {
       history.pop();
-      setActiveSection(history[history.length - 1]);
+      const prev = history[history.length - 1];
+      setActiveSection(prev);
       window.scrollTo({ top: 0, behavior: "smooth" });
+      if (prev === "home") {
+        window.history.pushState(null, "", window.location.pathname);
+      } else {
+        window.history.pushState(null, "", "#" + prev);
+      }
     } else {
       handleSetSection("home");
     }
