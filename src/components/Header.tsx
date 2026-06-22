@@ -21,6 +21,7 @@ const navGroups: NavGroup[] = [
       { id: "dress-code", label: "Dress Code", icon: "👗", desc: "What to wear to your assessment", premium: false },
       { id: "cv-guide", label: "CV Guide", icon: "📄", desc: "Build an ATS-proof cabin crew CV", premium: false },
       { id: "conduct", label: "Code of Conduct", icon: "🏆", desc: "Standards expected by ME airlines", premium: false },
+      { id: "open-days", label: "Open Days", icon: "📅", desc: "Live recruitment events worldwide", premium: false },
     ],
   },
   {
@@ -29,7 +30,6 @@ const navGroups: NavGroup[] = [
       { id: "questions", label: "Interview Q&A", icon: "💬", desc: "50+ real interview questions", premium: false },
       { id: "mock-exam", label: "Mock Exam", icon: "📝", desc: "25-question assessment simulator", premium: false },
       { id: "group-discussion", label: "Group Discussion", icon: "👥", desc: "Assessment day group scenarios", premium: true },
-      { id: "open-days", label: "Open Days", icon: "📅", desc: "Live recruitment events worldwide", premium: false },
     ],
   },
   {
