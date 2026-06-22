@@ -89,7 +89,7 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <button
-              onClick={() => setActiveSection("ai-mock-interview")}
+              onClick={() => setActiveSection("mock-interview")}
               className="group relative bg-gradient-to-br from-amber-900/40 to-slate-800 border border-amber-500/40 p-5 md:p-6 rounded-2xl hover:scale-[1.02] transition-all duration-300 shadow-lg text-left overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl" />
@@ -108,7 +108,7 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
             </button>
 
             <button
-              onClick={() => setActiveSection("ai-cv-review")}
+              onClick={() => setActiveSection("cv-review")}
               className="group relative bg-gradient-to-br from-green-900/40 to-slate-800 border border-green-500/40 p-5 md:p-6 rounded-2xl hover:scale-[1.02] transition-all duration-300 shadow-lg text-left overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-full blur-2xl" />
