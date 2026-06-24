@@ -27,7 +27,7 @@ const navGroups: NavGroup[] = [
   {
     label: "Practice",
     items: [
-      { id: "questions", label: "Interview Q&A", icon: "💬", desc: "50+ real interview questions", premium: false },
+      { id: "questions", label: "Interview Q&A", icon: "💬", desc: "Questions across four categories", premium: false },
       { id: "mock-exam", label: "Mock Exam", icon: "📝", desc: "25-question assessment simulator", premium: false },
       { id: "group-discussion", label: "Group Discussion", icon: "👥", desc: "Assessment day group scenarios", premium: true },
     ],
