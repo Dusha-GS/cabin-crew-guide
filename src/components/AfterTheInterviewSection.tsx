@@ -309,6 +309,18 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
 
         {/* ── HERO ── */}
         <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-slate-800/90 to-slate-900 p-8 md:p-12 mb-8">
+          {/* Faded background photo — right-weighted, behind text. Drop a licensed image at public/images/after-interview-bg.jpg */}
+          <div
+            className="absolute inset-0 bg-cover opacity-20"
+            style={{
+              backgroundImage: "url(/images/after-interview-bg.jpg)",
+              backgroundPosition: "right center",
+              maskImage: "linear-gradient(to right, transparent 0%, transparent 30%, black 100%)",
+              WebkitMaskImage: "linear-gradient(to right, transparent 0%, transparent 30%, black 100%)",
+            }}
+          />
+          {/* Dark gradient to keep text readable */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-slate-900/40" />
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute -top-20 -right-20 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl" />
             <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl" />
