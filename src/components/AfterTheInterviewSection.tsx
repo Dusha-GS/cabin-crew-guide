@@ -311,7 +311,7 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
         <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-slate-800/90 to-slate-900 p-8 md:p-12 mb-8">
           {/* Faded background photo — right-weighted, behind text. Drop a licensed image at public/images/after-interview-bg.jpg */}
           <div
-            className="absolute inset-0 bg-cover opacity-20"
+            className="absolute inset-0 bg-cover opacity-30"
             style={{
               backgroundImage: "url(/images/after-interview-bg.jpg)",
               backgroundPosition: "right center",
