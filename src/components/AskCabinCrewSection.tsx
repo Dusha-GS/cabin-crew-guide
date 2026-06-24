@@ -18,6 +18,7 @@ interface Post {
   replies: Reply[];
   likes: number;
   liked: boolean;
+  isExample?: boolean;
 }
 
 interface Reply {
@@ -39,9 +40,23 @@ const SEED_POSTS: Post[] = [
     question: "I have my Emirates open day next week. What should I wear and what are the biggest mistakes people make on the day?",
     category: "Emirates",
     timestamp: "June 2025",
+    isExample: true,
     replies: [
-      { id: "r1", author: "Priya K.", avatar: "P", content: "I got through my Emirates open day last month! One thing I'd add — bring multiple copies of your CV even if they say not to. Shows initiative.", timestamp: "June 2025" },
-      { id: "r2", author: "Dubravka (Expert)", avatar: "D", content: "Wear a smart business suit in neutral colors — navy, black, or grey. Hair must be completely off your face. Arrive 30 mins early and smile genuinely from the moment you walk in — you're being assessed before the formal process even starts!", timestamp: "June 2025", isExpert: true }
+      {
+        id: "r1",
+        author: "Priya K.",
+        avatar: "P",
+        content: "I attended an Emirates open day recently. Arrive early, stay warm and friendly, and make eye contact with everyone — not just the recruiters. The energy in the room matters from the moment you walk in.",
+        timestamp: "June 2025",
+      },
+      {
+        id: "r2",
+        author: "Dubravka (Expert)",
+        avatar: "D",
+        content: "Wear a smart business suit in neutral colors — navy, black, or grey. Hair must be completely off your face. Arrive 30 mins early and smile genuinely from the moment you walk in — you're being assessed before the formal process even starts!",
+        timestamp: "June 2025",
+        isExpert: true,
+      },
     ],
     likes: 24,
     liked: false,
@@ -53,9 +68,8 @@ const SEED_POSTS: Post[] = [
     question: "Is it true Qatar Airways rejects you if you have any tattoos? I have a small one on my ankle.",
     category: "Qatar Airways",
     timestamp: "June 2025",
-    replies: [
-      { id: "r3", author: "Layla T.", avatar: "L", content: "I have two small tattoos — one on my wrist (always covered by watch) and one on my hip. Got through QR selection with no issues!", timestamp: "3 hours ago" }
-    ],
+    isExample: true,
+    replies: [],
     likes: 18,
     liked: false,
   },
@@ -66,6 +80,7 @@ const SEED_POSTS: Post[] = [
     question: "How long does the Etihad interview process take from open day to receiving an offer? I applied 3 weeks ago and heard nothing.",
     category: "Etihad Airways",
     timestamp: "May 2025",
+    isExample: true,
     replies: [],
     likes: 31,
     liked: false,
@@ -281,7 +296,7 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
         </div>
 
         {/* Category filter */}
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div className="flex flex-wrap gap-2 mb-4">
           {CATEGORIES.map(cat => (
             <button
               key={cat}
@@ -295,6 +310,13 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
               {cat}
             </button>
           ))}
+        </div>
+
+        {/* Example posts explanation */}
+        <div className="bg-slate-800/40 border border-slate-700/30 rounded-xl px-4 py-3 mb-6">
+          <p className="text-slate-500 text-xs leading-relaxed">
+            📌 Posts marked <span className="text-slate-400 font-medium">Example</span> show the kind of questions our expert answers. Questions you submit are sent directly to our expert and answered by email within 2–3 business days.
+          </p>
         </div>
 
         {/* Posts */}
@@ -312,7 +334,14 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1 flex-wrap">
                       <span className="text-white font-semibold text-sm">{post.author}</span>
-                      <span className="bg-amber-500/20 text-amber-400 text-xs px-2 py-0.5 rounded-full border border-amber-500/30">{post.category}</span>
+                      <span className="bg-amber-500/20 text-amber-400 text-xs px-2 py-0.5 rounded-full border border-amber-500/30">
+                        {post.category}
+                      </span>
+                      {post.isExample && (
+                        <span className="text-slate-500 text-xs bg-slate-700/40 border border-slate-600/30 px-2 py-0.5 rounded-full">
+                          Example
+                        </span>
+                      )}
                       <span className="text-slate-500 text-xs">{post.timestamp}</span>
                     </div>
                     <p className="text-white text-sm font-medium leading-relaxed">{post.question}</p>
@@ -325,8 +354,12 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
                   >
                     <span>{post.liked ? "♥" : "♡"}</span> {post.likes}
                   </button>
-                  <span className="text-slate-500 text-xs">💬 {post.replies.length} {post.replies.length === 1 ? "reply" : "replies"}</span>
-                  <span className="text-slate-500 text-xs ml-auto">{expandedPost === post.id ? "▲ Hide" : "▼ View answers"}</span>
+                  <span className="text-slate-500 text-xs">
+                    💬 {post.replies.length} {post.replies.length === 1 ? "reply" : "replies"}
+                  </span>
+                  <span className="text-slate-500 text-xs ml-auto">
+                    {expandedPost === post.id ? "▲ Hide" : "▼ View answers"}
+                  </span>
                 </div>
               </div>
 
@@ -337,7 +370,9 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
                       {post.replies.map(reply => (
                         <div key={reply.id} className="flex gap-3">
                           <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${
-                            reply.isExpert ? "bg-amber-500/20 border border-amber-500/40 text-amber-400" : "bg-white/10 text-slate-300"
+                            reply.isExpert
+                              ? "bg-amber-500/20 border border-amber-500/40 text-amber-400"
+                              : "bg-white/10 text-slate-300"
                           }`}>
                             {reply.avatar}
                           </div>
@@ -345,7 +380,9 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
                             <div className="flex items-center gap-2 mb-1">
                               <span className="text-white text-xs font-semibold">{reply.author}</span>
                               {reply.isExpert && (
-                                <span className="bg-amber-500/20 text-amber-400 text-xs px-2 py-0.5 rounded-full border border-amber-500/30">✈ Expert</span>
+                                <span className="bg-amber-500/20 text-amber-400 text-xs px-2 py-0.5 rounded-full border border-amber-500/30">
+                                  ✈ Expert
+                                </span>
                               )}
                               <span className="text-slate-500 text-xs">{reply.timestamp}</span>
                             </div>
@@ -358,7 +395,9 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
 
                   {post.replies.length === 0 && (
                     <div className="p-5 border-b border-white/5">
-                      <p className="text-slate-500 text-sm italic">No answers yet — our expert will respond as soon as possible, typically within 2–3 business days. ✈️</p>
+                      <p className="text-slate-500 text-sm italic">
+                        No answers yet — our expert will respond as soon as possible, typically within 2–3 business days. ✈️
+                      </p>
                     </div>
                   )}
 
@@ -386,6 +425,10 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
                         Post
                       </button>
                     </div>
+                    {/* Forum state disclosure */}
+                    <p className="text-slate-600 text-xs mt-2">
+                      Community tips shared here are visible in your current session. Expert answers to your questions are delivered directly to your email.
+                    </p>
                   </div>
                 </div>
               )}
