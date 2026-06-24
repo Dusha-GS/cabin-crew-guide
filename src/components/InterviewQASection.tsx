@@ -30,14 +30,20 @@ export default function InterviewQASection({ goBack, previousLabel }: Props) {
       <div className="max-w-5xl mx-auto">
         <BackButton onClick={goBack} label={`Back to ${previousLabel}`} />
         <div className="text-center mb-12">
-          <span className="inline-block bg-blue-500/20 text-blue-400 text-sm font-medium px-4 py-1.5 rounded-full mb-4 border border-blue-500/30">💬 Interview Questions & Answers</span>
+          <span className="inline-block bg-blue-500/20 text-blue-400 text-sm font-medium px-4 py-1.5 rounded-full mb-4 border border-blue-500/30">
+            💬 Interview Questions & Answers
+          </span>
           <h2 className="text-4xl font-bold text-white mb-4">Master Your Interview</h2>
-          <p className="text-slate-400 text-lg max-w-2xl mx-auto">Over 30 commonly asked questions across Middle Eastern airlines, with sample answers and expert tips.</p>
+          <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+            Real-world questions across four categories — with sample answers and expert tips for Gulf airline interviews.
+          </p>
         </div>
 
         {/* STAR Method */}
         <div className="bg-gradient-to-r from-blue-900/40 to-purple-900/40 border border-blue-500/30 rounded-2xl p-6 mb-10">
-          <h4 className="text-white font-bold text-lg mb-4 flex items-center gap-2">⭐ The STAR Method — Your Secret Weapon</h4>
+          <h4 className="text-white font-bold text-lg mb-4 flex items-center gap-2">
+            ⭐ The STAR Method — Your Secret Weapon
+          </h4>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               { letter: "S", word: "Situation", desc: "Describe the context or background" },
@@ -46,7 +52,9 @@ export default function InterviewQASection({ goBack, previousLabel }: Props) {
               { letter: "R", word: "Result", desc: "Share the measurable outcome" },
             ].map((star) => (
               <div key={star.letter} className="bg-white/5 rounded-xl p-4 border border-white/10 text-center">
-                <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center font-bold text-slate-900 text-lg mx-auto mb-2">{star.letter}</div>
+                <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center font-bold text-slate-900 text-lg mx-auto mb-2">
+                  {star.letter}
+                </div>
                 <p className="text-amber-400 font-bold text-sm mb-1">{star.word}</p>
                 <p className="text-slate-400 text-xs">{star.desc}</p>
               </div>
@@ -63,11 +71,15 @@ export default function InterviewQASection({ goBack, previousLabel }: Props) {
                 key={cat}
                 onClick={() => { setActiveCategory(cat); setExpandedIndex(null); }}
                 className={`p-4 rounded-xl border transition-all duration-300 text-left ${
-                  activeCategory === cat ? `bg-gradient-to-br ${config.color} border-transparent shadow-lg` : "bg-white/5 border-white/10 hover:bg-white/10"
+                  activeCategory === cat
+                    ? `bg-gradient-to-br ${config.color} border-transparent shadow-lg`
+                    : "bg-white/5 border-white/10 hover:bg-white/10"
                 }`}
               >
                 <div className="text-2xl mb-1">{config.icon}</div>
-                <p className={`text-sm font-semibold ${activeCategory === cat ? "text-white" : "text-slate-300"}`}>{config.label}</p>
+                <p className={`text-sm font-semibold ${activeCategory === cat ? "text-white" : "text-slate-300"}`}>
+                  {config.label}
+                </p>
                 <p className="text-xs text-white/60 mt-0.5">{interviewQuestions[cat].length} questions</p>
               </button>
             );
@@ -80,7 +92,9 @@ export default function InterviewQASection({ goBack, previousLabel }: Props) {
             <div
               key={index}
               className={`border rounded-2xl overflow-hidden transition-all duration-300 ${
-                expandedIndex === index ? "border-amber-500/50 bg-white/5" : "border-white/10 hover:border-white/20"
+                expandedIndex === index
+                  ? "border-amber-500/50 bg-white/5"
+                  : "border-white/10 hover:border-white/20"
               }`}
             >
               <button
@@ -89,9 +103,15 @@ export default function InterviewQASection({ goBack, previousLabel }: Props) {
               >
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="w-7 h-7 bg-amber-500/20 text-amber-400 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">{index + 1}</span>
-                    <span className={`text-xs px-2 py-0.5 rounded-full border ${difficultyColors[q.difficulty as keyof typeof difficultyColors]}`}>{q.difficulty}</span>
-                    <span className="text-xs text-slate-500 bg-white/5 px-2 py-0.5 rounded-full">{q.category}</span>
+                    <span className="w-7 h-7 bg-amber-500/20 text-amber-400 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
+                      {index + 1}
+                    </span>
+                    <span className={`text-xs px-2 py-0.5 rounded-full border ${difficultyColors[q.difficulty as keyof typeof difficultyColors]}`}>
+                      {q.difficulty}
+                    </span>
+                    <span className="text-xs text-slate-500 bg-white/5 px-2 py-0.5 rounded-full">
+                      {q.category}
+                    </span>
                   </div>
                   <p className="text-white font-semibold text-base pr-4">{q.question}</p>
                 </div>
@@ -101,6 +121,7 @@ export default function InterviewQASection({ goBack, previousLabel }: Props) {
                   </svg>
                 </div>
               </button>
+
               {expandedIndex === index && (
                 <div className="px-5 pb-5 border-t border-white/10">
                   <div className="mt-4 bg-green-500/10 border border-green-500/20 rounded-xl p-4 mb-4">
