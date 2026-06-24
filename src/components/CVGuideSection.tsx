@@ -12,9 +12,21 @@ export default function CVGuideSection({ goBack, previousLabel }: Props) {
       <div className="max-w-6xl mx-auto">
         <BackButton onClick={goBack} label={`Back to ${previousLabel}`} />
         <div className="text-center mb-12">
-          <span className="inline-block bg-green-500/20 text-green-400 text-sm font-medium px-4 py-1.5 rounded-full mb-4 border border-green-500/30">📄 CV Profile Guide</span>
+          <span className="inline-block bg-green-500/20 text-green-400 text-sm font-medium px-4 py-1.5 rounded-full mb-4 border border-green-500/30">
+            📄 CV Profile Guide
+          </span>
           <h2 className="text-4xl font-bold text-white mb-4">Craft a Winning CV</h2>
-          <p className="text-slate-400 text-lg max-w-2xl mx-auto">Your CV is your first impression. Middle Eastern airlines receive thousands of applications — make yours unforgettable.</p>
+          <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+            Your CV is your first impression. Gulf airlines receive thousands of applications — make yours stand out.
+          </p>
+        </div>
+
+        {/* Disclaimer */}
+        <div className="bg-slate-800/50 border border-slate-700/40 rounded-xl px-5 py-4 mb-8 flex items-start gap-3">
+          <span className="text-slate-500 text-base flex-shrink-0 mt-0.5">ℹ️</span>
+          <p className="text-slate-500 text-xs leading-relaxed">
+            CV guidance on this page is based on publicly available airline application requirements and candidate-reported experiences. Best practices are subject to change — always check the specific airline's application portal for current requirements before submitting. The personal details guidance applies specifically to Middle Eastern airline applications; conventions differ in other regions.
+          </p>
         </div>
 
         {/* CV Template Preview */}
@@ -54,7 +66,10 @@ export default function CVGuideSection({ goBack, previousLabel }: Props) {
                         <span className="text-slate-400">{l.level}</span>
                       </div>
                       <div className="bg-slate-100 rounded-full h-1.5">
-                        <div className="bg-gradient-to-r from-amber-400 to-amber-500 h-1.5 rounded-full" style={{ width: l.width }} />
+                        <div
+                          className="bg-gradient-to-r from-amber-400 to-amber-500 h-1.5 rounded-full"
+                          style={{ width: l.width }}
+                        />
                       </div>
                     </div>
                   ))}
@@ -64,20 +79,24 @@ export default function CVGuideSection({ goBack, previousLabel }: Props) {
             <div className="md:col-span-2 space-y-5">
               <div>
                 <h3 className="text-3xl font-bold text-slate-800 leading-tight">YOUR FULL NAME</h3>
-                <p className="text-amber-600 font-semibold text-sm tracking-widest uppercase mt-1">Aspiring Cabin Crew | Customer Service Professional</p>
+                <p className="text-amber-600 font-semibold text-sm tracking-widest uppercase mt-1">
+                  Aspiring Cabin Crew | Customer Service Professional
+                </p>
               </div>
               <div className="h-0.5 bg-gradient-to-r from-amber-400 to-transparent" />
               <div>
                 <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-2">Professional Profile</p>
                 <p className="text-slate-600 text-sm leading-relaxed">
-                  Enthusiastic and customer-focused professional with [X] years of experience delivering exceptional service in multicultural environments. Fluent in English and Arabic, with a genuine passion for creating meaningful experiences.
+                  Enthusiastic and customer-focused professional with [X] years of experience delivering
+                  exceptional service in multicultural environments. Fluent in English and Arabic, with a
+                  genuine passion for creating meaningful experiences for every guest.
                 </p>
               </div>
               <div>
                 <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-3">Work Experience</p>
                 <div className="border-l-2 border-amber-400 pl-4">
                   <p className="text-slate-800 font-bold text-sm">Senior Customer Service Representative</p>
-                  <p className="text-amber-600 text-xs font-medium">Company Name | 2022 - Present</p>
+                  <p className="text-amber-600 text-xs font-medium">Company Name | 2022 – Present</p>
                   <ul className="mt-2 space-y-1 text-slate-600 text-xs">
                     <li>• Delivered exceptional service to 100+ daily customers</li>
                     <li>• Resolved complex complaints achieving 95% customer satisfaction</li>
@@ -87,37 +106,60 @@ export default function CVGuideSection({ goBack, previousLabel }: Props) {
               </div>
               <div className="bg-amber-50 rounded-xl p-4 border border-amber-100">
                 <div className="grid grid-cols-3 gap-4 text-center">
-                  <div><p className="text-slate-400 text-xs">Nationality</p><p className="text-slate-700 text-xs font-bold">Your Country</p></div>
-                  <div><p className="text-slate-400 text-xs">Height</p><p className="text-slate-700 text-xs font-bold">XXX cm</p></div>
-                  <div><p className="text-slate-400 text-xs">DOB</p><p className="text-slate-700 text-xs font-bold">DD/MM/YYYY</p></div>
+                  <div>
+                    <p className="text-slate-400 text-xs">Nationality</p>
+                    <p className="text-slate-700 text-xs font-bold">Your Country</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-400 text-xs">Height</p>
+                    <p className="text-slate-700 text-xs font-bold">XXX cm</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-400 text-xs">DOB</p>
+                    <p className="text-slate-700 text-xs font-bold">DD/MM/YYYY</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* CV Structure Guide */}
+        {/* CV Structure Guide — Section Tabs */}
         <div className="grid md:grid-cols-4 gap-3 mb-10">
           {cvGuide.structure.map((section: { section: string }, index: number) => (
             <button
               key={index}
               onClick={() => setActiveSection(index)}
               className={`p-4 rounded-xl border text-left transition-all duration-200 ${
-                activeSection === index ? "bg-green-500/20 border-green-500/40 shadow-lg" : "bg-white/5 border-white/10 hover:bg-white/10"
+                activeSection === index
+                  ? "bg-green-500/20 border-green-500/40 shadow-lg"
+                  : "bg-white/5 border-white/10 hover:bg-white/10"
               }`}
             >
-              <p className={`font-semibold text-sm ${activeSection === index ? "text-green-400" : "text-white"}`}>{section.section}</p>
+              <p className={`font-semibold text-sm ${activeSection === index ? "text-green-400" : "text-white"}`}>
+                {section.section}
+              </p>
             </button>
           ))}
         </div>
 
+        {/* Active Section Detail */}
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-10">
-          <h4 className="text-2xl font-bold text-white mb-2">{cvGuide.structure[activeSection].section}</h4>
-          <p className="text-slate-400 mb-5 leading-relaxed">{cvGuide.structure[activeSection].description}</p>
+          <h4 className="text-2xl font-bold text-white mb-2">
+            {cvGuide.structure[activeSection].section}
+          </h4>
+          <p className="text-slate-400 mb-5 leading-relaxed">
+            {cvGuide.structure[activeSection].description}
+          </p>
           {cvGuide.structure[activeSection].example && (
             <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 mb-4">
               <p className="text-green-400 font-bold text-sm mb-2">✍️ Example Profile:</p>
-              <p className="text-slate-300 text-sm italic leading-relaxed">"{cvGuide.structure[activeSection].example}"</p>
+              <p className="text-slate-300 text-sm italic leading-relaxed">
+                "{cvGuide.structure[activeSection].example}"
+              </p>
+              <p className="text-slate-500 text-xs mt-2">
+                ↑ This is a template example only — tailor every word to the specific airline you are applying to.
+              </p>
             </div>
           )}
           {cvGuide.structure[activeSection].tips && (
@@ -146,19 +188,30 @@ export default function CVGuideSection({ goBack, previousLabel }: Props) {
           {cvGuide.structure[activeSection].levels && (
             <div className="flex flex-wrap gap-2">
               {cvGuide.structure[activeSection].levels!.map((level: string) => (
-                <span key={level} className="bg-blue-500/20 text-blue-300 border border-blue-500/30 text-sm px-4 py-1.5 rounded-full">{level}</span>
+                <span
+                  key={level}
+                  className="bg-blue-500/20 text-blue-300 border border-blue-500/30 text-sm px-4 py-1.5 rounded-full"
+                >
+                  {level}
+                </span>
               ))}
             </div>
           )}
           {cvGuide.structure[activeSection].examples && (
             <div className="flex flex-wrap gap-2">
               {cvGuide.structure[activeSection].examples!.map((ex: string) => (
-                <span key={ex} className="bg-purple-500/10 text-purple-300 border border-purple-500/20 text-sm px-3 py-1.5 rounded-full">{ex}</span>
+                <span
+                  key={ex}
+                  className="bg-purple-500/10 text-purple-300 border border-purple-500/20 text-sm px-3 py-1.5 rounded-full"
+                >
+                  {ex}
+                </span>
               ))}
             </div>
           )}
         </div>
 
+        {/* Do's and Don'ts */}
         <div className="grid md:grid-cols-2 gap-6">
           <div className="bg-green-500/5 border border-green-500/20 rounded-2xl p-6">
             <h4 className="text-green-400 font-bold text-lg mb-4">✅ CV Do's</h4>
@@ -183,6 +236,7 @@ export default function CVGuideSection({ goBack, previousLabel }: Props) {
             </ul>
           </div>
         </div>
+
       </div>
     </div>
   );
