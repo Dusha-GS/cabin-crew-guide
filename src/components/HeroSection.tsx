@@ -247,7 +247,7 @@ export default function HeroSection({ setActiveSection }: HeroSectionProps) {
           <div className="mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {[
               { value: "5", label: "Airlines Covered", icon: "✈️" },
-              { value: "50+", label: "Interview Questions", icon: "💬" },
+              { value: "40+", label: "Interview Questions", icon: "💬" },
               { value: "∞", label: "Practice Sessions", icon: "🤖" },
               { value: "100%", label: "Comprehensive Guide", icon: "🏆" },
             ].map((stat) => (
