@@ -1,6 +1,13 @@
 // src/data/guideData.ts
 // All static content for the Cabin Crew Interview Guidebook
 
+// ─── DISCLAIMER ───────────────────────────────────────────────────────────────
+// All airline requirements, processes, fleet figures, and route information
+// shown in this guide are based on publicly available information and
+// candidate-reported experiences. They are subject to change at any time.
+// Always verify current requirements directly with each airline before applying.
+// ─────────────────────────────────────────────────────────────────────────────
+
 export const airlines = [
   {
     id: "emirates",
@@ -9,7 +16,7 @@ export const airlines = [
     hub: "Dubai International (DXB)",
     founded: "1985",
     fleet: "260+ aircraft",
-    destinations: "150+ countries",
+    destinations: "150+ destinations",
     color: "#C41E3A",
   },
   {
@@ -19,7 +26,7 @@ export const airlines = [
     hub: "Abu Dhabi International (AUH)",
     founded: "2003",
     fleet: "100+ aircraft",
-    destinations: "68+ countries",
+    destinations: "68+ destinations",
     color: "#C8A96E",
   },
   {
@@ -29,7 +36,7 @@ export const airlines = [
     hub: "Hamad International (DOH)",
     founded: "1997",
     fleet: "200+ aircraft",
-    destinations: "160+ countries",
+    destinations: "160+ destinations",
     color: "#8B0000",
   },
   {
@@ -57,24 +64,24 @@ export const airlines = [
 export const requirements = {
   emirates: {
     minAge: 21,
-    minHeight: "212cm arm reach (tippy-toes)",
+    minHeight: "212cm arm reach (tiptoes)",
     education: "High school / secondary school minimum",
-    experience: "1 year hospitality/customer service preferred",
+    experience: "Customer-facing or hospitality experience preferred",
     languages: "Fluent English required; additional languages a plus",
     passport: "Valid passport with ability to travel worldwide",
     swimming: "Must be able to swim 25m unaided",
-    medical: "Clear medical with no visible tattoos in uniform",
+    medical: "Fit medical examination required",
     other: [
-      "No visible piercings (other than one ear stud)",
+      "No visible piercings (other than one ear stud — candidates widely report)",
       "No visible tattoos when in uniform",
-      "Clear complexion with no scarring",
-      "Arm reach of 212cm minimum (with or without heels)",
+      "Clear complexion — airlines widely report this as a grooming standard; verify current requirements directly with Emirates",
+      "Arm reach of 212cm minimum — Emirates allows tiptoes and heels to achieve this",
       "Willingness to relocate to Dubai",
     ],
   },
   etihad: {
     minAge: 21,
-    minHeight: "212cm arm reach",
+    minHeight: "212cm arm reach (verify directly with Etihad)",
     education: "High school minimum",
     experience: "Hospitality or customer service preferred",
     languages: "Fluent English; Arabic or other languages advantageous",
@@ -86,12 +93,12 @@ export const requirements = {
       "Flexible schedule including nights, weekends, holidays",
       "No visible tattoos in uniform",
       "Professional appearance at all times",
-      "Valid driving license advantageous",
+      "Valid driving license may be advantageous — verify directly with Etihad",
     ],
   },
   qatar: {
     minAge: 21,
-    minHeight: "212cm arm reach (flat-footed)",
+    minHeight: "212cm arm reach — flat-footed, no heels (verify directly with Qatar Airways)",
     education: "High school certificate minimum",
     experience: "Customer service experience preferred",
     languages: "Excellent English; additional languages valued",
@@ -108,7 +115,7 @@ export const requirements = {
   },
   flydubai: {
     minAge: 20,
-    minHeight: "212cm arm reach",
+    minHeight: "212cm arm reach (verify directly with flydubai)",
     education: "High school certificate",
     experience: "Customer-facing experience",
     languages: "Fluent English required",
@@ -124,7 +131,7 @@ export const requirements = {
   },
   airarabia: {
     minAge: 20,
-    minHeight: "210cm arm reach",
+    minHeight: "210cm arm reach (verify directly with Air Arabia before applying)",
     education: "Secondary school certificate",
     experience: "Customer service background",
     languages: "English fluency; Arabic a strong advantage",
@@ -142,39 +149,263 @@ export const requirements = {
 
 export const interviewStages = {
   emirates: [
-    { stage: 1, title: "Online Application", description: "Submit your CV, photos, and personal information via Emirates careers portal.", tips: ["Professional headshot on white background", "Full-length photo in smart attire", "Updated CV in PDF format"] },
-    { stage: 2, title: "Open Day / Recruitment Event", description: "Large group event where recruiters assess your initial presentation, communication, and personality.", tips: ["Arrive 15-30 mins early", "Dress smartly — business attire", "Smile, be friendly to everyone"] },
-    { stage: 3, title: "Reach Test", description: "Physical test to verify you can reach 212cm overhead — simulating access to emergency equipment.", tips: ["Wear heels if needed", "Stretch your arms fully", "Stand on tiptoes"] },
-    { stage: 4, title: "Group Exercise", description: "Small group discussion or problem-solving activity observed by recruiters assessing teamwork.", tips: ["Participate actively", "Include quieter members", "Show leadership without dominating"] },
-    { stage: 5, title: "1-on-1 Interview", description: "Formal interview with a senior recruiter — behavioral, situational and personal questions.", tips: ["Use STAR method", "Research Emirates thoroughly", "Prepare specific examples"] },
-    { stage: 6, title: "Final Selection / Medical", description: "Background checks, medical examination and final offer for successful candidates.", tips: ["Respond promptly to all communications", "Prepare documents in advance", "Stay patient — process can take 2-8 weeks"] },
+    {
+      stage: 1,
+      title: "Online Application",
+      description: "Submit your CV, photos, and personal information via Emirates careers portal.",
+      tips: [
+        "Professional headshot on white background",
+        "Full-length photo in smart attire",
+        "Updated CV in PDF format",
+      ],
+    },
+    {
+      stage: 2,
+      title: "Open Day / Recruitment Event",
+      description: "Large group event where recruiters assess your initial presentation, communication, and personality.",
+      tips: [
+        "Arrive 15–30 mins early",
+        "Dress smartly — business attire",
+        "Smile, be friendly to everyone",
+      ],
+    },
+    {
+      stage: 3,
+      title: "Reach Test",
+      description: "Physical test to verify you can reach 212cm overhead — simulating access to emergency equipment.",
+      tips: [
+        "Emirates allows tiptoes and heels — wear them if needed",
+        "Stretch your arms fully",
+        "Practice the reach daily before your assessment",
+      ],
+    },
+    {
+      stage: 4,
+      title: "Group Exercise",
+      description: "Small group discussion or problem-solving activity observed by recruiters assessing teamwork.",
+      tips: [
+        "Participate actively",
+        "Include quieter members",
+        "Show leadership without dominating",
+      ],
+    },
+    {
+      stage: 5,
+      title: "1-on-1 Interview",
+      description: "Formal interview with a senior recruiter — behavioral, situational and personal questions.",
+      tips: [
+        "Use STAR method",
+        "Research Emirates thoroughly",
+        "Prepare specific examples",
+      ],
+    },
+    {
+      stage: 6,
+      title: "Final Selection / Medical",
+      description: "Background checks, medical examination and final offer for successful candidates.",
+      tips: [
+        "Respond promptly to all communications",
+        "Prepare documents in advance",
+        "Stay patient — Emirates post-interview process is widely reported as 30 days to 6 months",
+      ],
+    },
   ],
   etihad: [
-    { stage: 1, title: "Online Application", description: "Apply through Etihad careers portal with CV and photos.", tips: ["White background headshot", "Professional attire photos", "Complete all fields carefully"] },
-    { stage: 2, title: "Assessment Day", description: "Group exercises and initial assessments at Etihad's recruitment events.", tips: ["Research Etihad's values", "Show genuine enthusiasm", "Be warm and professional"] },
-    { stage: 3, title: "Reach & Physical Assessment", description: "Verify 212cm reach requirement and overall physical presentation.", tips: ["Wear smart heels", "Practice reaching in advance", "Maintain good posture"] },
-    { stage: 4, title: "Group Discussion", description: "Team scenario-based exercise with recruiter observation.", tips: ["Listen as much as you speak", "Show teamwork skills", "Stay positive and constructive"] },
-    { stage: 5, title: "Individual Interview", description: "Personal interview focusing on service experience and motivation.", tips: ["Know Etihad's routes and fleet", "Prepare customer service stories", "Show cultural awareness"] },
-    { stage: 6, title: "Medical & Offer", description: "Medical check and final paperwork for selected candidates.", tips: ["Be honest in medical disclosure", "Prepare all documents", "Ask questions about relocation"] },
+    {
+      stage: 1,
+      title: "Online Application",
+      description: "Apply through Etihad careers portal with CV and photos.",
+      tips: [
+        "White background headshot",
+        "Professional attire photos",
+        "Complete all fields carefully",
+      ],
+    },
+    {
+      stage: 2,
+      title: "Assessment Day",
+      description: "Group exercises and initial assessments at Etihad's recruitment events.",
+      tips: [
+        "Research Etihad's values",
+        "Show genuine enthusiasm",
+        "Be warm and professional",
+      ],
+    },
+    {
+      stage: 3,
+      title: "Reach & Physical Assessment",
+      description: "Verify 212cm reach requirement and overall physical presentation.",
+      tips: [
+        "Wear smart heels",
+        "Practice reaching in advance",
+        "Maintain good posture",
+      ],
+    },
+    {
+      stage: 4,
+      title: "Group Discussion",
+      description: "Team scenario-based exercise with recruiter observation.",
+      tips: [
+        "Listen as much as you speak",
+        "Show teamwork skills",
+        "Stay positive and constructive",
+      ],
+    },
+    {
+      stage: 5,
+      title: "Individual Interview",
+      description: "Personal interview focusing on service experience and motivation.",
+      tips: [
+        "Know Etihad's routes and fleet",
+        "Prepare customer service stories",
+        "Show cultural awareness",
+      ],
+    },
+    {
+      stage: 6,
+      title: "Medical & Offer",
+      description: "Medical check and final paperwork for selected candidates.",
+      tips: [
+        "Be honest in medical disclosure",
+        "Prepare all documents",
+        "Ask questions about relocation",
+      ],
+    },
   ],
   qatar: [
-    { stage: 1, title: "Application", description: "Online application via Qatar Airways careers or at an open day.", tips: ["Research Qatar Airways extensively", "Tailor your CV to the role", "Include a professional headshot"] },
-    { stage: 2, title: "Open Day", description: "Initial screening event — presentation, group activity and reach test.", tips: ["Dress elegantly — they value polish", "Arrive early and confident", "Show warmth and approachability"] },
-    { stage: 3, title: "Reach Test", description: "Flat-footed 212cm reach required by Qatar Airways.", tips: ["This is flat-footed — no heels", "Practice your reach daily", "Wear flat professional shoes to the event"] },
-    { stage: 4, title: "Group Activity", description: "Collaborative exercise assessing teamwork and communication.", tips: ["Use inclusive language", "Summarize the group's points", "Show leadership calmly"] },
-    { stage: 5, title: "Final Interview", description: "In-depth interview with Qatar Airways senior recruiters.", tips: ["Know Qatar's Skytrax ratings", "Prepare STAR-format answers", "Show commitment to relocating to Doha"] },
-    { stage: 6, title: "Training & Offer", description: "Successful candidates receive an offer and begin training in Doha.", tips: ["6-7 week intensive training", "Be prepared for a demanding program", "Embrace the multicultural environment"] },
+    {
+      stage: 1,
+      title: "Application",
+      description: "Online application via Qatar Airways careers or at an open day.",
+      tips: [
+        "Research Qatar Airways extensively",
+        "Tailor your CV to the role",
+        "Include a professional headshot",
+      ],
+    },
+    {
+      stage: 2,
+      title: "Open Day",
+      description: "Initial screening event — presentation, group activity and reach test.",
+      tips: [
+        "Dress elegantly — they value polish",
+        "Arrive early and confident",
+        "Show warmth and approachability",
+      ],
+    },
+    {
+      stage: 3,
+      title: "Reach Test",
+      description: "212cm reach test — Qatar Airways candidates widely report this is conducted flat-footed. Verify the exact method directly with Qatar Airways before your assessment.",
+      tips: [
+        "Candidates widely report this is flat-footed — no heels",
+        "Practice your reach daily",
+        "Wear flat professional shoes — verify Qatar's exact method before your event",
+      ],
+    },
+    {
+      stage: 4,
+      title: "Group Activity",
+      description: "Collaborative exercise assessing teamwork and communication.",
+      tips: [
+        "Use inclusive language",
+        "Summarize the group's points",
+        "Show leadership calmly",
+      ],
+    },
+    {
+      stage: 5,
+      title: "Final Interview",
+      description: "In-depth interview with Qatar Airways senior recruiters.",
+      tips: [
+        "Know Qatar's Skytrax ratings",
+        "Prepare STAR-format answers",
+        "Show commitment to relocating to Doha",
+      ],
+    },
+    {
+      stage: 6,
+      title: "Training & Offer",
+      description: "Successful candidates receive an offer and begin training in Doha.",
+      tips: [
+        "Intensive initial training in Doha — duration varies; verify directly with Qatar Airways",
+        "Be prepared for a demanding program",
+        "Embrace the multicultural environment",
+      ],
+    },
   ],
   flydubai: [
-    { stage: 1, title: "Online Application", description: "Apply via flydubai careers website.", tips: ["Highlight customer service experience", "Include professional photos", "Keep CV concise"] },
-    { stage: 2, title: "Screening & Assessment", description: "Group assessment day with presentation and activities.", tips: ["Show enthusiasm for low-cost carrier model", "Highlight adaptability", "Be friendly and approachable"] },
-    { stage: 3, title: "Interview", description: "Individual interview with HR and operations team.", tips: ["Research flydubai routes", "Show flexibility with schedules", "Emphasize cost-consciousness and efficiency"] },
-    { stage: 4, title: "Medical & Offer", description: "Medical examination and final onboarding.", tips: ["Process is typically faster than big 3", "Dubai residence visa provided", "Training based in Dubai"] },
+    {
+      stage: 1,
+      title: "Online Application",
+      description: "Apply via flydubai careers website.",
+      tips: [
+        "Highlight customer service experience",
+        "Include professional photos",
+        "Keep CV concise",
+      ],
+    },
+    {
+      stage: 2,
+      title: "Screening & Assessment",
+      description: "Group assessment day with presentation and activities.",
+      tips: [
+        "Show enthusiasm for the low-cost carrier model",
+        "Highlight adaptability",
+        "Be friendly and approachable",
+      ],
+    },
+    {
+      stage: 3,
+      title: "Interview",
+      description: "Individual interview with HR and operations team.",
+      tips: [
+        "Research flydubai routes",
+        "Show flexibility with schedules",
+        "Emphasize cost-consciousness and efficiency",
+      ],
+    },
+    {
+      stage: 4,
+      title: "Medical & Offer",
+      description: "Medical examination and final onboarding.",
+      tips: [
+        "Process is typically faster than the Big 3 — candidates widely report",
+        "Dubai residence visa provided",
+        "Training based in Dubai",
+      ],
+    },
   ],
   airarabia: [
-    { stage: 1, title: "Application", description: "Apply online or attend Air Arabia recruitment days in Sharjah.", tips: ["Highlight any Arabic language skills", "Show cultural sensitivity", "Customer service focus"] },
-    { stage: 2, title: "Screening Day", description: "Group assessment and initial interview at Sharjah HQ.", tips: ["Dress professionally", "Show enthusiasm for the brand", "Highlight budget airline adaptability"] },
-    { stage: 3, title: "Interview & Medical", description: "Individual interview and medical clearance for final candidates.", tips: ["Competitive salary and benefits package", "Sharjah-based role", "Multicultural crew environment"] },
+    {
+      stage: 1,
+      title: "Application",
+      description: "Apply online or attend Air Arabia recruitment days in Sharjah.",
+      tips: [
+        "Highlight any Arabic language skills",
+        "Show cultural sensitivity",
+        "Customer service focus",
+      ],
+    },
+    {
+      stage: 2,
+      title: "Screening Day",
+      description: "Group assessment and initial interview at Sharjah HQ.",
+      tips: [
+        "Dress professionally",
+        "Show enthusiasm for the brand",
+        "Highlight budget airline adaptability",
+      ],
+    },
+    {
+      stage: 3,
+      title: "Interview & Medical",
+      description: "Individual interview and medical clearance for final candidates.",
+      tips: [
+        "Sharjah-based role — show you are prepared to live in the UAE",
+        "Multicultural crew environment",
+      ],
+    },
   ],
 };
 
@@ -194,13 +425,13 @@ export const cvGuide = {
     },
     {
       section: "Personal Profile",
-      description: "A 3-4 sentence summary at the top of your CV that captures who you are, your experience, and why you're perfect for cabin crew.",
+      description: "A 3–4 sentence summary at the top of your CV that captures who you are, your experience, and why you're perfect for cabin crew.",
       example: "Enthusiastic and customer-focused professional with 3 years of hospitality experience serving diverse international guests. Fluent in English and Arabic, with a genuine passion for delivering memorable travel experiences. Known for remaining calm under pressure, proactive communication, and creating warm, welcoming environments. Eager to bring my service excellence and multicultural awareness to Emirates' world-class team.",
       tips: [
         "Mention your target airline by name",
         "Include languages you speak",
         "Highlight relevant experience (hospitality, service, travel)",
-        "Keep it to 3-5 sentences maximum",
+        "Keep it to 3–5 sentences maximum",
         "Tailor this for EACH airline you apply to",
       ],
     },
@@ -254,7 +485,7 @@ export const cvGuide = {
     },
     {
       section: "Personal Details",
-      description: "Cabin crew CVs in the Middle East typically include personal details that Western CVs omit. This is expected and appropriate.",
+      description: "Cabin crew CVs in the Middle East typically include personal details that Western CVs omit. This is expected and appropriate for Middle Eastern airline applications. Important: if you are based in the EU, UK, or a region with anti-discrimination or data protection laws, these conventions differ from local norms — this guidance applies specifically to ME airline recruitment only.",
       items: [
         "Date of Birth",
         "Nationality",
@@ -287,7 +518,7 @@ export const cvGuide = {
       "Include specific numbers and achievements",
       "List all languages with proficiency levels",
       "Include relevant certifications (first aid, CPR)",
-      "Keep to 1-2 pages maximum",
+      "Keep to 1–2 pages maximum",
       "For open day submissions, export as a PDF. For online ATS applications, use a clean single-column Word (.docx) file",
       "Proofread multiple times for errors",
       "Have someone else review before submitting",
@@ -315,7 +546,7 @@ export const interviewQuestions = {
       category: "Personal",
       sampleAnswer: "I'm a customer service professional with three years of experience working in a luxury hotel environment, where I managed guest relations and handled VIP clients from over 40 nationalities. I speak fluent English and Arabic, and conversational French. I've always been passionate about travel and creating exceptional experiences for others — which is why I'm so excited about the opportunity to join Emirates as a cabin crew member.",
       tips: [
-        "Keep it to 60-90 seconds",
+        "Keep it to 60–90 seconds",
         "Mention relevant experience and languages",
         "End with why you want THIS specific role",
         "Don't recite your entire life story — highlight 3 key things",
@@ -337,12 +568,13 @@ export const interviewQuestions = {
       question: "Why Emirates/Etihad/Qatar Airways specifically?",
       difficulty: "Easy",
       category: "Personal",
-      sampleAnswer: "Emirates is consistently rated among the world's best airlines, and I've personally experienced the exceptional service on several flights. What impresses me most is the diversity of the crew — over 130 nationalities working together — and the airline's commitment to investing in its people through world-class training. I want to grow with a carrier that sets the global standard for service excellence.",
+      sampleAnswer: "Emirates is consistently rated among the world's best airlines, and I've personally experienced the exceptional service on several flights. What impresses me most is the diversity of the crew and the airline's commitment to investing in its people through world-class training. I want to grow with a carrier that sets the global standard for service excellence.",
       tips: [
         "Research the airline thoroughly before the interview",
         "Mention specific achievements, routes, or initiatives",
         "Reference their values or mission statement",
         "Show you chose THEM — not just any airline",
+        "Verify any statistics you plan to cite (crew diversity figures, fleet numbers) directly with the airline before the interview",
       ],
     },
     {
@@ -487,12 +719,13 @@ export const interviewQuestions = {
       question: "What do you know about [Airline]'s current fleet and major routes?",
       difficulty: "Medium",
       category: "Knowledge",
-      sampleAnswer: "Emirates operates one of the world's largest fleets, including significant numbers of the Airbus A380 — the world's largest passenger aircraft — and Boeing 777. Their hub at Dubai International connects to over 150 destinations across every continent. Notably, Emirates recently launched ultra-long-haul routes including non-stop services to Perth and Auckland. They're also the world's largest operator of the A380, which I find fascinating as a piece of aviation history.",
+      sampleAnswer: "Emirates operates one of the world's largest fleets, including significant numbers of the Airbus A380 — the world's largest passenger aircraft — and Boeing 777. Their hub at Dubai International connects to over 150 destinations across every continent. Emirates operates impressive ultra-long-haul routes including non-stop services to Perth and Auckland, and continues to expand its global network.",
       tips: [
         "Research the specific airline's fleet BEFORE the interview",
         "Know their hub airport code (DXB, AUH, DOH)",
-        "Mention 1-2 notable recent route launches",
+        "Mention notable routes or recent network expansions — check the airline's newsroom for current information",
         "Show genuine interest in aviation — not just the travel",
+        "Verify any specific statistics directly with the airline before citing them",
       ],
     },
     {
