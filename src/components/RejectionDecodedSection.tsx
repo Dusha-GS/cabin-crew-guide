@@ -1,11 +1,139 @@
 import { useState } from "react";
 
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+interface StatBox {
+  val: string;
+  label: string;
+}
+
+interface AirlineConfig {
+  id: string;
+  name: string;
+  shortName: string;
+  flag: string;
+  heroStats: StatBox[];
+}
+
 interface RejectionDecodedSectionProps {
   goBack: () => void;
   previousLabel: string;
   tier: string;
   onNavigatePremium: () => void;
 }
+
+// ─── Airlines ─────────────────────────────────────────────────────────────────
+
+const airlines: AirlineConfig[] = [
+  {
+    id: "emirates",
+    name: "Emirates",
+    shortName: "Emirates",
+    flag: "🇦🇪",
+    heroStats: [
+      { val: "15,000+", label: "Applications per month" },
+      { val: "6 months", label: "Confirmed reapply wait" },
+      { val: "0", label: "Feedback given on rejection" },
+    ],
+  },
+  {
+    id: "qatar",
+    name: "Qatar Airways",
+    shortName: "Qatar Airways",
+    flag: "🇶🇦",
+    heroStats: [
+      { val: "Global", label: "Open day recruitment" },
+      { val: "Varies", label: "Reapply wait — verify directly" },
+      { val: "0", label: "Feedback given on rejection" },
+    ],
+  },
+  {
+    id: "etihad",
+    name: "Etihad",
+    shortName: "Etihad",
+    flag: "🇦🇪",
+    heroStats: [
+      { val: "Global", label: "Open day recruitment" },
+      { val: "Varies", label: "Reapply wait — verify directly" },
+      { val: "0", label: "Feedback given on rejection" },
+    ],
+  },
+  {
+    id: "flydubai",
+    name: "flydubai",
+    shortName: "flydubai",
+    flag: "🇦🇪",
+    heroStats: [
+      { val: "~25 days", label: "Reported post-interview wait" },
+      { val: "Verify", label: "Reapply wait — check with flydubai" },
+      { val: "0", label: "Feedback given on rejection" },
+    ],
+  },
+  {
+    id: "airarabia",
+    name: "Air Arabia",
+    shortName: "Air Arabia",
+    flag: "🇦🇪",
+    heroStats: [
+      { val: "~2 weeks", label: "Reported post-interview response" },
+      { val: "Verify", label: "Reapply wait — check with Air Arabia" },
+      { val: "0", label: "Feedback given on rejection" },
+    ],
+  },
+];
+
+const defaultHeroStats: StatBox[] = [
+  { val: "5", label: "Gulf airlines covered" },
+  { val: "6", label: "Rejection reasons decoded" },
+  { val: "0", label: "Feedback given on rejection" },
+];
+
+// ─── Airline-specific notes per reason (id 1–6) ───────────────────────────────
+
+const airlineNotes: Record<string, Record<number, string>> = {
+  emirates: {
+    1: "Emirates uses an ATS called Taleo. With 15,000+ applications per month, CV scanning is fully automated — a rejected CV triggers an automated email within 24–48 hours before any human reads it.",
+    2: "Emirates minimum requirements: 160cm height, 212cm arm reach (standing on tiptoes). Women: signature red lip and neat bun or updo are expected at assessment. All tattoos must be completely covered by the uniform at all times.",
+    3: "Emirates uses HireVue — approximately 6 questions including one gamified cognitive speed task, plus a written English section. You have 30 seconds to prepare and 2–3 minutes to answer per question. The gamified task is the most commonly underestimated stage.",
+    4: "Emirates STAR-format questions include 'Tell me about a time you went above and beyond for a customer' and 'Why Emirates?' Candidates widely report that mentioning travel as motivation is an immediate rejection trigger.",
+    5: "Emirates assessment days typically include 8–12 candidates per group with multiple observers present. The scenario is deliberately open-ended — no right answers exist. Recruiters observe continuously from the moment you arrive.",
+    6: "Emirates: 'Fly Better' — excellence, diversity, innovation, safety. Confirmed reapplication wait: 6 months. Post-interview wait: 30 days to 6 months. Maintain the same warm, authentic energy in every informal moment as in the formal interview.",
+  },
+  qatar: {
+    1: "Qatar Airways uses its own careers portal. Application volume is extremely high for a Doha-based operation. Candidates widely report fast automated screening — a clean, keyword-rich single-column CV is as critical here as at any Gulf carrier.",
+    2: "Qatar Airways height and arm reach requirements are similar to Emirates — verify directly before applying. Polished, elegant presentation is expected. All tattoos must be covered by the airline's uniform. Candidates report a refined, high-standard grooming expectation.",
+    3: "Qatar Airways uses its own online portal with English assessment and screening questions — not HireVue. Candidates report structured screening comparable in rigour to Emirates. Prepare STAR-format answers and practise written English before completing your application.",
+    4: "Qatar Airways uses STAR-format interview questions. Candidates report that 'Why Qatar?' answers mentioning travel or luxury aspirations are flagged immediately. The 'Going Places Together' values — hospitality, perfection, care — should be central to your answers.",
+    5: "Qatar Airways group exercises follow a similar observation framework to other Gulf carriers. Candidates report that cultural sensitivity and genuine warmth toward all group members are specifically noted — consistent with the airline's deep hospitality identity.",
+    6: "Qatar Airways: 'Going Places Together' — hospitality, perfection, care. Deeply rooted in Qatari heritage and world-class service. Candidates report that genuine warmth and cultural awareness are closely observed throughout the entire assessment day.",
+  },
+  etihad: {
+    1: "Etihad uses its own online careers portal. Candidates report ATS-style CV filtering similar to other Gulf carriers. A clean, single-column, keyword-rich document is essential — the same formatting errors that trigger rejections at Emirates apply equally here.",
+    2: "Etihad height and arm reach requirements are similar to Emirates — verify directly before applying. A refined, understated elegance is expected in grooming and presentation. All tattoos must be completely covered by the airline's uniform.",
+    3: "Etihad's online application includes screening questions and an English proficiency component. Candidates report a structured assessment format comparable to other Gulf carriers. Prepare STAR-based answers and practise written English before completing your application.",
+    4: "Etihad uses STAR-format interview questions aligned with their 'Choose Well' values — empathy, diversity, responsibility. Candidates report that considered, thoughtful responses resonate more strongly than high-energy rehearsed answers.",
+    5: "Etihad group exercises mirror the observation criteria of other Gulf carriers. The 'Choose Well' values — empathy, responsibility — directly map to what observers look for. Bring these values to how you participate, not just what you say.",
+    6: "Etihad: 'Choose Well' — empathy, diversity, responsibility. Candidates who come across as genuinely warm and considered — not just polished — are reported to progress consistently. Reapplication wait: candidates report varying timeframes — verify directly with Etihad.",
+  },
+  flydubai: {
+    1: "flydubai uses an online application portal. The process is reported as less intensive than Emirates but a clean, professional, keyword-rich CV remains essential. Candidates report faster response times than at the Big Three carriers.",
+    2: "flydubai height and arm reach requirements — verify directly with flydubai before applying. Professional and conservative grooming is expected. All tattoos must be covered by the uniform. Candidates report a professional standard that is slightly less formal than Emirates.",
+    3: "flydubai's online application is reported as less intensive than Emirates. However, candidates report English proficiency checks and screening questions that form part of the assessment. Complete your application carefully — it is your first impression.",
+    4: "flydubai uses structured interview questions with STAR-format expectations. Candidates report a more conversational tone than Emirates, but genuine service motivation and specific real-life examples are equally important. Generic or travel-focused answers are flagged.",
+    5: "flydubai assessment days are reported as smaller in scale than Emirates but follow the same group exercise observation format. Warmth, inclusion, and active listening are as important here as at any Gulf carrier — recruiters observe all candidates simultaneously.",
+    6: "flydubai: reliability, value for money, and making travel accessible. Candidates who show genuine pride in expanding travel access — not just a five-star service aspiration — align well with this culture. Post-interview wait: approximately 25 days (widely reported by candidates).",
+  },
+  airarabia: {
+    1: "Air Arabia uses its own careers portal. Application volume is lower than at the Big Three, but a clean, single-column, keyword-rich CV remains essential. Candidates report faster response times and a more direct application process overall.",
+    2: "Air Arabia height and arm reach requirements — verify directly with Air Arabia before applying. Professional and conservative grooming consistent with a Gulf carrier uniform standard is expected. All tattoos must be covered by the airline's uniform.",
+    3: "Air Arabia's online screening is typically reported as more straightforward than the Big Three. However, a strong English proficiency check and a carefully completed application are essential — they form part of the recruiter's first impression of you.",
+    4: "Air Arabia uses structured interview questions focused on genuine hospitality and service commitment. Candidates report that answers reflecting the airline's community-focused, accessibility-driven identity perform significantly better than generic service answers.",
+    5: "Air Arabia group exercises reflect the airline's community-focused, warmth-first identity. Being genuinely inclusive and listening actively are reported as particularly valued — consistent with the airline's accessibility and warmth mission.",
+    6: "Air Arabia: affordability, warmth, and connecting communities. Authenticity and genuine hospitality instinct matter more here than polish. Post-interview response: approximately 2 weeks (candidates widely report). Reapply wait: verify directly with Air Arabia.",
+  },
+};
+
+// ─── Rejection reasons ────────────────────────────────────────────────────────
 
 const reasons = [
   {
@@ -19,7 +147,7 @@ const reasons = [
     bgColor: "from-red-950/40 to-slate-800",
     badgeBg: "bg-red-500/20 text-red-300 border-red-500/30",
     free: true,
-    why: `Gulf carriers collectively receive hundreds of thousands of cabin crew applications every year. Emirates alone reports over 15,000 applications per month. To manage this volume, airlines including Emirates (which uses a system called Taleo) and other Gulf carriers use Applicant Tracking Systems (ATS) — computer programs that scan CVs before any human ever reads them. If your CV fails the scan, you receive an automated rejection. The recruiter never knew you existed.
+    why: `Gulf carriers collectively receive hundreds of thousands of cabin crew applications every year. To manage this volume, airlines use Applicant Tracking Systems (ATS) — computer programs that scan CVs before any human ever reads them. If your CV fails the scan, you receive an automated rejection. The recruiter never knew you existed.
 
 The ATS reads your document the way a computer reads text — left to right, top to bottom. Multi-column layouts, text boxes, embedded graphics, and design elements confuse the parser. It reads your carefully designed Canva CV as a near-empty document and scores it below the threshold. A clean, unqualified candidate with a plain Word document consistently beats a highly qualified candidate with a beautifully designed layout — at every Gulf carrier.`,
     testimonial: {
@@ -32,11 +160,11 @@ The ATS reads your document the way a computer reads text — left to right, top
       { step: "State height and arm reach explicitly — e.g. 'Height: 165cm | Arm Reach: 212cm (standing on tiptoes)' — in your personal profile header", icon: "📏" },
       { step: "Include a professional photo (Gulf airlines expect this — Western advice to omit photos does NOT apply here)", icon: "📸" },
       { step: "Keep it to 1–2 pages maximum with clear section headers: Personal Profile, Work Experience, Education, Skills, Languages", icon: "📐" },
-      { step: "Answer the motivational field ('Why do you want to join [Airline]?') in full — never say 'I love to travel' or 'I want to see the world.' Candidates widely report this as an immediate rejection trigger across all Gulf carriers. Speak about service, safety, and the specific airline's values", icon: "⚠️" },
+      { step: "Answer the motivational field ('Why do you want to join [Airline]?') in full — never say 'I love to travel' or 'I want to see the world.' Candidates widely report this as an immediate rejection trigger across all Gulf carriers", icon: "⚠️" },
     ],
     youtubeSearch: "Gulf airline cabin crew CV ATS tips 2024",
     youtubeLabel: "How to Write an ATS-Proof Cabin Crew CV",
-    stat: "15,000+ applications/month to Emirates alone — all Gulf carriers use ATS screening",
+    stat: "All Gulf carriers use automated CV screening before human review",
   },
   {
     id: 2,
@@ -49,7 +177,7 @@ The ATS reads your document the way a computer reads text — left to right, top
     bgColor: "from-pink-950/40 to-slate-800",
     badgeBg: "bg-pink-500/20 text-pink-300 border-pink-500/30",
     free: true,
-    why: `Cabin crew are the physical embodiment of the airline's brand. Emirates, Qatar Airways, Etihad, flydubai, and Air Arabia all invest in their crew's presentation — and they expect candidates to match their standards precisely. At CV drop-off and at the grooming check (which happens early in the assessment day), recruiters assess candidates against a strict checklist. This is not superficial: it reflects what hundreds of passengers will see on every flight.
+    why: `Cabin crew are the physical embodiment of the airline's brand. Emirates, Qatar Airways, Etihad, flydubai, and Air Arabia all invest in their crew's presentation — and they expect candidates to match their standards precisely. At CV drop-off and at the grooming check (which happens early in the assessment day), recruiters assess candidates against a strict checklist.
 
 Visible acne, exposed tattoos, incorrect makeup, visible piercings, the wrong attire, or the wrong hair style can all result in immediate elimination — even if your interview performance is excellent. Many candidates are eliminated at this stage without understanding why, because no Gulf carrier provides this feedback.`,
     testimonial: {
@@ -58,16 +186,16 @@ Visible acne, exposed tattoos, incorrect makeup, visible piercings, the wrong at
     },
     fix: [
       { step: "Skin: Clear skin is expected across all Gulf carriers. Visible acne, prominent scars, or birthmarks on visible areas are noted. See a dermatologist if needed — this is a professional requirement, not a beauty standard", icon: "✨" },
-      { step: "Tattoos: Must be completely covered by the airline's uniform at all times. Check the specific uniform coverage for the carrier you are applying to — even a small tattoo on the inner forearm may be visible. If in doubt, cover with makeup or clothing for the assessment", icon: "🚫" },
+      { step: "Tattoos: Must be completely covered by the airline's uniform at all times. Check the specific uniform coverage for the carrier you are applying to — even a small tattoo on the inner forearm may be visible", icon: "🚫" },
       { step: "Women — Hair: Neat bun or updo, no loose hair. All Gulf carriers expect professional hair presentation at assessment day", icon: "💇‍♀️" },
-      { step: "Women — Makeup: Professional, refined, and complete. Each airline has a signature crew look — arriving groomed to match their brand signals awareness and intent. Emirates is known for a red lip; Qatar Airways for polished elegance; Etihad for a refined, understated look. Research the specific airline you are attending", icon: "💄" },
-      { step: "Women — Attire: Pencil skirt or tailored trousers, professional blazer, heels (ballet flats acceptable but heels preferred across Gulf carriers). Conservative neckline. No excessive jewellery", icon: "👠" },
-      { step: "Men — Be completely clean-shaven. Smart suit, polished shoes, conservative tie. Hair neatly styled. These expectations apply consistently across Emirates, Qatar Airways, Etihad, flydubai, and Air Arabia", icon: "👔" },
-      { step: "Height and reach: Emirates minimum is 160cm with arm reach of 212cm on tiptoes. Qatar Airways and Etihad have similar requirements. flydubai and Air Arabia — verify requirements directly with the airline before applying", icon: "📏" },
+      { step: "Women — Makeup: Professional, refined, and complete. Each airline has a signature crew look — arriving groomed to match their brand signals awareness and intent. Select your airline above for specific guidance", icon: "💄" },
+      { step: "Women — Attire: Pencil skirt or tailored trousers, professional blazer, heels preferred across Gulf carriers. Conservative neckline. No excessive jewellery", icon: "👠" },
+      { step: "Men — Be completely clean-shaven. Smart suit, polished shoes, conservative tie. Hair neatly styled. These expectations apply consistently across all five Gulf carriers", icon: "👔" },
+      { step: "Height and reach: Requirements vary by airline. Select your airline above for specific details, or verify directly with each carrier before applying", icon: "📏" },
     ],
     youtubeSearch: "Gulf airline cabin crew grooming standards assessment day",
     youtubeLabel: "Grooming Standards for Gulf Airline Assessment Days",
-    stat: "Grooming assessed within 90 seconds at CV drop",
+    stat: "Grooming assessed within 90 seconds at CV drop — at every Gulf carrier",
   },
   {
     id: 3,
@@ -80,21 +208,20 @@ Visible acne, exposed tattoos, incorrect makeup, visible piercings, the wrong at
     bgColor: "from-blue-950/40 to-slate-800",
     badgeBg: "bg-blue-500/20 text-blue-300 border-blue-500/30",
     free: false,
-    why: `Every major Gulf carrier now requires candidates to complete an online screening stage before being invited to an assessment day. Emirates uses a platform called HireVue — a digital interview with approximately 6 questions (some STAR-based, one gamified speed task), plus a written English section. Qatar Airways, Etihad, flydubai, and Air Arabia each have their own online application portals with screening components including English assessments and situational questions.
+    why: `Every major Gulf carrier now requires candidates to complete an online screening stage before being invited to an assessment day. Each airline uses its own platform or portal, with components that typically include an English language assessment and situational or STAR-format questions.
 
-Candidates widely report the online screening stage as the phase where the highest number of applicants are eliminated — consistent with analysis across multiple recruitment preparation platforms. The most common mistake is treating it as less "real" than a face-to-face interview. The digital record goes directly to the recruitment team — every hesitation, restart, and rushed answer is logged. At Emirates specifically, the HireVue gamified task tests cognitive processing speed under time pressure, and running out of time is a widely reported elimination trigger.`,
+Candidates widely report the online screening stage as the phase where the highest number of applicants are eliminated. The most common mistake is treating it as less "real" than a face-to-face interview. The digital record goes directly to the recruitment team — every hesitation, restart, and rushed answer is logged. Select your airline above to see what to expect on their specific platform.`,
     testimonial: {
-      quote: "I thought the online video interview would be easy because English is my strong suit. What I didn't prepare for was the gamified speed task — it tests your cognitive processing under time pressure. I hesitated, started and restarted, and ran out of time. I never made it to the assessment day.",
+      quote: "I thought the online video interview would be easy because English is my strong suit. What I didn't prepare for was a timed cognitive task — it tests your processing speed under time pressure. I hesitated, started and restarted, and ran out of time. I never made it to the assessment day.",
       source: "Composite experience from candidate accounts shared across public recruitment forums",
     },
     fix: [
       { step: "Set up your recording environment before the interview: good lighting (face the light, don't sit with a window behind you), clean background, stable internet, phone or laptop at eye level", icon: "💡" },
       { step: "Practice looking directly into the camera lens — not at your own face on screen. This creates genuine eye contact", icon: "👁️" },
       { step: "Study the STAR method: Situation → Task → Action → Result. Practice answering out loud until it feels natural, not recited. Every answer must have all four parts", icon: "⭐" },
-      { step: "English sections vary by airline but typically include: reading comprehension passages, multiple-choice sentence completions, and a short written response (e.g. 'write a thank you letter' or 'describe a service experience'). Practice all three formats", icon: "📝" },
+      { step: "English sections typically include: reading comprehension passages, multiple-choice sentence completions, and a short written response. Practice all three formats", icon: "📝" },
       { step: "Time yourself. You typically have 30 seconds to prepare and 2–3 minutes to answer per question. Speak at 75% of your normal speed — nervous candidates speak too fast and lose clarity", icon: "⏱️" },
-      { step: "Emirates HireVue includes a gamified cognitive task. If applying to Emirates specifically, practise simple pattern-recognition or sorting games to build processing speed before your session", icon: "🎮" },
-      { step: "Complete your online screening for all airlines you're applying to in the same preparation window — the skills and preparation overlap heavily across all five carriers", icon: "📋" },
+      { step: "Complete your online screening for all airlines you're applying to in the same preparation window — the skills overlap heavily across all five carriers", icon: "📋" },
     ],
     youtubeSearch: "Gulf airline cabin crew online video interview tips 2024",
     youtubeLabel: "Online Screening & Video Interview — Gulf Airline Cabin Crew Guide",
@@ -119,7 +246,7 @@ All five Gulf carriers — Emirates, Qatar Airways, Etihad, flydubai, and Air Ar
       source: "Composite experience drawn from cabin crew applicant community forums",
     },
     fix: [
-      { step: "NEVER say: 'I want to be cabin crew because I love to travel / meet people / see the world.' This is consistently flagged across candidate forums, coaching communities, and airline application guides as an immediate red flag. Instead, speak about service, safety, and the specific airline's values", icon: "🚫" },
+      { step: "NEVER say: 'I want to be cabin crew because I love to travel / meet people / see the world.' This is consistently flagged as an immediate red flag across all Gulf airline interview processes. Speak about service, safety, and the specific airline's values", icon: "🚫" },
       { step: "Every answer must follow STAR completely: Situation (brief context), Task (your specific role), Action (exactly what YOU did — use 'I', not 'we'), Result (measurable or observable outcome)", icon: "⭐" },
       { step: "For conflict questions: If you say 'I rarely have conflicts' or 'I get along with everyone' — you will be eliminated. Every professional has experienced conflict. Prepare a real example that shows you resolved it professionally", icon: "⚡" },
       { step: "Practice your answers OUT LOUD until they sound like a natural conversation, not a performance. Record yourself and listen back — if you sound like you're reading from a script, practice more", icon: "🎙️" },
@@ -143,7 +270,7 @@ All five Gulf carriers — Emirates, Qatar Airways, Etihad, flydubai, and Air Ar
     free: false,
     why: `The group exercise is the assessment stage most candidates misunderstand. Candidates focus entirely on what to say — what solutions, what ideas, what argument — when the recruiter is watching how you interact with other people. There are no right or wrong answers to the scenarios given. The exercise is designed to be open-ended precisely so that no single "correct" answer exists.
 
-Multiple recruiters observe simultaneously, watching for: listening behaviour, how candidates treat quieter group members, whether they interrupt, how they respond to disagreement, and whether they maintain composure under social pressure. This maps directly to the cabin crew role — where crew interact with hundreds of passengers of different cultures, temperaments, and needs in a high-pressure environment. This assessment pattern is consistent across Emirates, Qatar Airways, Etihad, flydubai, and Air Arabia assessment days.`,
+Multiple recruiters observe simultaneously, watching for: listening behaviour, how candidates treat quieter group members, whether they interrupt, how they respond to disagreement, and whether they maintain composure under social pressure. This maps directly to the cabin crew role — where crew interact with hundreds of passengers of different cultures, temperaments, and needs in a high-pressure environment. This assessment pattern is consistent across all five Gulf carriers.`,
     testimonial: {
       quote: "I went into three Gulf airline assessment days thinking I needed to show leadership — speak up, contribute ideas, make the group follow a clear direction. Three rejections. Then someone who had passed told me: 'They're not hiring a manager. They want someone their passengers would feel safe with. Be warm, include everyone, listen more than you talk.' I passed the fourth time after completely changing my approach.",
       source: "Composite experience drawn from cabin crew applicant community forums",
@@ -154,8 +281,8 @@ Multiple recruiters observe simultaneously, watching for: listening behaviour, h
       { step: "Do not dominate. Speaking for more than 40% of the time is a red flag. Even if your ideas are good, monopolising the conversation signals poor team awareness", icon: "⚖️" },
       { step: "Do not stay silent. If you contribute fewer than 3–4 substantive points, you won't be noticed. The balance is: engaged but not dominant", icon: "🎯" },
       { step: "Never interrupt. Even if the other person is wrong. Wait for a natural pause, then contribute. Interrupting is one of the fastest ways to be eliminated across all Gulf airline assessment days", icon: "🤫" },
-      { step: "Stay warm and calm throughout. If the discussion becomes heated or goes off track, a calm, measured de-escalation ('Can we refocus on the key question?') is exactly what recruiters want to see", icon: "😌" },
-      { step: "Remember: recruiters observe you in breaks and during lunch too. The 'interview' begins when you walk through the door and doesn't end until you leave the building — at every Gulf airline assessment day", icon: "👀" },
+      { step: "Stay warm and calm throughout. If the discussion becomes heated, a calm de-escalation ('Can we refocus on the key question?') is exactly what recruiters want to see", icon: "😌" },
+      { step: "Remember: recruiters observe you in breaks and during lunch too. The 'interview' begins when you walk through the door and doesn't end until you leave the building", icon: "👀" },
     ],
     youtubeSearch: "Gulf airline cabin crew assessment day group exercise tips",
     youtubeLabel: "Group Exercise Tips — Gulf Airline Assessment Day",
@@ -174,26 +301,76 @@ Multiple recruiters observe simultaneously, watching for: listening behaviour, h
     free: false,
     why: `The rejection letter always says the same thing: "We regret to inform you that we have decided not to progress with your application." No reason given. No feedback. No indication of what went wrong. For many candidates — especially those who reached the final interview — this is the most devastating outcome because it offers nothing to improve on.
 
-'Cultural fit' is the umbrella reason that covers everything from low energy to personality mismatch to values that don't align with the airline. All five Gulf carriers — Emirates, Qatar Airways, Etihad, flydubai, and Air Arabia — have specific internal cultures they protect carefully. They also operate with nationality and diversity considerations for specific recruitment events — meaning some rejections have nothing to do with your performance.
+'Cultural fit' is the umbrella reason that covers everything from low energy to personality mismatch to values that don't align with the airline. All five Gulf carriers have specific internal cultures they protect carefully. They also operate with nationality and diversity considerations for specific recruitment events — meaning some rejections have nothing to do with your performance.
 
-What you can control: your energy, your alignment with their values, and your consistency throughout the entire day.`,
+What you can control: your energy, your alignment with their values, and your consistency throughout the entire day. Select your airline above to see their specific values framework.`,
     testimonial: {
       quote: "I passed every stage of the assessment day with flying colours — grooming check, English test, group exercise, and I thought my final interview was excellent. Rejection email that evening. I contacted a coach who had been a recruiter at that airline. She told me: 'You were performing. The recruiter could feel the difference between who you were in the formal interview and who you were during the break. They want to see the same person in both.' That stuck with me.",
       source: "Composite experience drawn from cabin crew applicant community forums",
     },
     fix: [
-      { step: "Research the airline's values before your interview. Emirates: 'Fly Better' (excellence, diversity, innovation, safety). Qatar Airways: 'Going Places Together' (hospitality, perfection, care). Etihad: 'Choose Well' (empathy, diversity, responsibility). flydubai: reliability, value for money, and making travel accessible. Air Arabia: affordability, warmth, and connecting communities. Prepare one real personal example aligned to each airline you apply to", icon: "🔍" },
+      { step: "Research the airline's values before your interview. Select your airline above to see the specific values framework for each carrier. Prepare one real personal example for each value", icon: "🔍" },
       { step: "Mirror their language in your answers. Use phrases like 'world-class service,' 'diverse team,' 'safety-first culture,' 'passenger wellbeing.' Recruiters register subconsciously when candidates speak their language", icon: "🗣️" },
-      { step: "Maintain consistent, warm energy ALL DAY. The formal interview is not the only moment you're being assessed. Your behaviour during registration, in the waiting area, during breaks, and at lunch is all observed — at every Gulf airline assessment day", icon: "⚡" },
+      { step: "Maintain consistent, warm energy ALL DAY. The formal interview is not the only moment you're being assessed. Your behaviour during registration, in the waiting area, during breaks, and at lunch is all observed", icon: "⚡" },
       { step: "Genuine enthusiasm reads differently from performed enthusiasm. Find the specific thing about this airline that genuinely excites you and speak from that place. Recruiters have interviewed thousands of candidates — they know the difference", icon: "❤️" },
       { step: "Prepare one thoughtful question to ask at the end of the final interview. Something specific to the airline and role, not something you could Google. Example: 'How does the crew culture here support new joiners adapting to life at base?'", icon: "❓" },
-      { step: "If you're rejected for 'cultural fit' and you've addressed all of the above: understand that some rejections involve factors outside your control. Emirates confirmed reapplication wait is 6 months. For Qatar Airways, Etihad, flydubai, and Air Arabia — candidates report varying timeframes; verify directly with each airline. This is not a reflection of your worth", icon: "🔄" },
+      { step: "If rejected for 'cultural fit' after addressing all of the above: understand that some rejections involve factors outside your control. Reapplication timeframes vary by airline — check directly with each carrier. This is not a reflection of your worth", icon: "🔄" },
     ],
     youtubeSearch: "cabin crew cultural fit rejection Gulf airline final interview",
     youtubeLabel: "Understanding the 'Cultural Fit' Rejection — Cabin Crew",
     stat: "Most common undisclosed reason for final-stage rejection",
   },
 ];
+
+// ─── Styling helpers ───────────────────────────────────────────────────────────
+
+const getButtonClasses = (airlineId: string, isSelected: boolean): string => {
+  if (!isSelected)
+    return "bg-white/5 border border-white/10 text-slate-300 hover:border-white/25 hover:text-white";
+  const map: Record<string, string> = {
+    emirates: "bg-red-600 border-transparent text-white",
+    qatar: "bg-purple-700 border-transparent text-white",
+    etihad: "bg-blue-600 border-transparent text-white",
+    flydubai: "bg-orange-500 border-transparent text-white",
+    airarabia: "bg-amber-500 border-transparent text-slate-900",
+  };
+  return map[airlineId] ?? "bg-white/10 border-transparent text-white";
+};
+
+const getCalloutBg = (airlineId: string): string => {
+  const map: Record<string, string> = {
+    emirates: "bg-red-950/60 border-red-500/30",
+    qatar: "bg-purple-950/60 border-purple-500/30",
+    etihad: "bg-blue-950/60 border-blue-500/30",
+    flydubai: "bg-orange-950/60 border-orange-500/30",
+    airarabia: "bg-amber-950/60 border-amber-500/30",
+  };
+  return map[airlineId] ?? "bg-white/5 border-white/10";
+};
+
+const getCalloutLabel = (airlineId: string): string => {
+  const map: Record<string, string> = {
+    emirates: "text-red-400",
+    qatar: "text-purple-400",
+    etihad: "text-blue-400",
+    flydubai: "text-orange-400",
+    airarabia: "text-amber-400",
+  };
+  return map[airlineId] ?? "text-slate-400";
+};
+
+const getCalloutText = (airlineId: string): string => {
+  const map: Record<string, string> = {
+    emirates: "text-red-200",
+    qatar: "text-purple-200",
+    etihad: "text-blue-200",
+    flydubai: "text-orange-200",
+    airarabia: "text-amber-200",
+  };
+  return map[airlineId] ?? "text-slate-300";
+};
+
+// ─── Component ────────────────────────────────────────────────────────────────
 
 export default function RejectionDecodedSection({
   goBack,
@@ -202,12 +379,21 @@ export default function RejectionDecodedSection({
   onNavigatePremium,
 }: RejectionDecodedSectionProps) {
   const [openCard, setOpenCard] = useState<number | null>(null);
+  const [selectedAirline, setSelectedAirline] = useState<string | null>(null);
+
   const isLocked = (free: boolean) => !free && tier === "free";
 
   const handleCardClick = (id: number, free: boolean) => {
     if (isLocked(free)) return;
     setOpenCard(openCard === id ? null : id);
   };
+
+  const handleAirlineSelect = (airlineId: string) => {
+    setSelectedAirline(selectedAirline === airlineId ? null : airlineId);
+  };
+
+  const currentAirline = airlines.find((a) => a.id === selectedAirline) ?? null;
+  const heroStats = currentAirline?.heroStats ?? defaultHeroStats;
 
   return (
     <div className="min-h-screen bg-slate-900 pt-20">
@@ -224,9 +410,10 @@ export default function RejectionDecodedSection({
         </button>
       </div>
 
-      {/* Hero */}
       <div className="max-w-4xl mx-auto px-4 pb-10">
-        <div className="relative bg-gradient-to-br from-red-950/60 via-slate-800/80 to-slate-900 border border-red-500/20 rounded-3xl p-8 md:p-12 overflow-hidden mb-10">
+
+        {/* Hero */}
+        <div className="relative bg-gradient-to-br from-red-950/60 via-slate-800/80 to-slate-900 border border-red-500/20 rounded-3xl p-8 md:p-12 overflow-hidden mb-6">
           <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/5 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
           <div className="relative">
@@ -245,23 +432,52 @@ export default function RejectionDecodedSection({
               Air Arabia — with real examples and specific fixes for each.
             </p>
             <div className="flex flex-wrap gap-3">
-              <div className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-center">
-                <div className="text-amber-400 font-bold text-lg">15,000+</div>
-                <div className="text-slate-400 text-xs">Emirates apps/month</div>
-              </div>
-              <div className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-center">
-                <div className="text-amber-400 font-bold text-lg">6 months</div>
-                <div className="text-slate-400 text-xs">Emirates confirmed reapply wait</div>
-              </div>
-              <div className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-center">
-                <div className="text-amber-400 font-bold text-lg">0</div>
-                <div className="text-slate-400 text-xs">Feedback given on rejection</div>
-              </div>
+              {heroStats.map((stat, i) => (
+                <div key={i} className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-center">
+                  <div className="text-amber-400 font-bold text-lg">{stat.val}</div>
+                  <div className="text-slate-400 text-xs">{stat.label}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* Legal disclaimer notice */}
+        {/* Airline Selector */}
+        <div className="bg-slate-800/60 border border-slate-700/40 rounded-2xl p-5 mb-6">
+          <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-3">
+            Select your airline for specific guidance
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {airlines.map((airline) => (
+              <button
+                key={airline.id}
+                onClick={() => handleAirlineSelect(airline.id)}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${getButtonClasses(
+                  airline.id,
+                  selectedAirline === airline.id
+                )}`}
+              >
+                <span>{airline.flag}</span>
+                <span>{airline.shortName}</span>
+              </button>
+            ))}
+          </div>
+          {currentAirline ? (
+            <p className="text-xs text-slate-400 mt-3">
+              Showing{" "}
+              <span className={getCalloutLabel(currentAirline.id)}>
+                {currentAirline.name}
+              </span>{" "}
+              specific insights inside each rejection reason below. Tap again to deselect.
+            </p>
+          ) : (
+            <p className="text-xs text-slate-500 mt-3">
+              Select an airline above to see how each rejection reason applies to your specific target carrier.
+            </p>
+          )}
+        </div>
+
+        {/* Legal disclaimer */}
         <div className="bg-slate-800/50 border border-slate-700/40 rounded-xl px-5 py-4 mb-6 flex items-start gap-3">
           <span className="text-slate-500 text-base flex-shrink-0 mt-0.5">ℹ️</span>
           <p className="text-slate-500 text-xs leading-relaxed">
@@ -291,6 +507,10 @@ export default function RejectionDecodedSection({
           {reasons.map((reason) => {
             const locked = isLocked(reason.free);
             const isOpen = openCard === reason.id && !locked;
+            const airlineNote =
+              currentAirline && airlineNotes[currentAirline.id]
+                ? (airlineNotes[currentAirline.id][reason.id] ?? null)
+                : null;
 
             return (
               <div
@@ -354,12 +574,28 @@ export default function RejectionDecodedSection({
                 {/* Expanded Content */}
                 {isOpen && (
                   <div className="px-5 md:px-6 pb-6 border-t border-white/5 pt-5">
+
                     {/* Stat callout */}
                     <div className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold mb-5 border ${reason.badgeBg}`}>
                       📊 {reason.stat}
                     </div>
 
-                    {/* Why this happens */}
+                    {/* Airline-specific callout */}
+                    {airlineNote && currentAirline && (
+                      <div className={`rounded-xl border p-4 mb-6 ${getCalloutBg(currentAirline.id)}`}>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-base">{currentAirline.flag}</span>
+                          <span className={`text-xs font-bold uppercase tracking-wider ${getCalloutLabel(currentAirline.id)}`}>
+                            {currentAirline.name} — Specific Guidance
+                          </span>
+                        </div>
+                        <p className={`text-sm leading-relaxed ${getCalloutText(currentAirline.id)}`}>
+                          {airlineNote}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Why This Happens */}
                     <div className="mb-6">
                       <h4 className={`text-xs font-bold uppercase tracking-wider mb-3 ${reason.accentColor}`}>
                         Why This Happens
@@ -392,7 +628,7 @@ export default function RejectionDecodedSection({
                       </h4>
                       <div className="space-y-3">
                         {reason.fix.map((item, i) => (
-                          <div key={i} className="flex items-start gap-3 bg-white/3 border border-white/5 rounded-xl p-3.5">
+                          <div key={i} className="flex items-start gap-3 bg-white/[0.03] border border-white/5 rounded-xl p-3.5">
                             <span className="text-lg flex-shrink-0">{item.icon}</span>
                             <p className="text-slate-300 text-sm leading-relaxed">{item.step}</p>
                           </div>
@@ -405,7 +641,7 @@ export default function RejectionDecodedSection({
                       href={`https://www.youtube.com/results?search_query=${encodeURIComponent(reason.youtubeSearch)}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`flex items-center gap-3 border border-white/10 bg-white/5 hover:bg-white/10 rounded-xl p-4 transition-all group`}
+                      className="flex items-center gap-3 border border-white/10 bg-white/5 hover:bg-white/10 rounded-xl p-4 transition-all group"
                     >
                       <div className="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center flex-shrink-0">
                         <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -445,6 +681,7 @@ export default function RejectionDecodedSection({
             </button>
           </div>
         )}
+
       </div>
     </div>
   );
