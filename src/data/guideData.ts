@@ -72,7 +72,7 @@ export const requirements = {
     swimming: "Must be able to swim 25m unaided",
     medical: "Fit medical examination required",
     other: [
-      "No visible piercings (other than one ear stud — candidates widely report)",
+      "No visible piercings — women are permitted one stud earring per earlobe only; men are not permitted any piercings or jewellery in uniform (widely reported by candidates)",
       "No visible tattoos when in uniform",
       "Clear complexion — airlines widely report this as a grooming standard; verify current requirements directly with Emirates",
       "Arm reach of 212cm minimum — Emirates allows tiptoes and heels to achieve this",
@@ -114,7 +114,7 @@ export const requirements = {
     ],
   },
   flydubai: {
-    minAge: 20,
+    minAge: 21,
     minHeight: "212cm arm reach (verify directly with flydubai)",
     education: "High school certificate",
     experience: "Customer-facing experience",
@@ -131,7 +131,7 @@ export const requirements = {
   },
   airarabia: {
     minAge: 20,
-    minHeight: "210cm arm reach (verify directly with Air Arabia before applying)",
+    minHeight: "Min. 160cm (female) / 170cm (male) — ability to reach overhead compartments required; verify exact reach requirement directly with Air Arabia",
     education: "Secondary school certificate",
     experience: "Customer service background",
     languages: "English fluency; Arabic a strong advantage",
