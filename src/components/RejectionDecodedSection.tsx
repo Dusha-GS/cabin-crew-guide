@@ -31,7 +31,7 @@ const airlines: AirlineConfig[] = [
     shortName: "Emirates",
     flag: "🇦🇪",
     heroStats: [
-      { val: "15,000+", label: "Applications per month" },
+      { val: "15,000+", label: "Applications/month (widely reported)" },
       { val: "6 months", label: "Confirmed reapply wait" },
       { val: "0", label: "Feedback given on rejection" },
     ],
@@ -92,17 +92,17 @@ const defaultHeroStats: StatBox[] = [
 
 const airlineNotes: Record<string, Record<number, string>> = {
   emirates: {
-    1: "Emirates uses an ATS called Taleo. With 15,000+ applications per month, CV scanning is fully automated — a rejected CV triggers an automated email within 24–48 hours before any human reads it.",
+    1: "Candidates widely report that Emirates uses an ATS called Taleo. Emirates is widely reported to receive 15,000+ applications per month — candidates consistently report that rejected CVs receive an automated response with no indication any human reviewed the application.",
     2: "Emirates minimum requirements: 160cm height, 212cm arm reach (standing on tiptoes). Women: signature red lip and neat bun or updo are expected at assessment. All tattoos must be completely covered by the uniform at all times.",
-    3: "Emirates uses HireVue — approximately 6 questions including one gamified cognitive speed task, plus a written English section. You have 30 seconds to prepare and 2–3 minutes to answer per question. The gamified task is the most commonly underestimated stage.",
+    3: "Candidates widely report that Emirates uses a platform called HireVue — approximately 6 questions including one gamified cognitive speed task, plus a written English section. Candidates widely report having around 30 seconds to prepare and 2–3 minutes to answer per question. The gamified task is widely reported as the most commonly underestimated stage.",
     4: "Emirates STAR-format questions include 'Tell me about a time you went above and beyond for a customer' and 'Why Emirates?' Candidates widely report that mentioning travel as motivation is an immediate rejection trigger.",
-    5: "Emirates assessment days typically include 8–12 candidates per group with multiple observers present. The scenario is deliberately open-ended — no right answers exist. Recruiters observe continuously from the moment you arrive.",
+    5: "Emirates assessment days have multiple observers watching all candidates simultaneously. The scenario is deliberately open-ended — no right answers exist. Candidates widely report that recruiters observe continuously from the moment you arrive, including during registration and breaks.",
     6: "Emirates: 'Fly Better' — excellence, diversity, innovation, safety. Confirmed reapplication wait: 6 months. Post-interview wait: 30 days to 6 months. Maintain the same warm, authentic energy in every informal moment as in the formal interview.",
   },
   qatar: {
     1: "Qatar Airways uses its own careers portal. Application volume is extremely high for a Doha-based operation. Candidates widely report fast automated screening — a clean, keyword-rich single-column CV is as critical here as at any Gulf carrier.",
     2: "Qatar Airways height and arm reach requirements are similar to Emirates — verify directly before applying. Polished, elegant presentation is expected. All tattoos must be covered by the airline's uniform. Candidates report a refined, high-standard grooming expectation.",
-    3: "Qatar Airways uses its own online portal with English assessment and screening questions — not HireVue. Candidates report structured screening comparable in rigour to Emirates. Prepare STAR-format answers and practise written English before completing your application.",
+    3: "Qatar Airways uses its own online portal with English assessment and screening questions. Candidates widely report a structured multi-stage screening process. Prepare STAR-format answers and practise written English before completing your application.",
     4: "Qatar Airways uses STAR-format interview questions. Candidates report that 'Why Qatar?' answers mentioning travel or luxury aspirations are flagged immediately. The 'Going Places Together' values — hospitality, perfection, care — should be central to your answers.",
     5: "Qatar Airways group exercises follow a similar observation framework to other Gulf carriers. Candidates report that cultural sensitivity and genuine warmth toward all group members are specifically noted — consistent with the airline's deep hospitality identity.",
     6: "Qatar Airways: 'Going Places Together' — hospitality, perfection, care. Deeply rooted in Qatari heritage and world-class service. Candidates report that genuine warmth and cultural awareness are closely observed throughout the entire assessment day.",
@@ -111,9 +111,9 @@ const airlineNotes: Record<string, Record<number, string>> = {
     1: "Etihad uses its own online careers portal. Candidates report ATS-style CV filtering similar to other Gulf carriers. A clean, single-column, keyword-rich document is essential — the same formatting errors that trigger rejections at Emirates apply equally here.",
     2: "Etihad height and arm reach requirements are similar to Emirates — verify directly before applying. A refined, understated elegance is expected in grooming and presentation. All tattoos must be completely covered by the airline's uniform.",
     3: "Etihad's online application includes screening questions and an English proficiency component. Candidates report a structured assessment format comparable to other Gulf carriers. Prepare STAR-based answers and practise written English before completing your application.",
-    4: "Etihad uses STAR-format interview questions aligned with their 'Choose Well' values — empathy, diversity, responsibility. Candidates report that considered, thoughtful responses resonate more strongly than high-energy rehearsed answers.",
-    5: "Etihad group exercises mirror the observation criteria of other Gulf carriers. The 'Choose Well' values — empathy, responsibility — directly map to what observers look for. Bring these values to how you participate, not just what you say.",
-    6: "Etihad: 'Choose Well' — empathy, diversity, responsibility. Candidates who come across as genuinely warm and considered — not just polished — are reported to progress consistently. Reapplication wait: candidates report varying timeframes — verify directly with Etihad.",
+    4: "Etihad uses STAR-format interview questions. Candidates widely report that considered, thoughtful responses — reflecting genuine empathy and care — resonate more strongly than high-energy rehearsed answers. Research Etihad's current stated values on their official careers page before your interview.",
+    5: "Etihad group exercises mirror the observation criteria of other Gulf carriers. Candidates widely report that genuine empathy toward other group members and a considered, calm approach are particularly valued — bring this to how you participate, not just what you say.",
+    6: "Candidates widely report that Etihad's culture centres on empathy, diversity, and genuine responsibility toward passengers and colleagues. Those who come across as warm and considered — not just polished — are reported to progress. Reapplication wait: verify directly with Etihad. Always check their official careers page for current values and requirements.",
   },
   flydubai: {
     1: "flydubai uses an online application portal. The process is reported as less intensive than Emirates but a clean, professional, keyword-rich CV remains essential. Candidates report faster response times than at the Big Three carriers.",
@@ -121,7 +121,7 @@ const airlineNotes: Record<string, Record<number, string>> = {
     3: "flydubai's online application is reported as less intensive than Emirates. However, candidates report English proficiency checks and screening questions that form part of the assessment. Complete your application carefully — it is your first impression.",
     4: "flydubai uses structured interview questions with STAR-format expectations. Candidates report a more conversational tone than Emirates, but genuine service motivation and specific real-life examples are equally important. Generic or travel-focused answers are flagged.",
     5: "flydubai assessment days are reported as smaller in scale than Emirates but follow the same group exercise observation format. Warmth, inclusion, and active listening are as important here as at any Gulf carrier — recruiters observe all candidates simultaneously.",
-    6: "flydubai: reliability, value for money, and making travel accessible. Candidates who show genuine pride in expanding travel access — not just a five-star service aspiration — align well with this culture. Post-interview wait: approximately 25 days (widely reported by candidates).",
+    6: "Candidates widely report that flydubai's culture focuses on reliability, value for money, and making travel accessible to more people. Showing genuine enthusiasm for this mission — rather than a five-star service aspiration — is reported to resonate well. Post-interview wait: approximately 25 days (widely reported by candidates). Reapply wait: verify directly with flydubai.",
   },
   airarabia: {
     1: "Air Arabia uses its own careers portal. Application volume is lower than at the Big Three, but a clean, single-column, keyword-rich CV remains essential. Candidates report faster response times and a more direct application process overall.",
@@ -129,7 +129,7 @@ const airlineNotes: Record<string, Record<number, string>> = {
     3: "Air Arabia's online screening is typically reported as more straightforward than the Big Three. However, a strong English proficiency check and a carefully completed application are essential — they form part of the recruiter's first impression of you.",
     4: "Air Arabia uses structured interview questions focused on genuine hospitality and service commitment. Candidates report that answers reflecting the airline's community-focused, accessibility-driven identity perform significantly better than generic service answers.",
     5: "Air Arabia group exercises reflect the airline's community-focused, warmth-first identity. Being genuinely inclusive and listening actively are reported as particularly valued — consistent with the airline's accessibility and warmth mission.",
-    6: "Air Arabia: affordability, warmth, and connecting communities. Authenticity and genuine hospitality instinct matter more here than polish. Post-interview response: approximately 2 weeks (candidates widely report). Reapply wait: verify directly with Air Arabia.",
+    6: "Candidates widely report that Air Arabia's culture values affordability, warmth, and connecting communities. Authenticity and genuine hospitality instinct matter more here than polish. Post-interview response: approximately 2 weeks (widely reported by candidates). Reapply wait: verify directly with Air Arabia.",
   },
 };
 
