@@ -124,13 +124,15 @@ export default function OpenDaysSection({ goBack, previousLabel }: Props) {
               </h1>
               <p className="text-slate-400 text-sm mt-0.5">
                 Last updated: <span className="text-amber-400 font-medium">{LAST_UPDATED}</span>
-                &nbsp;·&nbsp;Updated weekly by our team
+                &nbsp;·&nbsp;Schedules change often — verify on the airline's official site
               </p>
             </div>
           </div>
           <p className="text-slate-400 text-sm leading-relaxed max-w-2xl">
-            Open day and recruitment event schedule for Emirates, Qatar Airways, Etihad, flydubai and Air Arabia. 
-            Filter by country or airline to see only what's relevant to you.
+            Open day and recruitment event schedule for Emirates, Qatar Airways, Etihad, flydubai and Air Arabia.
+            Filter by country or airline to see only what's relevant to you. Airlines publish dated events only
+            4–8 weeks ahead, so dated listings are limited — entries marked "Ongoing" show each airline's
+            standing way to apply.
           </p>
         </div>
 
@@ -348,8 +350,8 @@ export default function OpenDaysSection({ goBack, previousLabel }: Props) {
             ))}
           </div>
           <p className="text-slate-600 text-xs mt-4 leading-relaxed">
-            Sources: Emirates — emiratesgroupcareers.com · Qatar Airways — careers.qatarairways.com · Etihad — etihad.com/careers.
-            Airlines publish schedules 4–8 weeks ahead. Always verify dates on official airline websites before travelling.
+            Sources: Emirates — emiratesgroupcareers.com · Qatar Airways — careers.qatarairways.com · Etihad — etihad.com/careers · flydubai — flydubai.com/careers · Air Arabia — airarabia.com/careers.
+            Airlines publish schedules 4–8 weeks ahead and change them frequently. Dates shown were verified on the last-updated date above — always confirm directly with the airline before travelling.
           </p>
         </div>
 
