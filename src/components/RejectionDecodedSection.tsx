@@ -414,6 +414,18 @@ export default function RejectionDecodedSection({
 
         {/* Hero */}
         <div className="relative bg-gradient-to-br from-red-950/60 via-slate-800/80 to-slate-900 border border-red-500/20 rounded-3xl p-8 md:p-12 overflow-hidden mb-6">
+          {/* Faded background photo — right-weighted, behind text. Drop a licensed image at public/images/rejection-decoded-bg.jpg */}
+          <div
+            className="absolute inset-0 bg-cover opacity-30"
+            style={{
+              backgroundImage: "url(/images/rejection-decoded-bg.jpg)",
+              backgroundPosition: "right center",
+              maskImage: "linear-gradient(to right, transparent 0%, transparent 30%, black 100%)",
+              WebkitMaskImage: "linear-gradient(to right, transparent 0%, transparent 30%, black 100%)",
+            }}
+          />
+          {/* Dark gradient to keep text readable */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-slate-900/40 pointer-events-none" />
           <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/5 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
           <div className="relative">
