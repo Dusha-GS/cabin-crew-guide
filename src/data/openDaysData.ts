@@ -11,7 +11,8 @@
 // Sources:
 //   Emirates       — emiratesgroupcareers.com/cabin-crew
 //   Qatar Airways  — careers.qatarairways.com
-//   Etihad         — etihad.com/careers
+//   Etihad         — etihad.com/careers (live dated CV-drop events
+//                    listed on Etihad's own events portal)
 // ============================================================
 // EVENT TYPE:
 //   "walkin"  = Walk-in, no registration needed, arrive early (typically 9AM)
@@ -85,20 +86,25 @@ export const openDaysEvents: OpenDayEvent[] = [
   { id:"qa-lk-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Sri Lanka", flag:"🇱🇰", city:"Colombo", airline:"Qatar Airways", type:"invite", notes:"Apply at careers.qatarairways.com" },
   { id:"qa-my-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Malaysia", flag:"🇲🇾", city:"Kuala Lumpur", airline:"Qatar Airways", type:"invite", notes:"Apply at careers.qatarairways.com" },
 
-  // Etihad — primarily invite-only globally; apply online at etihad.com/careers
-  { id:"et-rs-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Serbia", flag:"🇷🇸", city:"Belgrade", airline:"Etihad", type:"invite", notes:"Serbian speakers often preferred — etihad.com/careers" },
-  { id:"et-it-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Italy", flag:"🇮🇹", city:"Rome / Milan", airline:"Etihad", type:"invite", notes:"Regular recruitment market — etihad.com/careers" },
-  { id:"et-es-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Spain", flag:"🇪🇸", city:"Madrid / Barcelona", airline:"Etihad", type:"invite", notes:"Regular recruitment market — etihad.com/careers" },
-  { id:"et-de-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Germany", flag:"🇩🇪", city:"Multiple", airline:"Etihad", type:"invite", notes:"Regular recruitment market — etihad.com/careers" },
-  { id:"et-ma-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Morocco", flag:"🇲🇦", city:"—", airline:"Etihad", type:"invite", notes:"Regular recruitment market — etihad.com/careers" },
-  { id:"et-jp-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Japan", flag:"🇯🇵", city:"Tokyo", airline:"Etihad", type:"invite", notes:"Regular recruitment market — etihad.com/careers" },
-  { id:"et-in-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"India", flag:"🇮🇳", city:"Multiple cities", airline:"Etihad", type:"invite", notes:"Regular recruitment market — etihad.com/careers" },
-  { id:"et-ph-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Philippines", flag:"🇵🇭", city:"Manila", airline:"Etihad", type:"invite", notes:"Regular recruitment market — etihad.com/careers" },
-  { id:"et-my-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Malaysia", flag:"🇲🇾", city:"Kuala Lumpur", airline:"Etihad", type:"invite", notes:"Regular recruitment market — etihad.com/careers" },
-  { id:"et-ie-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Ireland", flag:"🇮🇪", city:"Dublin", airline:"Etihad", type:"invite", notes:"Regular recruitment market — etihad.com/careers" },
-  { id:"et-tr-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Turkey", flag:"🇹🇷", city:"Istanbul", airline:"Etihad", type:"invite", notes:"Regular recruitment market — etihad.com/careers" },
-  { id:"et-au-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Australia", flag:"🇦🇺", city:"Multiple cities", airline:"Etihad", type:"invite", notes:"Regular recruitment market — etihad.com/careers" },
-  { id:"et-ro-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Romania", flag:"🇷🇴", city:"—", airline:"Etihad", type:"invite", notes:"Apply online — etihad.com/careers" },
+  // Etihad — runs a small number of dated walk-in CV-drop open days plus
+  // invite-only Assessment Days. Dated events appear on Etihad's own live
+  // events portal and change frequently, so they are not duplicated here.
+  // For current dated open days, send candidates to the portal:
+  //   etihad.com/careers → Cabin Crew → Assessments (live events listed there)
+  { id:"et-rs-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Serbia", flag:"🇷🇸", city:"Belgrade", airline:"Etihad", type:"invite", notes:"Serbian speakers often preferred — current dated events at etihad.com/careers" },
+  { id:"et-it-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Italy", flag:"🇮🇹", city:"Rome / Milan", airline:"Etihad", type:"invite", notes:"Regular recruitment market — current dated events at etihad.com/careers" },
+  { id:"et-es-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Spain", flag:"🇪🇸", city:"Madrid / Barcelona", airline:"Etihad", type:"invite", notes:"Regular recruitment market — current dated events at etihad.com/careers" },
+  { id:"et-de-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Germany", flag:"🇩🇪", city:"Multiple", airline:"Etihad", type:"invite", notes:"Regular recruitment market — current dated events at etihad.com/careers" },
+  { id:"et-ma-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Morocco", flag:"🇲🇦", city:"—", airline:"Etihad", type:"invite", notes:"Regular recruitment market — current dated events at etihad.com/careers" },
+  { id:"et-jp-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Japan", flag:"🇯🇵", city:"Tokyo", airline:"Etihad", type:"invite", notes:"Regular recruitment market — current dated events at etihad.com/careers" },
+  { id:"et-in-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"India", flag:"🇮🇳", city:"Multiple cities", airline:"Etihad", type:"invite", notes:"Regular recruitment market — current dated events at etihad.com/careers" },
+  { id:"et-ph-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Philippines", flag:"🇵🇭", city:"Manila", airline:"Etihad", type:"invite", notes:"Regular recruitment market — current dated events at etihad.com/careers" },
+  { id:"et-my-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Malaysia", flag:"🇲🇾", city:"Kuala Lumpur", airline:"Etihad", type:"invite", notes:"Regular recruitment market — current dated events at etihad.com/careers" },
+  { id:"et-ie-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Ireland", flag:"🇮🇪", city:"Dublin", airline:"Etihad", type:"invite", notes:"Regular recruitment market — current dated events at etihad.com/careers" },
+  { id:"et-tr-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Turkey", flag:"🇹🇷", city:"Istanbul", airline:"Etihad", type:"invite", notes:"Walk-in CV-drop open days held here periodically — check dates at etihad.com/careers" },
+  { id:"et-au-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Australia", flag:"🇦🇺", city:"Multiple cities", airline:"Etihad", type:"invite", notes:"Regular recruitment market — current dated events at etihad.com/careers" },
+  { id:"et-ro-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Romania", flag:"🇷🇴", city:"—", airline:"Etihad", type:"invite", notes:"Current dated events at etihad.com/careers" },
+  { id:"et-cz-ongoing", date:"2099-12-31", dateLabel:"Year-round", country:"Czech Republic", flag:"🇨🇿", city:"Prague", airline:"Etihad", type:"invite", notes:"Walk-in CV-drop open days held here periodically — check dates at etihad.com/careers" },
 
   // ── flydubai & Air Arabia ─────────────────────────────────
   // Both recruit primarily through online application rather than
