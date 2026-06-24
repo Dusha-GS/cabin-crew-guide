@@ -11,7 +11,7 @@ type Stage = "setup" | "interview" | "feedback";
 
 const AIRLINES: Airline[] = ["Emirates", "Etihad Airways", "Qatar Airways", "flydubai", "Air Arabia"];
 
-const SYSTEM_PROMPT = (airline: Airline, difficulty: string) => `You are a senior cabin crew recruiter at ${airline}, one of the world's leading airlines. You are conducting a real job interview for a cabin crew position.
+const SYSTEM_PROMPT = (airline: Airline, difficulty: string) => `You are a senior cabin crew recruiter at ${airline}, one of the world's leading airlines. You are conducting a simulated practice job interview for a cabin crew position.
 
 Your interview style:
 - Professional, warm, but evaluative
@@ -57,14 +57,14 @@ Provide feedback in this exact format:
 - [area 2 with specific advice]
 
 ## Airline Fit for ${airline}
-[2-3 sentences on how well they match ${airline}'s specific culture and values]
+[2-3 sentences on how well they match ${airline}'s publicly known culture and values — note this is based on general public information]
 
 ## Top 3 Action Points Before Your Real Interview
 1. [specific actionable tip]
 2. [specific actionable tip]
 3. [specific actionable tip]
 
-Be honest but encouraging. Use your real knowledge of ${airline}'s culture and hiring standards.`;
+Be honest but encouraging. Base your assessment on the candidate's responses in this session.`;
 
 export default function AIMockInterviewSection({ goBack, previousLabel, tier, onNavigatePremium }: Props) {
   const membership = getMembershipState(tier);
@@ -184,11 +184,18 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
         <div className="max-w-3xl mx-auto">
           <BackButton onClick={goBack} label={`Back to ${previousLabel}`} />
           <div className="text-center mb-8">
-            <span className="inline-block bg-amber-500/20 text-amber-400 text-sm font-medium px-4 py-1.5 rounded-full mb-4 border border-amber-500/30">🤖 Mock Interview</span>
+            <span className="inline-block bg-amber-500/20 text-amber-400 text-sm font-medium px-4 py-1.5 rounded-full mb-4 border border-amber-500/30">
+              🤖 AI Mock Interview
+            </span>
             <h2 className="text-3xl font-bold text-white mb-3">Free trial session complete</h2>
             <p className="text-slate-400">Upgrade to Standard or Premium for unlimited mock interviews.</p>
           </div>
-          <UpgradeGate requiredTier="standard" featureName="Unlimited Mock Interviews" featureDescription="Practice as many times as you need with a simulated Emirates, Qatar Airways or Etihad recruiter." onNavigatePremium={onNavigatePremium} />
+          <UpgradeGate
+            requiredTier="standard"
+            featureName="Unlimited Mock Interviews"
+            featureDescription="Practice as many times as you need with a simulated Emirates, Qatar Airways or Etihad recruiter."
+            onNavigatePremium={onNavigatePremium}
+          />
         </div>
       </div>
     );
@@ -202,17 +209,17 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
           <BackButton onClick={goBack} label={`Back to ${previousLabel}`} />
           <div className="text-center mb-10">
             <span className="inline-block bg-amber-500/20 text-amber-400 text-sm font-medium px-4 py-1.5 rounded-full mb-4 border border-amber-500/30">
-              🤖 Mock Interview
+              🤖 AI Mock Interview
             </span>
-            <h2 className="text-4xl font-bold text-white mb-4">Mock Interview</h2>
+            <h2 className="text-4xl font-bold text-white mb-4">AI Mock Interview</h2>
             <p className="text-slate-400 text-lg max-w-xl mx-auto">
-              Practice with a simulated recruiter from your chosen airline. Get instant feedback on every answer.
+              Practice with a simulated AI recruiter from your chosen airline. Get instant feedback on every answer.
             </p>
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-8 mb-6">
             <h3 className="text-white font-bold text-lg mb-5">Choose Your Interview Settings</h3>
-            
+
             {/* Airline picker */}
             <div className="mb-6">
               <p className="text-slate-400 text-sm font-medium mb-3">Select Airline</p>
@@ -275,9 +282,9 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
           {/* What to expect */}
           <div className="grid grid-cols-3 gap-4">
             {[
-              { icon: "💬", title: "Real Questions", desc: "Airline-specific questions from a simulated recruiter" },
+              { icon: "💬", title: "Real Questions", desc: "Airline-specific questions from a simulated AI recruiter" },
               { icon: "⚡", title: "Instant Feedback", desc: "Get feedback on each answer as you go" },
-              { icon: "📊", title: "Final Assessment", desc: "Detailed score & action plan at the end" },
+              { icon: "📊", title: "Final Assessment", desc: "AI-generated score & action plan at the end" },
             ].map((item) => (
               <div key={item.title} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
                 <div className="text-2xl mb-2">{item.icon}</div>
@@ -334,6 +341,10 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
                   return <p key={i} className="text-slate-300 text-sm leading-relaxed">{line}</p>;
                 })}
               </div>
+              {/* Smallest AI disclosure */}
+              <p className="text-slate-600 text-xs mt-5 pt-4 border-t border-white/5">
+                ⓘ Assessment generated by AI — for practice only. Not a substitute for professional interview coaching.
+              </p>
             </div>
           )}
 
@@ -344,10 +355,16 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
           )}
 
           <div className="flex gap-4">
-            <button onClick={reset} className="flex-1 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-900 font-bold py-4 rounded-xl transition-all">
+            <button
+              onClick={reset}
+              className="flex-1 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-900 font-bold py-4 rounded-xl transition-all"
+            >
               🔄 Practice Again
             </button>
-            <button onClick={goBack} className="flex-1 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-semibold py-4 rounded-xl transition-all">
+            <button
+              onClick={goBack}
+              className="flex-1 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-semibold py-4 rounded-xl transition-all"
+            >
               Back to Guide
             </button>
           </div>
@@ -359,13 +376,14 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
   // ── INTERVIEW CHAT SCREEN ─────────────────────────────────────
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col pt-16">
+      {/* Chat header — clearly labelled as simulated */}
       <div className="border-b border-white/10 bg-slate-900/95 backdrop-blur px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <BackButton onClick={() => { if (confirm("End this interview session?")) reset(); }} label="End Interview" />
         </div>
         <div className="text-center">
-          <p className="text-white font-bold text-sm">✈ {selectedAirline} Recruiter</p>
-          <p className="text-slate-400 text-xs">{difficulty} • {questionCount} exchanges</p>
+          <p className="text-white font-bold text-sm">🤖 Simulated {selectedAirline} Recruiter</p>
+          <p className="text-slate-400 text-xs">{difficulty} · {questionCount} exchanges · AI Practice</p>
         </div>
         <button
           onClick={endInterview}
@@ -382,7 +400,7 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
             <div key={i} className={`flex gap-3 animate-fadeIn ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
               {msg.role === "assistant" && (
                 <div className="w-9 h-9 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center text-slate-900 font-bold text-sm flex-shrink-0 mt-1">
-                  ✈
+                  🤖
                 </div>
               )}
               <div className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
@@ -403,7 +421,7 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
           {loading && (
             <div className="flex gap-3 justify-start animate-fadeIn">
               <div className="w-9 h-9 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center text-slate-900 font-bold text-sm flex-shrink-0">
-                ✈
+                🤖
               </div>
               <div className="bg-white/5 border border-white/10 rounded-2xl px-4 py-3">
                 <div className="flex gap-1 items-center h-5">
@@ -446,7 +464,7 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
           </button>
         </div>
         <p className="text-slate-600 text-xs text-center mt-2">
-          After 3+ exchanges, click "Finish & Get Feedback" for your full assessment
+          After 3+ exchanges, click "Finish & Get Feedback" for your full AI assessment
         </p>
       </div>
     </div>
