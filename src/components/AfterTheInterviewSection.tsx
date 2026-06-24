@@ -12,6 +12,7 @@ type AirlineKey = "emirates" | "qatar" | "etihad" | "flydubai" | "airArabia";
 interface AirlineProfile {
   name: string;
   emoji: string;
+  iataCode: string;
   base: string;
   accent: string;
   border: string;
@@ -30,6 +31,7 @@ const airlineProfiles: Record<AirlineKey, AirlineProfile> = {
   emirates: {
     name: "Emirates",
     emoji: "✈️",
+    iataCode: "EK",
     base: "Dubai, UAE",
     accent: "text-red-400",
     border: "border-red-500/50",
@@ -51,6 +53,7 @@ const airlineProfiles: Record<AirlineKey, AirlineProfile> = {
   qatar: {
     name: "Qatar Airways",
     emoji: "🌙",
+    iataCode: "QR",
     base: "Doha, Qatar",
     accent: "text-purple-400",
     border: "border-purple-500/50",
@@ -71,6 +74,7 @@ const airlineProfiles: Record<AirlineKey, AirlineProfile> = {
   etihad: {
     name: "Etihad Airways",
     emoji: "🌟",
+    iataCode: "EY",
     base: "Abu Dhabi, UAE",
     accent: "text-amber-400",
     border: "border-amber-500/50",
@@ -90,6 +94,7 @@ const airlineProfiles: Record<AirlineKey, AirlineProfile> = {
   flydubai: {
     name: "flydubai",
     emoji: "🚀",
+    iataCode: "FZ",
     base: "Dubai, UAE",
     accent: "text-orange-400",
     border: "border-orange-500/50",
@@ -109,6 +114,7 @@ const airlineProfiles: Record<AirlineKey, AirlineProfile> = {
   airArabia: {
     name: "Air Arabia",
     emoji: "🌅",
+    iataCode: "G9",
     base: "Sharjah, UAE",
     accent: "text-rose-400",
     border: "border-rose-500/50",
@@ -346,13 +352,21 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
               <button
                 key={key}
                 onClick={() => setSelectedAirline(selectedAirline === key ? null : key)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold border transition-all ${
+                className={`flex items-center gap-2.5 px-4 py-2 rounded-xl text-sm font-semibold border transition-all ${
                   selectedAirline === key
                     ? `${profile.border} bg-white/10 text-white`
                     : "border-white/10 bg-white/5 text-slate-400 hover:text-white hover:bg-white/8"
                 }`}
               >
-                <span>{profile.emoji}</span>
+                <span
+                  className={`flex items-center justify-center w-7 h-6 rounded-md text-[11px] font-black tracking-wide border ${
+                    selectedAirline === key
+                      ? profile.badge
+                      : "bg-white/5 text-slate-400 border-white/10"
+                  }`}
+                >
+                  {profile.iataCode}
+                </span>
                 <span>{profile.name}</span>
               </button>
             ))}
