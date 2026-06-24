@@ -351,6 +351,7 @@ export default function OpenDaysSection({ goBack, previousLabel }: Props) {
           </div>
           <p className="text-slate-600 text-xs mt-4 leading-relaxed">
             Sources: Emirates — emiratesgroupcareers.com · Qatar Airways — careers.qatarairways.com · Etihad — etihad.com/careers · flydubai — flydubai.com/careers · Air Arabia — airarabia.com/careers.
+            Qatar Airways recruits mainly through an online application and video interview, so it rarely publishes dated walk-in open days. Etihad runs a small number of dated walk-in CV-drop events on its own live events portal (etihad.com/careers) alongside invite-only assessment days — check there for current Etihad dates.
             Airlines publish schedules 4–8 weeks ahead and change them frequently. Dates shown were verified on the last-updated date above — always confirm directly with the airline before travelling.
           </p>
         </div>
