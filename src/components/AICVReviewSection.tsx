@@ -11,7 +11,7 @@ interface Props {
   onNavigatePremium: () => void;
 }
 
-type Airline = "Emirates" | "Etihad Airways" | "Qatar Airways" | "Any ME Airline";
+type Airline = "Emirates" | "Etihad Airways" | "Qatar Airways" | "flydubai" | "Air Arabia" | "Any ME Airline";
 
 const CV_REVIEW_SYSTEM = `You are a senior cabin crew recruitment specialist with 15+ years of experience at top Middle Eastern airlines. You have reviewed thousands of cabin crew CVs and know exactly what gets candidates to the next stage.
 
@@ -44,7 +44,7 @@ Original: "[their actual line]"
 Improved: "[your rewrite]"
 
 ## 📏 ${airline} Fit Check
-[Does this CV reflect ${airline}'s known values and culture? What's missing?]
+[Based on publicly available information about ${airline}'s known values, culture, and typical hiring priorities, does this CV reflect what they look for? What could be strengthened? Note any observations are based on general public information and the candidate should verify current requirements directly with the airline.]
 
 ## 🔑 Top 5 Quick Wins
 1. [actionable improvement, specific to their CV]
@@ -67,7 +67,7 @@ export default function AICVReviewSection({ goBack, previousLabel, tier, onNavig
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const AIRLINES: Airline[] = ["Emirates", "Etihad Airways", "Qatar Airways", "Any ME Airline"];
+  const AIRLINES: Airline[] = ["Emirates", "Etihad Airways", "Qatar Airways", "flydubai", "Air Arabia", "Any ME Airline"];
 
   // Check if free user has used their trial
   if (!membership.canUseCVReview) {
@@ -76,7 +76,9 @@ export default function AICVReviewSection({ goBack, previousLabel, tier, onNavig
         <div className="max-w-3xl mx-auto">
           <BackButton onClick={goBack} label={`Back to ${previousLabel}`} />
           <div className="text-center mb-8">
-            <span className="inline-block bg-green-500/20 text-green-400 text-sm font-medium px-4 py-1.5 rounded-full mb-4 border border-green-500/30">📄 CV Review</span>
+            <span className="inline-block bg-green-500/20 text-green-400 text-sm font-medium px-4 py-1.5 rounded-full mb-4 border border-green-500/30">
+              📄 AI-Powered CV Review
+            </span>
             <h2 className="text-3xl font-bold text-white mb-3">You've used your free CV review</h2>
             <p className="text-slate-400 mb-2">Your free trial included 1 CV review. Upgrade to get unlimited reviews plus file upload.</p>
           </div>
@@ -96,19 +98,18 @@ export default function AICVReviewSection({ goBack, previousLabel, tier, onNavig
       return await file.text();
     }
 
-    // For PDF and Word docs — read as text (basic extraction)
-    // In production you'd use a proper library, but for now we read what we can
+    // For PDF and Word docs — basic text extraction
+    // Note: binary format extraction is limited; plain text paste gives best results
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (e) => {
         const result = e.target?.result as string;
-        // Strip binary garbage, keep readable text
         const cleaned = result
           .replace(/[^\x20-\x7E\n\r\t]/g, " ")
           .replace(/\s{3,}/g, "\n")
           .trim();
         if (cleaned.length < 50) {
-          reject(new Error("Could not extract text from this file. Please paste your CV text instead."));
+          reject(new Error("Could not extract enough text from this file. For best results, paste your CV text directly in the box below."));
         } else {
           resolve(cleaned);
         }
@@ -195,7 +196,9 @@ export default function AICVReviewSection({ goBack, previousLabel, tier, onNavig
 
   const renderFeedback = (text: string) => {
     return text.split("\n").map((line, i) => {
-      if (line.startsWith("## ")) return <h3 key={i} className="text-amber-400 font-bold text-lg mt-6 mb-3">{line.replace("## ", "")}</h3>;
+      if (line.startsWith("## ")) return (
+        <h3 key={i} className="text-amber-400 font-bold text-lg mt-6 mb-3">{line.replace("## ", "")}</h3>
+      );
       if (line.startsWith("- ")) return (
         <div key={i} className="flex items-start gap-2 mb-2">
           <span className="text-amber-400 mt-1 flex-shrink-0 text-xs">◆</span>
@@ -228,11 +231,13 @@ export default function AICVReviewSection({ goBack, previousLabel, tier, onNavig
 
         <div className="text-center mb-10">
           <span className="inline-block bg-green-500/20 text-green-400 text-sm font-medium px-4 py-1.5 rounded-full mb-4 border border-green-500/30">
-            📄 CV Review Tool
+            📄 AI-Powered CV Review
           </span>
-          <h2 className="text-4xl font-bold text-white mb-4">CV Review</h2>
+          <h2 className="text-4xl font-bold text-white mb-4">AI CV Review</h2>
           <p className="text-slate-400 text-lg max-w-xl mx-auto">
-            {tier === "free" ? "Free trial — 1 review included" : "Upload your CV or paste the text for instant expert feedback."}
+            {tier === "free"
+              ? "Free trial — 1 AI-powered review included"
+              : "Upload your CV or paste the text for instant AI-powered feedback."}
           </p>
           {tier === "free" && (
             <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 rounded-full px-4 py-1.5 mt-3">
@@ -244,13 +249,21 @@ export default function AICVReviewSection({ goBack, previousLabel, tier, onNavig
 
         {!reviewed ? (
           <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
+
             {/* Airline target */}
             <div className="mb-6">
               <p className="text-slate-300 font-semibold text-sm mb-3">Target Airline</p>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 {AIRLINES.map((a) => (
-                  <button key={a} onClick={() => setAirline(a)}
-                    className={`py-2 px-3 rounded-lg text-xs font-semibold border transition-all ${airline === a ? "bg-green-500/30 text-green-300 border-green-500/50" : "bg-white/5 text-slate-400 border-white/10 hover:bg-white/10"}`}>
+                  <button
+                    key={a}
+                    onClick={() => setAirline(a)}
+                    className={`py-2 px-3 rounded-lg text-xs font-semibold border transition-all ${
+                      airline === a
+                        ? "bg-green-500/30 text-green-300 border-green-500/50"
+                        : "bg-white/5 text-slate-400 border-white/10 hover:bg-white/10"
+                    }`}
+                  >
                     {a}
                   </button>
                 ))}
@@ -292,6 +305,10 @@ export default function AICVReviewSection({ goBack, previousLabel, tier, onNavig
                     </div>
                   )}
                 </div>
+                {/* PDF extraction quality warning */}
+                <p className="text-slate-600 text-xs mt-2 leading-relaxed">
+                  ⚠️ Text extraction from PDF and Word files may be incomplete. For the most accurate feedback, paste your CV text directly in the box below.
+                </p>
                 <div className="flex items-center gap-3 my-4">
                   <div className="flex-1 h-px bg-white/10" />
                   <span className="text-slate-500 text-xs">or paste text below</span>
@@ -304,7 +321,9 @@ export default function AICVReviewSection({ goBack, previousLabel, tier, onNavig
                   <p className="text-amber-400 font-semibold text-sm">📎 File upload available on Standard & Premium</p>
                   <p className="text-slate-500 text-xs mt-0.5">Paste your CV text below to use your free review</p>
                 </div>
-                <button onClick={onNavigatePremium} className="text-amber-400 text-xs font-bold hover:underline flex-shrink-0 ml-4">Upgrade →</button>
+                <button onClick={onNavigatePremium} className="text-amber-400 text-xs font-bold hover:underline flex-shrink-0 ml-4">
+                  Upgrade →
+                </button>
               </div>
             )}
 
@@ -350,17 +369,31 @@ export default function AICVReviewSection({ goBack, previousLabel, tier, onNavig
                   📊 Your CV Feedback
                   <span className="text-sm font-normal text-slate-400">— {airline}</span>
                 </h3>
-                <button onClick={reset} className="text-slate-400 hover:text-amber-400 text-sm transition-colors">↺ Review again</button>
+                <button onClick={reset} className="text-slate-400 hover:text-amber-400 text-sm transition-colors">
+                  ↺ Review again
+                </button>
               </div>
               <div>{renderFeedback(feedback)}</div>
+              {/* AI & airline disclaimer */}
+              <p className="text-slate-600 text-xs mt-5 pt-4 border-t border-white/5 leading-relaxed">
+                ⓘ Feedback generated by AI based on publicly available information. Airline-specific insights may not reflect current requirements — always verify directly with each airline before applying.
+              </p>
             </div>
             <div className="flex gap-4">
-              <button onClick={reset} className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 text-white font-bold py-4 rounded-xl transition-all">📄 Review Another CV</button>
-              <button onClick={goBack} className="flex-1 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-semibold py-4 rounded-xl transition-all">Back to Guide</button>
+              <button onClick={reset} className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 text-white font-bold py-4 rounded-xl transition-all">
+                📄 Review Another CV
+              </button>
+              <button onClick={goBack} className="flex-1 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-semibold py-4 rounded-xl transition-all">
+                Back to Guide
+              </button>
             </div>
           </>
         )}
-        <p className="text-slate-600 text-xs text-center mt-6">🔒 Your CV is sent to Anthropic's API for analysis and is not stored on our servers.</p>
+
+        {/* Updated data privacy footer */}
+        <p className="text-slate-600 text-xs text-center mt-6 leading-relaxed">
+          🔒 Your CV text is processed via Anthropic's API. It is not stored on our servers. Anthropic retains API request logs for up to 7 days before permanent deletion and does not use commercial API data for model training. See Anthropic's Privacy Policy for full details.
+        </p>
       </div>
     </div>
   );
