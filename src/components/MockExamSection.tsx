@@ -26,7 +26,7 @@ const QUESTIONS: Question[] = [
   { id: 2, type: "open", question: "A passenger becomes verbally aggressive because their meal choice is unavailable. How do you handle this?", category: "Behavioral", difficulty: "Medium", modelAnswer: "Stay calm, acknowledge frustration, apologise sincerely, offer alternatives, escalate to senior crew if needed." },
   { id: 3, type: "open", question: "During a flight, two passengers in the same row have a heated argument. What steps do you take?", category: "Situational", difficulty: "Medium", modelAnswer: "Intervene professionally, separate if possible, de-escalate calmly, document and inform senior crew." },
   { id: 4, type: "open", question: "Why do you want to work specifically for Emirates/a Middle Eastern airline?", category: "Personal", difficulty: "Easy", modelAnswer: "Show genuine airline knowledge — routes, values, service culture, crew diversity, training reputation." },
-  { id: 5, type: "open", question: "A passenger is showing signs of a medical emergency (clutching chest). Walk me through your response.", category: "Emergency", difficulty: "Hard", modelAnswer: "Alert senior crew immediately, retrieve first aid kit and AED, follow emergency protocols, ask for medical professionals onboard, prepare for diversion if needed." },
+  { id: 5, type: "open", question: "A passenger is showing signs of a medical emergency (clutching chest). Walk me through your response.", category: "Emergency", difficulty: "Hard", modelAnswer: "Alert senior crew immediately, assess symptoms, retrieve the emergency medical kit and AED if cardiac arrest is suspected, follow the airline's emergency medical protocol, ask for medical professionals onboard, and prepare for possible diversion if needed." },
   { id: 6, type: "open", question: "You've been awake for 18 hours and have a 12-hour flight ahead. How do you ensure you deliver excellent service?", category: "Personal", difficulty: "Medium", modelAnswer: "Professional responsibility, rest strategies during layover, teamwork with crew, maintaining standards regardless of fatigue." },
   { id: 7, type: "open", question: "A child is travelling alone and seems frightened. How do you manage their journey?", category: "Situational", difficulty: "Easy", modelAnswer: "Introduce yourself warmly, explain who you are, ensure comfort, follow Unaccompanied Minor protocols." },
   { id: 8, type: "open", question: "A colleague is behaving unprofessionally during service. What do you do?", category: "Behavioral", difficulty: "Hard", modelAnswer: "Address privately after service, support the team during service, escalate to senior crew if passenger-facing, document if needed." },
@@ -41,7 +41,7 @@ const QUESTIONS: Question[] = [
   { id: 15, type: "multiple", question: "Which of the following is NOT an acceptable reason to upgrade a passenger?", category: "Behavioral", difficulty: "Medium", modelAnswer: "Personal preference for the passenger is not a valid or ethical reason for an upgrade.", options: ["Medical necessity approved by senior crew", "Operational reasons (overbooking)", "Personal preference for the passenger", "Unaccompanied minor needing closer supervision"], correctOption: 2 },
   { id: 16, type: "multiple", question: "How should you address a passenger who appears intoxicated and is requesting more alcohol?", category: "Situational", difficulty: "Hard", modelAnswer: "Politely decline and inform the senior crew member — serving more alcohol to an intoxicated passenger is against aviation regulations.", options: ["Serve them one last drink and then stop", "Politely decline and inform senior crew", "Ignore the request and avoid the passenger", "Ask other passengers to intervene"], correctOption: 1 },
   { id: 17, type: "multiple", question: "What does CRM stand for in aviation?", category: "Knowledge", difficulty: "Medium", modelAnswer: "Crew Resource Management — the use of all available resources to ensure safe and efficient operations.", options: ["Cabin Resource Management", "Crew Resource Management", "Customer Relations Manual", "Crisis Response Method"], correctOption: 1 },
-  { id: 18, type: "multiple", question: "During an emergency evacuation, what is the correct command to use?", category: "Emergency", difficulty: "Hard", modelAnswer: "'Release seatbelts, leave everything, come this way' — the standard evacuation command.", options: ["Please gather your belongings and proceed to the exit", "Release seatbelts, leave everything, come this way", "Remain seated until further instructions", "Please walk calmly to the nearest exit"], correctOption: 1 },
+  { id: 18, type: "multiple", question: "During an emergency evacuation, which of the following is a widely used cabin crew command?", category: "Emergency", difficulty: "Hard", modelAnswer: "A widely used evacuation command is: 'Release seatbelts, leave everything, come this way!' However, the exact wording varies by airline — you will learn your specific airline's commands during initial training.", options: ["Please gather your belongings and proceed to the exit", "Release seatbelts, leave everything, come this way", "Remain seated until further instructions", "Please walk calmly to the nearest exit"], correctOption: 1 },
   { id: 19, type: "multiple", question: "Which airline is headquartered in Doha, Qatar?", category: "Knowledge", difficulty: "Easy", modelAnswer: "Qatar Airways is headquartered at Hamad International Airport in Doha, Qatar.", options: ["Emirates", "Etihad Airways", "Qatar Airways", "flydubai"], correctOption: 2 },
 
   // ── Math / Time Zone ──────────────────────────────────────────────────────
@@ -94,14 +94,14 @@ export default function MockExamSection({ goBack, previousLabel, tier, onNavigat
     try {
       const result = await callClaude([{
         role: "user",
-        content: `You are a cabin crew interview assessor. Assess this answer out of 10 and give concise feedback (3-4 sentences). Do not mention Claude or AI in your response.
+        content: `You are a cabin crew interview assessor. Assess this answer out of 10 and give concise, practical feedback (3-4 sentences). Focus on the quality of examples used, alignment with cabin crew values, and one specific improvement suggestion.
 
 Question: "${question.question}"
 Category: ${question.category}
 Candidate Answer: "${answer}"
 Model Answer Guidance: "${question.modelAnswer}"
 
-Format: Start with "Score: X/10" then a brief assessment.`,
+Format: Start with "Score: X/10" then give your assessment.`,
       }]);
       setFeedback(result);
       const scoreMatch = result.match(/Score:\s*(\d+)/i);
@@ -164,14 +164,20 @@ Format: Start with "Score: X/10" then a brief assessment.`,
             <div className="bg-slate-800/60 border border-white/10 rounded-2xl p-6 max-w-sm mx-auto mb-6">
               <p className="text-white font-bold mb-1">Try a free demo</p>
               <p className="text-slate-400 text-sm mb-4">Preview 1 question with full feedback — no account needed</p>
-              <button onClick={() => { setDemoMode(true); }} className="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold py-3 rounded-xl text-sm transition-all hover:scale-[1.01]">
+              <button
+                onClick={() => { setDemoMode(true); }}
+                className="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold py-3 rounded-xl text-sm transition-all hover:scale-[1.01]"
+              >
                 🎯 Try Demo Question
               </button>
             </div>
             <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-6 max-w-sm mx-auto">
               <p className="text-white font-bold mb-1">Unlock all 25 questions</p>
               <p className="text-slate-400 text-sm mb-4">Get full access with Standard or Premium plan</p>
-              <button onClick={onNavigatePremium} className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-900 font-bold py-3 rounded-xl text-sm transition-all hover:scale-[1.01]">
+              <button
+                onClick={onNavigatePremium}
+                className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-900 font-bold py-3 rounded-xl text-sm transition-all hover:scale-[1.01]"
+              >
                 ⭐ View Plans
               </button>
             </div>
@@ -189,15 +195,37 @@ Format: Start with "Score: X/10" then a brief assessment.`,
           <BackButton onClick={goBack} label={`Back to ${previousLabel}`} />
           <div className="py-10">
             <div className="text-6xl mb-4">🎉</div>
-            <h2 className="text-3xl font-bold text-white mb-2">{demoMode ? "Demo Complete!" : "Exam Complete!"}</h2>
-            {avgScore && <p className="text-slate-400 mb-2">Average score: <span className="text-amber-400 font-bold text-xl">{avgScore}/10</span></p>}
-            {!demoMode && multipleChoiceTotal > 0 && (
-              <p className="text-slate-400 mb-2">Multiple choice: <span className="text-blue-400 font-bold">{correctCount}/{answeredMultiple} correct</span></p>
+            <h2 className="text-3xl font-bold text-white mb-2">
+              {demoMode ? "Demo Complete!" : "Exam Complete!"}
+            </h2>
+            {avgScore && (
+              <p className="text-slate-400 mb-2">
+                Average score: <span className="text-amber-400 font-bold text-xl">{avgScore}/10</span>
+              </p>
             )}
-            <p className="text-slate-500 text-sm mb-8">{demoMode ? "You've completed the demo question." : `You answered all ${questions.length} questions.`}</p>
+            {!demoMode && multipleChoiceTotal > 0 && (
+              <p className="text-slate-400 mb-2">
+                Multiple choice: <span className="text-blue-400 font-bold">{correctCount}/{answeredMultiple} correct</span>
+              </p>
+            )}
+            <p className="text-slate-500 text-sm mb-8">
+              {demoMode ? "You've completed the demo question." : `You answered all ${questions.length} questions.`}
+            </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <button onClick={restart} className="bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold py-3 px-6 rounded-xl text-sm transition-all">Restart</button>
-              {demoMode && <button onClick={onNavigatePremium} className="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold py-3 px-6 rounded-xl text-sm transition-all">Unlock All 25 Questions →</button>}
+              <button
+                onClick={restart}
+                className="bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold py-3 px-6 rounded-xl text-sm transition-all"
+              >
+                Restart
+              </button>
+              {demoMode && (
+                <button
+                  onClick={onNavigatePremium}
+                  className="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold py-3 px-6 rounded-xl text-sm transition-all"
+                >
+                  Unlock All 25 Questions →
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -214,7 +242,9 @@ Format: Start with "Score: X/10" then a brief assessment.`,
         {demoMode && (
           <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl px-4 py-3 mb-6 flex items-center justify-between">
             <p className="text-amber-400 text-sm font-medium">🎯 Demo — 1 question preview</p>
-            <button onClick={onNavigatePremium} className="text-amber-400 hover:text-amber-300 text-xs underline">Unlock all 25 →</button>
+            <button onClick={onNavigatePremium} className="text-amber-400 hover:text-amber-300 text-xs underline">
+              Unlock all 25 →
+            </button>
           </div>
         )}
 
@@ -230,16 +260,29 @@ Format: Start with "Score: X/10" then a brief assessment.`,
           <p className="text-slate-400 text-sm">Question {currentQ + 1} of {questions.length}</p>
           <div className="flex gap-1 flex-wrap justify-end max-w-[200px]">
             {questions.map((_, i) => (
-              <div key={i} className={`h-1.5 w-5 rounded-full transition-all ${i < currentQ ? "bg-amber-500" : i === currentQ ? "bg-amber-400" : "bg-slate-700"}`} />
+              <div
+                key={i}
+                className={`h-1.5 w-5 rounded-full transition-all ${
+                  i < currentQ ? "bg-amber-500" : i === currentQ ? "bg-amber-400" : "bg-slate-700"
+                }`}
+              />
             ))}
           </div>
         </div>
 
         <div className="bg-slate-800/60 border border-white/10 rounded-2xl p-6 mb-5">
           <div className="flex items-center gap-2 mb-4 flex-wrap">
-            <span className={`text-xs px-2 py-0.5 rounded border font-medium ${difficultyColor[question.difficulty]}`}>{question.difficulty}</span>
-            <span className={`text-xs px-2 py-0.5 rounded border font-medium ${categoryColor[question.category] || "text-slate-400 bg-slate-700/50 border-white/5"}`}>{question.category}</span>
-            {isMultiple && <span className="text-xs px-2 py-0.5 rounded border font-medium text-slate-400 bg-slate-700/50 border-white/5">Multiple Choice</span>}
+            <span className={`text-xs px-2 py-0.5 rounded border font-medium ${difficultyColor[question.difficulty]}`}>
+              {question.difficulty}
+            </span>
+            <span className={`text-xs px-2 py-0.5 rounded border font-medium ${categoryColor[question.category] || "text-slate-400 bg-slate-700/50 border-white/5"}`}>
+              {question.category}
+            </span>
+            {isMultiple && (
+              <span className="text-xs px-2 py-0.5 rounded border font-medium text-slate-400 bg-slate-700/50 border-white/5">
+                Multiple Choice
+              </span>
+            )}
           </div>
           <p className="text-white text-lg font-medium leading-relaxed">{question.question}</p>
         </div>
@@ -297,11 +340,24 @@ Format: Start with "Score: X/10" then a brief assessment.`,
             />
 
             <div className="flex flex-col sm:flex-row gap-3 mb-5">
-              <button onClick={getFeedback} disabled={!answer.trim() || loadingFeedback}
-                className="flex-1 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-900 font-bold py-3 rounded-xl text-sm transition-all disabled:opacity-50 flex items-center justify-center gap-2">
-                {loadingFeedback ? <><span className="w-4 h-4 border-2 border-slate-900/40 border-t-slate-900 rounded-full animate-spin" />Getting feedback…</> : "Get Feedback"}
+              <button
+                onClick={getFeedback}
+                disabled={!answer.trim() || loadingFeedback}
+                className="flex-1 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-900 font-bold py-3 rounded-xl text-sm transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+              >
+                {loadingFeedback ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-slate-900/40 border-t-slate-900 rounded-full animate-spin" />
+                    Getting feedback…
+                  </>
+                ) : (
+                  "Get Feedback"
+                )}
               </button>
-              <button onClick={() => setShowModel(!showModel)} className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium py-3 rounded-xl text-sm transition-all">
+              <button
+                onClick={() => setShowModel(!showModel)}
+                className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium py-3 rounded-xl text-sm transition-all"
+              >
                 {showModel ? "Hide" : "Show"} Model Answer
               </button>
             </div>
@@ -310,6 +366,9 @@ Format: Start with "Score: X/10" then a brief assessment.`,
               <div className="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-5 mb-4">
                 <p className="text-blue-400 text-xs font-bold uppercase tracking-wider mb-2">Feedback</p>
                 <p className="text-slate-200 text-sm leading-relaxed whitespace-pre-wrap">{feedback}</p>
+                <p className="text-slate-600 text-xs mt-3 pt-3 border-t border-white/5">
+                  ⓘ Feedback is AI-generated and for practice purposes only — not a substitute for professional interview coaching.
+                </p>
               </div>
             )}
 
@@ -322,7 +381,10 @@ Format: Start with "Score: X/10" then a brief assessment.`,
           </>
         )}
 
-        <button onClick={nextQuestion} className="w-full bg-slate-700 hover:bg-slate-600 text-white font-medium py-3 rounded-xl text-sm transition-all mt-2">
+        <button
+          onClick={nextQuestion}
+          className="w-full bg-slate-700 hover:bg-slate-600 text-white font-medium py-3 rounded-xl text-sm transition-all mt-2"
+        >
           {currentQ < questions.length - 1 ? "Next Question →" : "Finish Exam"}
         </button>
       </div>
