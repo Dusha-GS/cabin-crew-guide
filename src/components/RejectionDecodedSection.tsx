@@ -416,7 +416,7 @@ export default function RejectionDecodedSection({
         <div className="relative bg-gradient-to-br from-red-950/60 via-slate-800/80 to-slate-900 border border-red-500/20 rounded-3xl p-8 md:p-12 overflow-hidden mb-6">
           {/* Faded background photo — right-weighted, behind text. Drop a licensed image at public/images/rejection-decoded-bg.jpg */}
           <div
-            className="absolute inset-0 bg-cover opacity-30"
+            className="absolute inset-0 bg-cover opacity-50"
             style={{
               backgroundImage: "url(/images/rejection-decoded-bg.jpg)",
               backgroundPosition: "right center",
