@@ -64,7 +64,7 @@ export const airlines = [
 export const requirements = {
   emirates: {
     minAge: 21,
-    minHeight: "212cm arm reach (tiptoes)",
+    minHeight: "212cm arm reach (barefoot, tiptoes allowed)",
     education: "High school / secondary school minimum",
     experience: "Customer-facing or hospitality experience preferred",
     languages: "Fluent English required; additional languages a plus",
@@ -75,13 +75,13 @@ export const requirements = {
       "No visible piercings — women are permitted one stud earring per earlobe only; men are not permitted any piercings or jewellery in uniform (widely reported by candidates)",
       "No visible tattoos when in uniform",
       "Clear complexion — airlines widely report this as a grooming standard; verify current requirements directly with Emirates",
-      "Arm reach of 212cm minimum — Emirates allows tiptoes and heels to achieve this",
+      "Arm reach of 212cm minimum — reach test is performed barefoot (shoes removed); tiptoes are allowed",
       "Willingness to relocate to Dubai",
     ],
   },
   etihad: {
     minAge: 21,
-    minHeight: "212cm arm reach (verify directly with Etihad)",
+    minHeight: "212cm arm reach (barefoot, tiptoes allowed — verify directly with Etihad)",
     education: "High school minimum",
     experience: "Hospitality or customer service preferred",
     languages: "Fluent English; Arabic or other languages advantageous",
@@ -98,7 +98,7 @@ export const requirements = {
   },
   qatar: {
     minAge: 21,
-    minHeight: "212cm arm reach — flat-footed, no heels (verify directly with Qatar Airways)",
+    minHeight: "212cm arm reach — performed barefoot; tiptoes allowed (verify directly with Qatar Airways)",
     education: "High school certificate minimum",
     experience: "Customer service experience preferred",
     languages: "Excellent English; additional languages valued",
@@ -174,9 +174,9 @@ export const interviewStages = {
       title: "Reach Test",
       description: "Physical test to verify you can reach 212cm overhead — simulating access to emergency equipment.",
       tips: [
-        "Emirates allows tiptoes and heels — wear them if needed",
-        "Stretch your arms fully",
-        "Practice the reach daily before your assessment",
+        "The reach test is performed barefoot — remove shoes before the test",
+        "Tiptoes are allowed — practice your barefoot tiptoe reach at home until you consistently hit 212cm",
+        "Stretch your arms fully — one arm extended upward",
       ],
     },
     {
@@ -236,9 +236,9 @@ export const interviewStages = {
       title: "Reach & Physical Assessment",
       description: "Verify 212cm reach requirement and overall physical presentation.",
       tips: [
-        "Wear smart heels",
-        "Practice reaching in advance",
-        "Maintain good posture",
+        "Reach test is performed barefoot — remove shoes before the test",
+        "Tiptoes are allowed — practice your barefoot tiptoe reach to 212cm",
+        "Maintain good posture throughout",
       ],
     },
     {
@@ -296,11 +296,11 @@ export const interviewStages = {
     {
       stage: 3,
       title: "Reach Test",
-      description: "212cm reach test — Qatar Airways candidates widely report this is conducted flat-footed. Verify the exact method directly with Qatar Airways before your assessment.",
+      description: "212cm reach test — performed barefoot with shoes removed. Tiptoes are allowed. Multiple candidate sources confirm this applies at Qatar Airways assessment days — verify directly with Qatar Airways before your event.",
       tips: [
-        "Candidates widely report this is flat-footed — no heels",
-        "Practice your reach daily",
-        "Wear flat professional shoes — verify Qatar's exact method before your event",
+        "Remove shoes before the reach test — it is performed barefoot",
+        "Tiptoes are allowed — practice your barefoot tiptoe reach at home",
+        "One arm extended upward — practice consistently reaching 212cm",
       ],
     },
     {
