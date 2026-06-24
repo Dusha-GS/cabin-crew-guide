@@ -651,6 +651,18 @@ export const interviewQuestions = {
         "End with a positive resolution and lesson learned",
       ],
     },
+    {
+      question: "Tell me about a time you had to adapt quickly to an unexpected change or challenge at work.",
+      difficulty: "Medium",
+      category: "Behavioral",
+      sampleAnswer: "During a peak season at my hotel, our entire ordering system went offline mid-service during a major corporate event. With no access to digital records, I immediately gathered the team, assigned each person specific tables to manage manually, created handwritten order sheets, and personally coordinated between the kitchen and the floor. We completed the event only 20 minutes behind schedule, the client was genuinely appreciative of our professionalism under pressure, and my manager cited my quick response in my end-of-year review.",
+      tips: [
+        "Use STAR format — the Action step is where you shine here",
+        "Adaptability and calm under pressure are central to the cabin crew role — this question tests both",
+        "Show that you took charge without waiting to be told — initiative is key",
+        "The Result should show a positive outcome even under difficult conditions",
+      ],
+    },
   ],
   situational: [
     {
@@ -699,6 +711,18 @@ export const interviewQuestions = {
         "Respect their privacy while showing care",
         "Mention checking in again later — shows follow-through",
         "Demonstrate awareness that passengers are human beings, not tasks",
+      ],
+    },
+    {
+      question: "You discover an unattended bag in the overhead compartment and no passenger on the flight claims it. What do you do?",
+      difficulty: "Hard",
+      category: "Situational",
+      sampleAnswer: "Security is my immediate priority. I would calmly and discreetly ask nearby passengers if the bag belongs to them, without drawing unnecessary attention or causing alarm. If no one claims it, I would immediately and quietly notify the senior cabin crew member and the captain — following the airline's security protocol for unattended items. This may include clearing the surrounding area, not touching or moving the bag independently, and liaising with ground security at our destination. I would document everything accurately and remain calm throughout.",
+      tips: [
+        "Never handle or move the bag independently — this is critical protocol",
+        "Notify the senior crew and captain immediately — chain of command is everything in a security situation",
+        "Act discreetly — preventing passenger panic is as important as the security response",
+        "Show awareness that your airline's specific training will cover the exact steps — you are demonstrating your mindset, not reciting a specific manual",
       ],
     },
   ],
@@ -750,6 +774,18 @@ export const interviewQuestions = {
         "Demonstrate cultural awareness and sensitivity",
         "Show service excellence regardless of the passenger's choice",
         "This tests your EQ as much as your knowledge",
+      ],
+    },
+    {
+      question: "What is the difference between a planned and an unplanned emergency in aviation?",
+      difficulty: "Medium",
+      category: "Knowledge",
+      sampleAnswer: "A planned emergency is one where the crew has advance notice — for example, a declared technical issue requiring an emergency landing, or a medical situation developing over time. This allows the crew to brief passengers, prepare the cabin, check safety equipment, secure the galley, and coordinate with the captain and ground services. An unplanned emergency happens without warning — such as sudden severe turbulence, a rapid decompression, or a cabin fire. In that case, crew must respond immediately based on their training with no preparation time. In both cases the priority is identical — passenger safety — but a planned emergency allows for a more controlled, coordinated response.",
+      tips: [
+        "This question tests genuine aviation safety knowledge — study it before your interview",
+        "The key distinction is preparation time: planned allows briefing and coordination, unplanned requires immediate instinctive response",
+        "Always anchor both scenarios to passenger safety as the constant priority",
+        "Mentioning specific examples (technical emergency vs sudden turbulence) shows real understanding, not just a memorised answer",
       ],
     },
   ],
