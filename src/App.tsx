@@ -43,7 +43,8 @@ const STANDARD_SECTIONS = ["questions"];
 const PREMIUM_SECTIONS = ["ask-cabin-crew", "group-discussion", "mock-interview"];
 
 // All sections that require at least a free account to access
-const LOGIN_REQUIRED_SECTIONS = [...STANDARD_SECTIONS, ...PREMIUM_SECTIONS];
+// cv-review included: free users get 1 trial review, but must be logged in first
+const LOGIN_REQUIRED_SECTIONS = [...STANDARD_SECTIONS, ...PREMIUM_SECTIONS, "cv-review"];
 
 export default function App() {
   const [activeSection, setActiveSection] = useState(() => {
