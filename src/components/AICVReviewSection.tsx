@@ -77,7 +77,7 @@ export default function AICVReviewSection({ goBack, previousLabel, tier, onNavig
           <BackButton onClick={goBack} label={`Back to ${previousLabel}`} />
           <div className="text-center mb-8">
             <span className="inline-block bg-green-500/20 text-green-400 text-sm font-medium px-4 py-1.5 rounded-full mb-4 border border-green-500/30">
-              📄 AI-Powered CV Review
+              📄 CV Review
             </span>
             <h2 className="text-3xl font-bold text-white mb-3">You've used your free CV review</h2>
             <p className="text-slate-400 mb-2">Your free trial included 1 CV review. Upgrade to get unlimited reviews plus file upload.</p>
@@ -231,7 +231,7 @@ export default function AICVReviewSection({ goBack, previousLabel, tier, onNavig
 
         <div className="text-center mb-10">
           <span className="inline-block bg-green-500/20 text-green-400 text-sm font-medium px-4 py-1.5 rounded-full mb-4 border border-green-500/30">
-            📄 AI-Powered CV Review
+            📄 CV Review
           </span>
           <h2 className="text-4xl font-bold text-white mb-4">AI CV Review</h2>
           <p className="text-slate-400 text-lg max-w-xl mx-auto">
@@ -390,7 +390,7 @@ export default function AICVReviewSection({ goBack, previousLabel, tier, onNavig
           </>
         )}
 
-        {/* Updated data privacy footer */}
+        {/* Data privacy footer */}
         <p className="text-slate-600 text-xs text-center mt-6 leading-relaxed">
           🔒 Your CV text is processed via Anthropic's API. It is not stored on our servers. Anthropic retains API request logs for up to 7 days before permanent deletion and does not use commercial API data for model training. See Anthropic's Privacy Policy for full details.
         </p>
