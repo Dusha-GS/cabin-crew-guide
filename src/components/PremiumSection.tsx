@@ -11,7 +11,7 @@ interface Props {
   onLoginClick?: () => void;
 }
 
-export default function PremiumSection({ goBack, previousLabel, setActiveSection, user }: Props) {
+export default function PremiumSection({ goBack, previousLabel, setActiveSection, user, onLoginClick }: Props) {
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [showTermsError, setShowTermsError] = useState(false);
@@ -20,6 +20,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
 
   const isStandard = user?.tier === "standard";
   const isPremium = user?.tier === "premium";
+  const isLoggedIn = !!user;
 
   const getWhopLink = (baseLink: string) => {
     if (user?.email) {
@@ -29,6 +30,11 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
   };
 
   const handleUnlock = () => {
+    // Must be logged in before any payment
+    if (!isLoggedIn) {
+      onLoginClick?.();
+      return;
+    }
     if (!termsAccepted || !privacyAccepted) {
       setShowTermsError(true);
       termsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -39,6 +45,16 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
       link = isStandard ? getWhopLink(WHOP_UPGRADE_LINK) : getWhopLink(WHOP_PREMIUM_LINK);
     }
     window.open(link, "_blank");
+  };
+
+  // When not logged in, clicking a plan card triggers login
+  const handleSelectPlan = (plan: "standard" | "premium") => {
+    if (!isLoggedIn) {
+      onLoginClick?.();
+      return;
+    }
+    setSelectedPlan(plan);
+    termsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
   const comparisonRows = [
@@ -101,18 +117,27 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
               <li className="text-slate-500 text-sm flex items-center gap-2"><span>—</span> No guide access</li>
               <li className="text-slate-500 text-sm flex items-center gap-2"><span>—</span> No forum</li>
             </ul>
-            <div className="w-full bg-white/5 border border-white/10 text-slate-400 font-semibold py-3 rounded-xl text-center text-sm">
-              {user?.tier === "free" || !user ? "Current plan" : "—"}
-            </div>
+            {!isLoggedIn ? (
+              <button
+                onClick={onLoginClick}
+                className="w-full bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 font-semibold py-3 rounded-xl text-center text-sm transition-all"
+              >
+                Create Free Account →
+              </button>
+            ) : (
+              <div className="w-full bg-white/5 border border-white/10 text-slate-400 font-semibold py-3 rounded-xl text-center text-sm">
+                {user?.tier === "free" ? "Current plan" : "—"}
+              </div>
+            )}
           </div>
 
           {/* Standard */}
           <div
-            onClick={() => !isStandard && !isPremium && setSelectedPlan("standard")}
+            onClick={() => !isStandard && !isPremium && handleSelectPlan("standard")}
             className={`border-2 rounded-2xl p-4 md:p-6 transition-all ${
               isStandard || isPremium
                 ? "border-blue-500/40 bg-blue-500/5 cursor-default"
-                : selectedPlan === "standard"
+                : selectedPlan === "standard" && isLoggedIn
                 ? "border-blue-500/60 bg-blue-500/10 cursor-pointer"
                 : "border-white/10 bg-white/5 hover:border-blue-500/30 cursor-pointer"
             }`}
@@ -120,7 +145,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
             <div className="flex items-center justify-between mb-3">
               <p className="text-blue-400 font-bold text-sm uppercase tracking-wider">Standard</p>
               {isStandard && <span className="bg-blue-500/20 text-blue-400 text-xs px-2 py-0.5 rounded-full border border-blue-500/30">Your plan</span>}
-              {!isStandard && !isPremium && selectedPlan === "standard" && <span className="bg-blue-500/20 text-blue-400 text-xs px-2 py-0.5 rounded-full border border-blue-500/30">Selected</span>}
+              {!isStandard && !isPremium && selectedPlan === "standard" && isLoggedIn && <span className="bg-blue-500/20 text-blue-400 text-xs px-2 py-0.5 rounded-full border border-blue-500/30">Selected</span>}
             </div>
             <div className="text-4xl font-bold text-white mb-1">$15</div>
             <p className="text-slate-500 text-sm mb-6">per month · cancel anytime</p>
@@ -141,25 +166,25 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
               </div>
             ) : (
               <button
-                onClick={(e) => { e.stopPropagation(); setSelectedPlan("standard"); termsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }); }}
+                onClick={(e) => { e.stopPropagation(); handleSelectPlan("standard"); }}
                 className={`w-full font-bold py-3 rounded-xl text-sm transition-all ${
-                  selectedPlan === "standard"
+                  selectedPlan === "standard" && isLoggedIn
                     ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white"
-                    : "bg-white/5 border border-white/10 text-slate-300"
+                    : "bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10"
                 }`}
               >
-                {selectedPlan === "standard" ? "✓ Selected — accept terms below ↓" : "Select Standard"}
+                {!isLoggedIn ? "Sign in to Subscribe →" : selectedPlan === "standard" ? "✓ Selected — accept terms below ↓" : "Select Standard"}
               </button>
             )}
           </div>
 
           {/* Premium */}
           <div
-            onClick={() => !isPremium && setSelectedPlan("premium")}
+            onClick={() => !isPremium && handleSelectPlan("premium")}
             className={`border-2 rounded-2xl p-4 md:p-6 transition-all relative overflow-hidden ${
               isPremium
                 ? "border-amber-500/40 bg-amber-500/5 cursor-default"
-                : selectedPlan === "premium"
+                : selectedPlan === "premium" && isLoggedIn
                 ? "border-amber-500/60 bg-amber-500/10 cursor-pointer"
                 : "border-amber-500/30 bg-amber-500/5 hover:border-amber-500/50 cursor-pointer"
             }`}
@@ -168,7 +193,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
             <div className="flex items-center justify-between mb-3">
               <p className="text-amber-400 font-bold text-sm uppercase tracking-wider">Premium</p>
               {isPremium && <span className="bg-amber-500/20 text-amber-400 text-xs px-2 py-0.5 rounded-full border border-amber-500/30">Your plan</span>}
-              {!isPremium && selectedPlan === "premium" && <span className="bg-amber-500/20 text-amber-400 text-xs px-2 py-0.5 rounded-full border border-amber-500/30">Selected</span>}
+              {!isPremium && selectedPlan === "premium" && isLoggedIn && <span className="bg-amber-500/20 text-amber-400 text-xs px-2 py-0.5 rounded-full border border-amber-500/30">Selected</span>}
             </div>
             <div className="flex items-baseline gap-2 mb-1">
               <div className="text-4xl font-bold text-white">{premiumPrice}</div>
@@ -188,23 +213,38 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
               </div>
             ) : (
               <button
-                onClick={(e) => { e.stopPropagation(); setSelectedPlan("premium"); termsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }); }}
+                onClick={(e) => { e.stopPropagation(); handleSelectPlan("premium"); }}
                 className={`w-full font-bold py-3 rounded-xl text-sm transition-all ${
-                  selectedPlan === "premium"
+                  selectedPlan === "premium" && isLoggedIn
                     ? "bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900"
-                    : "bg-amber-500/20 border border-amber-500/30 text-amber-400"
+                    : "bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30"
                 }`}
               >
-                {selectedPlan === "premium"
-                  ? "✓ Selected — accept terms below ↓"
-                  : isStandard ? `Upgrade for ${premiumPrice}/mo` : "Select Premium"}
+                {!isLoggedIn ? "Sign in to Subscribe →" : selectedPlan === "premium" ? "✓ Selected — accept terms below ↓" : isStandard ? `Upgrade for ${premiumPrice}/mo` : "Select Premium"}
               </button>
             )}
           </div>
         </div>
 
-        {/* Terms + CTA */}
-        {!isPremium && (
+        {/* Sign in prompt for non-logged-in users */}
+        {!isLoggedIn && (
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-8 mb-10 text-center">
+            <div className="text-4xl mb-4">🔐</div>
+            <h3 className="text-white font-bold text-xl mb-2">Sign in to subscribe</h3>
+            <p className="text-slate-400 text-sm mb-6 max-w-md mx-auto">
+              Create a free account or sign in first — this links your payment to your account so access is activated automatically.
+            </p>
+            <button
+              onClick={onLoginClick}
+              className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-900 font-bold px-10 py-4 rounded-xl text-base transition-all hover:scale-[1.01] shadow-lg shadow-amber-500/20"
+            >
+              Sign in / Create Free Account →
+            </button>
+          </div>
+        )}
+
+        {/* Terms + CTA for logged-in users */}
+        {isLoggedIn && !isPremium && (
           <div className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6 mb-10">
             <p className="text-white font-bold text-base mb-4">
               {isStandard && selectedPlan === "premium"
@@ -309,8 +349,6 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
             </table>
           </div>
         </div>
-
-
       </div>
     </div>
   );
