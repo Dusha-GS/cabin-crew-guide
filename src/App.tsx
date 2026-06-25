@@ -37,7 +37,9 @@ const sectionLabels: Record<string, string> = {
   account: "My Account",
 };
 
-const STANDARD_SECTIONS = ["requirements", "dress-code", "cv-guide", "questions", "conduct"];
+// Prepare section is free for all users
+// Only Interview Q&A remains Standard-gated (Practice section)
+const STANDARD_SECTIONS = ["questions"];
 const PREMIUM_SECTIONS = ["ask-cabin-crew", "group-discussion", "mock-interview"];
 
 export default function App() {
@@ -187,7 +189,17 @@ export default function App() {
             <div>
               <p className="text-white font-bold text-sm mb-3">Quick Navigation</p>
               <div className="grid grid-cols-2 gap-1">
-                {[{id:"mock-interview",label:"Mock Interview"},{id:"cv-review",label:"CV Review"},{id:"questions",label:"Interview Q&A"},{id:"mock-exam",label:"Mock Exam"},{id:"open-days",label:"Open Days"},{id:"ask-cabin-crew",label:"Ask Cabin Crew"},{id:"premium",label:"Pricing"},{id:"terms",label:"Terms"},{id:"privacy",label:"Privacy"}].map((item) => (
+                {[
+                  { id: "mock-interview", label: "Mock Interview" },
+                  { id: "cv-review", label: "CV Review" },
+                  { id: "questions", label: "Interview Q&A" },
+                  { id: "mock-exam", label: "Mock Exam" },
+                  { id: "open-days", label: "Open Days" },
+                  { id: "ask-cabin-crew", label: "Ask Cabin Crew" },
+                  { id: "premium", label: "Pricing" },
+                  { id: "terms", label: "Terms" },
+                  { id: "privacy", label: "Privacy" },
+                ].map((item) => (
                   <button key={item.id} onClick={() => handleSetSection(item.id)} className="text-slate-400 hover:text-amber-400 text-sm text-left transition-colors">› {item.label}</button>
                 ))}
               </div>
@@ -195,7 +207,7 @@ export default function App() {
             <div>
               <p className="text-white font-bold text-sm mb-3">Airlines Covered</p>
               <div className="space-y-1 mb-4">
-                {["Emirates (Dubai)","Etihad Airways (Abu Dhabi)","Qatar Airways (Doha)","flydubai (Dubai)","Air Arabia (Sharjah)"].map((a) => (
+                {["Emirates (Dubai)", "Etihad Airways (Abu Dhabi)", "Qatar Airways (Doha)", "flydubai (Dubai)", "Air Arabia (Sharjah)"].map((a) => (
                   <p key={a} className="text-slate-400 text-sm flex items-center gap-1.5"><span className="text-amber-400 text-xs">✈</span> {a}</p>
                 ))}
               </div>
