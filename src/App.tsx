@@ -112,6 +112,9 @@ export default function App() {
   const handleLogout = () => { clearStoredUser(); setUser(null); handleSetSection("home"); };
   const openLogin = () => setShowAuthModal(true);
 
+  // If not logged in, show login modal first — never send anonymous users straight to payment
+  const navigateToPremium = () => user ? handleSetSection("premium") : openLogin();
+
   const tier = user?.tier ?? "free";
   const needsLogin = !user && LOGIN_REQUIRED_SECTIONS.includes(activeSection);
   const isStandardGated = !!user && STANDARD_SECTIONS.includes(activeSection) && tier === "free";
@@ -157,7 +160,7 @@ export default function App() {
           requiredTier="standard"
           featureName={sectionLabels[activeSection] || "This Section"}
           featureDescription="This content is available to Standard and Premium members."
-          onNavigatePremium={() => handleSetSection("premium")}
+          onNavigatePremium={navigateToPremium}
           user={user}
         />
       </div></div>
@@ -168,7 +171,7 @@ export default function App() {
           requiredTier="premium"
           featureName={sectionLabels[activeSection] || "This Section"}
           featureDescription="This feature is exclusively available to Premium members."
-          onNavigatePremium={() => handleSetSection("premium")}
+          onNavigatePremium={navigateToPremium}
           user={user}
         />
       </div></div>
@@ -181,19 +184,19 @@ export default function App() {
       case "cv-guide": return <CVGuideSection goBack={goBack} previousLabel={previousLabel} />;
       case "questions": return <InterviewQASection goBack={goBack} previousLabel={previousLabel} />;
       case "group-discussion": return <GroupDiscussionSection goBack={goBack} previousLabel={previousLabel} />;
-      case "mock-exam": return <MockExamSection goBack={goBack} previousLabel={previousLabel} tier={tier} onNavigatePremium={() => handleSetSection("premium")} />;
+      case "mock-exam": return <MockExamSection goBack={goBack} previousLabel={previousLabel} tier={tier} onNavigatePremium={navigateToPremium} />;
       case "conduct": return <CodeOfConductSection goBack={goBack} previousLabel={previousLabel} />;
       case "premium": return <PremiumSection goBack={goBack} previousLabel={previousLabel} setActiveSection={handleSetSection} onPremiumUnlock={() => {}} user={user} onLoginClick={openLogin} />;
-      case "mock-interview": return <AIMockInterviewSection goBack={goBack} previousLabel={previousLabel} tier={tier} onNavigatePremium={() => handleSetSection("premium")} />;
-      case "cv-review": return <AICVReviewSection goBack={goBack} previousLabel={previousLabel} tier={tier} onNavigatePremium={() => handleSetSection("premium")} />;
-      case "ask-cabin-crew": return <AskCabinCrewSection goBack={goBack} previousLabel={previousLabel} isPremium={tier === "premium"} onUpgrade={() => handleSetSection("premium")} />;
+      case "mock-interview": return <AIMockInterviewSection goBack={goBack} previousLabel={previousLabel} tier={tier} onNavigatePremium={navigateToPremium} />;
+      case "cv-review": return <AICVReviewSection goBack={goBack} previousLabel={previousLabel} tier={tier} onNavigatePremium={navigateToPremium} />;
+      case "ask-cabin-crew": return <AskCabinCrewSection goBack={goBack} previousLabel={previousLabel} isPremium={tier === "premium"} onUpgrade={navigateToPremium} />;
       case "open-days": return <OpenDaysSection goBack={goBack} previousLabel={previousLabel} />;
       case "terms": return <TermsOfServiceSection goBack={goBack} previousLabel={previousLabel} />;
       case "privacy": return <PrivacyPolicySection goBack={goBack} previousLabel={previousLabel} />;
-      case "rejection-decoded": return <RejectionDecodedSection goBack={goBack} previousLabel={previousLabel} tier={tier} onNavigatePremium={() => handleSetSection("premium")} />;
-      case "after-interview": return <AfterTheInterviewSection goBack={goBack} previousLabel={previousLabel} tier={tier} onNavigatePremium={() => handleSetSection("premium")} />;
+      case "rejection-decoded": return <RejectionDecodedSection goBack={goBack} previousLabel={previousLabel} tier={tier} onNavigatePremium={navigateToPremium} />;
+      case "after-interview": return <AfterTheInterviewSection goBack={goBack} previousLabel={previousLabel} tier={tier} onNavigatePremium={navigateToPremium} />;
       case "account": return user
-        ? <AccountSection user={user} goBack={goBack} previousLabel={previousLabel} onLogout={handleLogout} onNavigatePremium={() => handleSetSection("premium")} />
+        ? <AccountSection user={user} goBack={goBack} previousLabel={previousLabel} onLogout={handleLogout} onNavigatePremium={navigateToPremium} />
         : <HeroSection setActiveSection={handleSetSection} />;
       default: return <HeroSection setActiveSection={handleSetSection} />;
     }
