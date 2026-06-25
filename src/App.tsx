@@ -37,10 +37,13 @@ const sectionLabels: Record<string, string> = {
   account: "My Account",
 };
 
-// Prepare section is free for all users
-// Only Interview Q&A remains Standard-gated (Practice section)
+// Prepare section is free for all users (no account needed)
+// Interview Q&A requires Standard or above
 const STANDARD_SECTIONS = ["questions"];
 const PREMIUM_SECTIONS = ["ask-cabin-crew", "group-discussion", "mock-interview"];
+
+// All sections that require at least a free account to access
+const LOGIN_REQUIRED_SECTIONS = [...STANDARD_SECTIONS, ...PREMIUM_SECTIONS];
 
 export default function App() {
   const [activeSection, setActiveSection] = useState(() => {
@@ -110,8 +113,9 @@ export default function App() {
   const openLogin = () => setShowAuthModal(true);
 
   const tier = user?.tier ?? "free";
-  const isStandardGated = STANDARD_SECTIONS.includes(activeSection) && tier === "free";
-  const isPremiumGated = PREMIUM_SECTIONS.includes(activeSection) && tier !== "premium";
+  const needsLogin = !user && LOGIN_REQUIRED_SECTIONS.includes(activeSection);
+  const isStandardGated = !!user && STANDARD_SECTIONS.includes(activeSection) && tier === "free";
+  const isPremiumGated = !!user && PREMIUM_SECTIONS.includes(activeSection) && tier !== "premium";
 
   if (showResetPassword) {
     return (
@@ -120,6 +124,33 @@ export default function App() {
   }
 
   const renderSection = () => {
+    // Not logged in — prompt to sign in before any gated content
+    if (needsLogin) return (
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center px-4 pt-16">
+        <div className="max-w-md w-full text-center">
+          <div className="text-6xl mb-5">🔐</div>
+          <h2 className="text-2xl font-bold text-white mb-3">Sign in to continue</h2>
+          <p className="text-slate-400 mb-2 leading-relaxed">
+            Create a free account or sign in to access{" "}
+            <span className="text-white font-medium">{sectionLabels[activeSection] || "this section"}</span>.
+          </p>
+          <p className="text-slate-500 text-sm mb-8">Free accounts unlock Interview Q&amp;A, Mock Exam preview, and more.</p>
+          <button
+            onClick={openLogin}
+            className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-900 font-bold py-4 rounded-xl text-lg transition-all hover:scale-[1.01] shadow-lg shadow-amber-500/20 mb-4"
+          >
+            Sign in / Create Free Account →
+          </button>
+          <button
+            onClick={() => handleSetSection("home")}
+            className="text-slate-400 hover:text-white text-sm transition-colors"
+          >
+            ← Back to home
+          </button>
+        </div>
+      </div>
+    );
+
     if (isStandardGated) return (
       <div className="min-h-screen bg-slate-900 py-20 px-4 pt-24"><div className="max-w-3xl mx-auto">
         <UpgradeGate
