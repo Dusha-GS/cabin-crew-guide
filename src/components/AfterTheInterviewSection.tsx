@@ -42,7 +42,7 @@ const airlineProfiles: Record<AirlineKey, AirlineProfile> = {
     training: "Initial joining: ~8 weeks · then 6 months supervised flying · annual recurrent SEP mandatory · new aircraft type training whenever fleet expands",
     reapply: "6 months — confirmed across multiple candidate accounts",
     goldenSignal: "A phone call from a +971 Dubai number. Save it — you might miss it.",
-    insiderTip: "Emirates offer emails land in spam folders more than any other airline. Check junk daily from day one.",
+    insiderTip: "Emirates offer emails are widely reported by candidates to land in spam and junk folders. Check every folder every single day from the moment you walk out of your interview.",
     portalStatuses: [
       { status: "Interview Complete", meaning: "File open — recruiter actively considering you" },
       { status: "Approval in Progress", meaning: "Conditional offer — medical and paperwork under review" },
@@ -105,7 +105,7 @@ const airlineProfiles: Record<AirlineKey, AirlineProfile> = {
     training: "Initial joining: several weeks · annual recurrent SEP training mandatory · ongoing training throughout career",
     reapply: "Not confirmed — verify directly with flydubai",
     goldenSignal: "Email notification from flydubai HR — turnaround is faster than Big 3.",
-    insiderTip: "flydubai is significantly faster than Emirates or Qatar. If 4 weeks pass with no contact, follow up directly.",
+    insiderTip: "flydubai is significantly faster than Emirates or Qatar based on candidate-reported timelines. If 4 weeks pass with no contact, follow up directly.",
     portalStatuses: [
       { status: "Under Review", meaning: "Application is being assessed" },
       { status: "Offer Extended", meaning: "You have been selected — offer incoming" },
@@ -120,12 +120,12 @@ const airlineProfiles: Record<AirlineKey, AirlineProfile> = {
     border: "border-rose-500/50",
     bg: "from-rose-950/60 to-slate-900",
     badge: "bg-rose-500/20 text-rose-300 border-rose-500/30",
-    waitRange: "~2 weeks — fastest of all five airlines",
+    waitRange: "~2 weeks — typically the fastest of the five, based on candidate-reported timelines",
     medicalCity: "Sharjah (standard aeromedical)",
     training: "Initial joining: several weeks · annual recurrent SEP training mandatory · ongoing training throughout career",
     reapply: "Not confirmed — verify directly with Air Arabia",
     goldenSignal: "Direct contact from Air Arabia recruitment — typically within 2 weeks of your interview.",
-    insiderTip: "Air Arabia runs the fastest recruitment cycle of all five airlines. Two weeks with no response is your signal to follow up.",
+    insiderTip: "Air Arabia runs the fastest recruitment cycle of the five airlines based on candidate reports. Two weeks with no response is your signal to follow up.",
     portalStatuses: [
       { status: "Under Review", meaning: "Application is being assessed" },
       { status: "Offer Extended", meaning: "You have been selected" },
@@ -146,11 +146,9 @@ const phases = [
     bg: "from-slate-800/80 to-slate-900",
     badge: "bg-slate-700/50 text-slate-300 border-slate-500/30",
     free: true,
-    content: `After your final interview, your complete file is sent to head office for review. This is not automated. A recruitment coordinator compiles all candidates from that assessment day, attaches scoring notes, and submits the package for internal review. It takes time — and during that time, you hear nothing.
+    content: `Based on widely reported candidate accounts, after your final interview your file is typically submitted for internal review alongside other candidates from your assessment day. The review process takes time — each candidate is considered individually before any decisions are communicated. It is not automated and it is not instant.
 
-The silence is not a signal. It is the process working exactly as it should. The recruiter may have seen 30–50 candidates that day. Every file gets reviewed, compared, and ranked before any decisions go out.
-
-The first sign you passed is almost always a request for documents — not a decision. A document request means you are being progressed. That is your green light.`,
+The silence is not a signal. It is the process working exactly as it should. A document request following your interview means you are being progressed. That is your green light.`,
     insights: [
       { icon: "📧", text: "Check your spam and junk folder every single day — airline emails are notorious for landing there" },
       { icon: "📱", text: "Save the airline's recruitment number in your phone so you recognise the call when it comes" },
@@ -177,12 +175,12 @@ The medical is conducted under Gulf Civil Aviation Authority standards. It cover
 
 If a test comes back with a flag, do not assume the process is over. Request a specialist clearance letter, communicate with the recruitment team, and follow their process. Flags that are documented and addressed are routinely accepted.`,
     insights: [
-      { icon: "👁️", text: "Vision: minimum 6/9 corrected. Contact lenses required — spectacles are not permitted in uniform. Laser surgery accepted if fully healed 6–12 months prior" },
-      { icon: "🩸", text: "Blood: HIV, Hepatitis B, VDRL, TB chest X-ray, drug screen. UAE and Qatar law do not issue residency visas for HIV-positive candidates — airlines disclose this standard before you travel" },
+      { icon: "👁️", text: "Vision: minimum 6/9 corrected in most cases. Contact lenses are widely accepted; verify spectacles policy with your specific airline before attending. Laser surgery is generally accepted if fully healed — confirm the required healing period with the airline directly." },
+      { icon: "🩸", text: "Blood: panels typically include Hepatitis B, VDRL, TB chest X-ray, and drug screening. Employment and residency visa requirements in UAE and Qatar include medical testing — verify current requirements and any implications for your specific situation directly with your airline and the relevant embassy before travelling for your medical." },
       { icon: "⚖️", text: "BMI: assessed holistically alongside fitness and professional presentation — not a single number alone" },
       { icon: "🦷", text: "Dental: oral health is reviewed. Severe untreated conditions may be flagged before joining" },
       { icon: "📋", text: "Bring all original documents plus certified copies. No alcohol 48 hours before. Sleep well the night before" },
-      { icon: "⚠️", text: "Declare everything honestly. Pre-existing conditions are not covered by airline medical insurance for the first 1–2 years. Concealment is never worth it" },
+      { icon: "⚠️", text: "Declare everything honestly. Many airline medical insurance plans exclude pre-existing conditions for an initial period — coverage terms vary by airline, so verify directly. Concealment is never worth it." },
     ],
   },
   {
@@ -309,7 +307,6 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
 
         {/* ── HERO ── */}
         <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-slate-800/90 to-slate-900 p-8 md:p-12 mb-8">
-          {/* Faded background photo — right-weighted, behind text. Drop a licensed image at public/images/after-interview-bg.jpg */}
           <div
             className="absolute inset-0 bg-cover opacity-50"
             style={{
@@ -319,7 +316,6 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
               WebkitMaskImage: "linear-gradient(to right, transparent 0%, transparent 30%, black 100%)",
             }}
           />
-          {/* Dark gradient to keep text readable */}
           <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-slate-900/40" />
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute -top-20 -right-20 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl" />
@@ -503,7 +499,6 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
                     : "border-white/10 bg-slate-800/50 hover:border-white/20 hover:bg-slate-800/70"
                 }`}
               >
-                {/* Card header */}
                 <button
                   onClick={() => handlePhaseClick(phase.id, phase.free)}
                   disabled={locked}
@@ -541,7 +536,6 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
                   </div>
                 </button>
 
-                {/* Locked CTA */}
                 {locked && (
                   <div className="px-5 md:px-6 pb-5">
                     <button
@@ -553,11 +547,8 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
                   </div>
                 )}
 
-                {/* Expanded content */}
                 {isOpen && (
                   <div className="px-5 md:px-6 pb-6 border-t border-white/8 pt-5 space-y-6">
-
-                    {/* What's happening */}
                     <div>
                       <div className={`text-xs font-black uppercase tracking-widest mb-3 ${phase.accent}`}>What's Actually Happening</div>
                       <div className="space-y-3">
@@ -567,7 +558,6 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
                       </div>
                     </div>
 
-                    {/* Airline-specific note */}
                     {airline && (
                       <div className={`border ${airline.border} bg-white/5 rounded-xl p-4`}>
                         <div className={`text-xs font-black uppercase tracking-widest mb-2 ${airline.accent}`}>
@@ -603,7 +593,6 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
                       </div>
                     )}
 
-                    {/* Action checklist */}
                     <div>
                       <div className={`text-xs font-black uppercase tracking-widest mb-3 ${phase.accent}`}>Your Action Checklist</div>
                       <div className="space-y-2">
@@ -616,7 +605,6 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
                       </div>
                     </div>
 
-                    {/* YouTube */}
                     <a
                       href={`https://www.youtube.com/results?search_query=${encodeURIComponent(
                         phase.id === 1 ? "cabin crew golden call after interview experience"
@@ -650,7 +638,7 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
                       className="flex items-center gap-1.5 text-slate-600 hover:text-amber-400 text-xs transition-colors group"
                     >
                       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7-7" />
                       </svg>
                       Back to top
                     </button>
@@ -661,7 +649,6 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
           })}
         </div>
 
-        {/* ── BOTTOM UPGRADE CTA ── */}
         {tier === "free" && (
           <div className="mt-10 relative overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900 border border-white/10 rounded-3xl p-8 text-center">
             <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-blue-500/5" />
@@ -683,14 +670,13 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
 
       </div>
 
-      {/* Back to top — inline at bottom of content */}
       <div className="flex justify-start mt-6 pb-4">
         <button
           onClick={scrollToTop}
           className="flex items-center gap-2 text-slate-500 hover:text-amber-400 text-sm transition-colors group"
         >
           <svg className="w-4 h-4 group-hover:text-amber-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7-7" />
           </svg>
           Back to top
         </button>
