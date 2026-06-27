@@ -3,7 +3,7 @@ import BackButton from "./BackButton";
 interface Props { goBack: () => void; previousLabel: string; }
 
 export default function TermsOfServiceSection({ goBack, previousLabel }: Props) {
-  const lastUpdated = "21 June 2026";
+  const lastUpdated = "27 June 2026";
 
   return (
     <div className="min-h-screen bg-slate-900 py-20 px-4 pt-24">
@@ -32,7 +32,7 @@ export default function TermsOfServiceSection({ goBack, previousLabel }: Props) 
 
           <section>
             <h3 className="text-white font-bold text-lg mb-3">2. Description of Service</h3>
-            <p>The Cabin Crew Interview Guidebook is an educational platform providing preparation resources, mock interviews, CV review tools, and community forum access for individuals seeking cabin crew positions at Middle Eastern airlines. The Service includes both free and premium paid features.</p>
+            <p>The Cabin Crew Interview Guidebook is an educational platform providing preparation resources, AI-powered mock interviews, AI-powered CV review tools, and expert question submission access for individuals seeking cabin crew positions at Middle Eastern airlines. The Service includes both free and premium paid features across two paid membership tiers: Standard and Premium. Interactive features including the Mock Interview and CV Review are powered by artificial intelligence (Anthropic's Claude API).</p>
           </section>
 
           <section>
@@ -41,52 +41,60 @@ export default function TermsOfServiceSection({ goBack, previousLabel }: Props) 
           </section>
 
           <section>
-            <h3 className="text-white font-bold text-lg mb-3">4. Premium Membership & Payments</h3>
-            <p className="mb-3">Certain features of the Service require a paid Premium membership ("Premium"). By purchasing a Premium membership, you agree to the following:</p>
-            <ul className="list-none space-y-2 pl-4">
-              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Premium access is granted upon successful payment processing via our third-party payment provider (Whop).</li>
+            <h3 className="text-white font-bold text-lg mb-3">4. Paid Membership & Payments</h3>
+            <p className="mb-3">Certain features of the Service require a paid membership. We offer two paid tiers: <strong className="text-white">Standard ($15/month)</strong> and <strong className="text-white">Premium ($25/month)</strong>. By purchasing a membership, you agree to the following:</p>
+            <ul className="list-none space-y-2 pl-4 mb-4">
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Paid access is granted upon successful payment processing via our third-party payment provider, Whop.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Payments are processed in USD. Applicable taxes may apply based on your jurisdiction.</li>
-              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Premium memberships are non-transferable and for personal use only.</li>
-              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Refunds are available within 24 hours of purchase. After 24 hours, all sales are final.</li>
-              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> You may cancel your subscription at any time from your Account page. Cancellation takes effect at the end of the current billing period.</li>
-              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> We reserve the right to modify Premium features with reasonable notice to members.</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Memberships are non-transferable and for personal use only.</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Refunds are available within 24 hours of purchase if you have not yet accessed any paid features. After 24 hours, or after accessing paid content, all sales are final. See EU consumer rights below.</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> You may cancel your subscription at any time via the subscription management link provided in your Whop payment confirmation email, or through your Account page. Cancellation takes effect at the end of the current billing period. Access continues until that date.</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> We reserve the right to modify paid features with at least 30 days' notice to active members.</li>
             </ul>
+
+            <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4">
+              <p className="text-blue-300 text-xs font-semibold mb-2">EU Consumer Rights — Right of Withdrawal</p>
+              <p className="text-slate-400 text-xs leading-relaxed">
+                If you are located in the European Economic Area (EEA), United Kingdom, or Switzerland, you have a statutory 14-day right of withdrawal from the date of purchase. However, by completing payment and accessing paid content, you explicitly request immediate access to digital content and acknowledge that you thereby waive your right of withdrawal in accordance with Article 16(m) of the EU Consumer Rights Directive (2011/83/EU). If you have not yet accessed any paid content, you may request a full refund within 14 days by contacting <a href="mailto:support@cabincrewguidebook.com" className="text-amber-400 hover:underline">support@cabincrewguidebook.com</a>. This does not affect your other statutory consumer rights.
+              </p>
+            </div>
           </section>
 
           <section>
             <h3 className="text-white font-bold text-lg mb-3">5. Content Disclaimer</h3>
-            <p className="mb-3">The Service provides educational and preparation content powered by technology. You acknowledge and agree that:</p>
+            <p className="mb-3">The Service provides educational and preparation content, including content generated by artificial intelligence. You acknowledge and agree that:</p>
             <ul className="list-none space-y-2 pl-4">
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> All content is for educational and preparation purposes only and does not constitute professional career advice.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> We do not guarantee employment outcomes or interview success.</li>
-              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Generated responses may occasionally contain inaccuracies. Always verify information directly with the relevant airline.</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> The Mock Interview, CV Review, and Mock Exam feedback features are powered by artificial intelligence (Anthropic's Claude API). AI-generated responses may contain inaccuracies, outdated information, or errors. Always verify information directly with the relevant airline.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> The Service is not affiliated with, endorsed by, or officially connected to Emirates, Etihad Airways, Qatar Airways, flydubai, Air Arabia, or any other airline.</li>
-              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Candidate experiences referenced on this platform are composite accounts drawn from public applicant communities and forums. They do not represent the views of any specific individual, organisation, or airline.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> All rejection analysis, recruitment process descriptions, and candidate experience content on this platform is based on publicly available candidate accounts and community reports, and does not represent confirmed policies, internal procedures, or official statements of any airline.</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Interactive AI features depend on third-party services (Anthropic's API). In the event of third-party service interruption, modification, or discontinuation, certain features may become temporarily or permanently unavailable. We will endeavour to communicate any significant disruptions to paid members with reasonable notice.</li>
             </ul>
           </section>
 
           <section>
-            <h3 className="text-white font-bold text-lg mb-3">6. User Conduct & Community Standards</h3>
-            <p className="mb-3">When using the forum and community features, you agree not to:</p>
+            <h3 className="text-white font-bold text-lg mb-3">6. User Conduct</h3>
+            <p className="mb-3">When using the Service, including the expert question submission feature, you agree not to:</p>
             <ul className="list-none space-y-2 pl-4">
-              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Post content that is offensive, discriminatory, harassing, or harmful to others.</li>
-              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Share your Premium login credentials or provide access to unauthorised users.</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Submit content that is offensive, discriminatory, harassing, or harmful to others.</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Share your paid membership login credentials or provide access to unauthorised users.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Reproduce, distribute, or resell any content from the Service without written permission.</li>
-              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Post spam, advertisements, or solicitations in the forum.</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Submit spam, advertisements, or solicitations through any Service feature.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Impersonate airline recruiters, crew members, or other users.</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Attempt to reverse-engineer, scrape, or systematically extract content from the Service.</li>
             </ul>
             <p className="mt-3">Violation of these standards may result in immediate termination of your membership without refund.</p>
           </section>
 
           <section>
             <h3 className="text-white font-bold text-lg mb-3">7. Intellectual Property</h3>
-            <p>All content on the Service, including text, graphics, guides, interview questions, and generated materials, is the intellectual property of Elysium Living FZ-LLC, operating as Cabin Crew Interview Guidebook. You may not copy, reproduce, distribute, or create derivative works without our express written consent. Your personal CV content submitted for review remains your own property.</p>
+            <p>All content on the Service, including text, graphics, guides, interview questions, and AI-generated materials produced within the Service, is the intellectual property of Elysium Living FZ-LLC, operating as Cabin Crew Interview Guidebook. You may not copy, reproduce, distribute, or create derivative works without our express written consent. Your personal CV content submitted for review remains your own property at all times.</p>
           </section>
 
           <section>
             <h3 className="text-white font-bold text-lg mb-3">8. Privacy & Data</h3>
-            <p>Your use of the Service is also governed by our Privacy Policy, which is incorporated into these Terms by reference. By using the Service, you consent to the collection and use of your information as described in our Privacy Policy. CV content submitted for review is processed in real time and is not stored on our servers beyond the duration of your session.</p>
+            <p>Your use of the Service is also governed by our Privacy Policy, which is incorporated into these Terms by reference. By using the Service, you consent to the collection and use of your information as described in our Privacy Policy. CV content submitted for review is processed in real time via Anthropic's API and is not stored on our servers beyond the duration of your session.</p>
           </section>
 
           <section>
@@ -95,23 +103,29 @@ export default function TermsOfServiceSection({ goBack, previousLabel }: Props) 
             <ul className="list-none space-y-2 pl-4">
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> We disclaim all warranties, express or implied, including merchantability and fitness for a particular purpose.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> We are not liable for any indirect, incidental, or consequential damages arising from your use of the Service.</li>
-              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Our total liability shall not exceed the amount you paid for Premium membership in the 12 months preceding the claim.</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Our total liability shall not exceed the amount you paid for your membership in the 12 months preceding the claim.</li>
             </ul>
+            <p className="mt-3 text-slate-500 text-xs">Nothing in this clause limits your statutory rights as a consumer under applicable local law, including rights that cannot be excluded by contract.</p>
           </section>
 
           <section>
-            <h3 className="text-white font-bold text-lg mb-3">10. Governing Law</h3>
-            <p>These Terms shall be governed by and construed in accordance with the laws of the United Arab Emirates. Any disputes arising under these Terms shall be subject to the exclusive jurisdiction of the courts of Ras Al Khaimah, UAE. For users in other jurisdictions, we comply with applicable local consumer protection laws.</p>
+            <h3 className="text-white font-bold text-lg mb-3">10. Governing Law & Jurisdiction</h3>
+            <p>These Terms shall be governed by and construed in accordance with the laws of the United Arab Emirates. Any disputes arising under these Terms shall be subject to the jurisdiction of the courts of Ras Al Khaimah, UAE.</p>
+            <div className="mt-3 bg-blue-500/10 border border-blue-500/20 rounded-xl p-4">
+              <p className="text-blue-300 text-xs leading-relaxed">
+                <strong>EU/UK Consumer Rights:</strong> If you are a consumer resident in the European Economic Area or United Kingdom, the above jurisdiction clause does not affect your right to bring proceedings in the courts of your country of residence, or to rely on any mandatory consumer protection laws applicable in your country. Nothing in these Terms is intended to limit your statutory rights.
+              </p>
+            </div>
           </section>
 
           <section>
             <h3 className="text-white font-bold text-lg mb-3">11. Changes to Terms</h3>
-            <p>We reserve the right to modify these Terms at any time. We will notify users of material changes by updating the "Last updated" date and, where appropriate, by email notification. Your continued use of the Service after changes constitutes acceptance of the new Terms.</p>
+            <p>We reserve the right to modify these Terms at any time. We will notify active paid members of material changes at least 30 days in advance by email and by updating the "Last updated" date above. Your continued use of the Service after the effective date of changes constitutes acceptance of the new Terms. If you do not agree to material changes, you may cancel your subscription before they take effect.</p>
           </section>
 
           <section>
             <h3 className="text-white font-bold text-lg mb-3">12. Contact</h3>
-            <p>For questions about these Terms, please contact us at <a href="mailto:support@cabincrewguidebook.com" className="text-amber-400 hover:underline">support@cabincrewguidebook.com</a>. We aim to respond within 2 business days.</p>
+            <p>For questions about these Terms, cancellation requests, or refund enquiries, please contact us at <a href="mailto:support@cabincrewguidebook.com" className="text-amber-400 hover:underline">support@cabincrewguidebook.com</a>. We aim to respond within 2 business days.</p>
           </section>
 
         </div>
