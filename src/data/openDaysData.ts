@@ -1,6 +1,6 @@
 // ============================================================
 // OPEN DAYS DATA
-// Last updated: 24 June 2026
+// Last updated: 27 June 2026
 // ------------------------------------------------------------
 // IMPORTANT: Airlines publish open day schedules only 4–8 weeks
 // ahead and change them frequently. Dated events below were
@@ -39,10 +39,8 @@ export interface OpenDayEvent {
 export const openDaysEvents: OpenDayEvent[] = [
 
   // ── UPCOMING DATED EVENTS ─────────────────────────────────
-  // Verified against official Emirates careers schedule on 24 Jun 2026.
+  // Verified against official Emirates careers schedule on 27 Jun 2026.
   // Each is invite/walk-in as marked; always confirm before travelling.
-
-  { id:"em-me-jun25", date:"2026-06-25", dateLabel:"25 Jun 2026", country:"Montenegro", flag:"🇲🇪", city:"Podgorica", airline:"Emirates", type:"walkin", venue:"Hilton Podgorica, Bul. Svetog Petra Cetinjskog 2" },
 
   { id:"em-fr-jul6-mrs", date:"2026-07-06", dateLabel:"6 Jul 2026", country:"France", flag:"🇫🇷", city:"Marseille", airline:"Emirates", type:"walkin", venue:"InterContinental Marseille - Hotel Dieu, 1 Pl. Daviel" },
   { id:"em-pt-jul9-coi", date:"2026-07-09", dateLabel:"9 Jul 2026", country:"Portugal", flag:"🇵🇹", city:"Coimbra", airline:"Emirates", type:"walkin", venue:"Hotel Coimbra Aeminium, Av. Armando Gonsalves, Lote 20" },
@@ -123,4 +121,4 @@ export const ALL_AIRLINES: Airline[] = [
   "Emirates", "Qatar Airways", "Etihad", "flydubai", "Air Arabia"
 ];
 
-export const LAST_UPDATED = "24 June 2026";
+export const LAST_UPDATED = "27 June 2026";
