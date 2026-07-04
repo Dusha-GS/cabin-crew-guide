@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { loginUser, registerUser, sendPasswordReset, AuthUser } from "../hooks/useAuth";
+import { loginUser, registerUser, sendPasswordReset, signInWithGoogle, AuthUser } from "../hooks/useAuth";
 
 type ModalView = "login" | "register" | "forgot" | "forgot-sent";
 
@@ -8,6 +8,17 @@ interface Props {
   onSuccess: (user: AuthUser) => void;
   onNavigate: (section: string) => void;
   initialView?: ModalView;
+}
+
+function GoogleIcon() {
+  return (
+    <svg className="w-5 h-5" viewBox="0 0 24 24">
+      <path fill="#4285F4" d="M23.52 12.27c0-.85-.08-1.67-.22-2.45H12v4.64h6.47a5.54 5.54 0 0 1-2.4 3.63v3h3.88c2.27-2.09 3.57-5.17 3.57-8.82z"/>
+      <path fill="#34A853" d="M12 24c3.24 0 5.96-1.07 7.95-2.91l-3.88-3c-1.08.72-2.45 1.15-4.07 1.15-3.13 0-5.78-2.11-6.73-4.96H1.27v3.11A11.998 11.998 0 0 0 12 24z"/>
+      <path fill="#FBBC05" d="M5.27 14.28A7.2 7.2 0 0 1 4.89 12c0-.79.14-1.56.38-2.28V6.61H1.27A11.998 11.998 0 0 0 0 12c0 1.93.46 3.76 1.27 5.39l4-3.11z"/>
+      <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.44-3.44C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.69 1.27 6.61l4 3.11C6.22 6.86 8.87 4.75 12 4.75z"/>
+    </svg>
+  );
 }
 
 export default function AuthModal({ onClose, onSuccess, onNavigate, initialView = "login" }: Props) {
@@ -20,6 +31,7 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPass, setShowPass] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   const switchView = (v: ModalView) => { setError(""); setLoading(false); setView(v); };
 
@@ -46,6 +58,40 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
     finally { setLoading(false); }
   };
 
+  const handleGoogleSignIn = async () => {
+    setError(""); setGoogleLoading(true);
+    try { await signInWithGoogle(); }
+    catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Google sign-in failed");
+      setGoogleLoading(false);
+    }
+    // On success the browser navigates away to Google, so no need to reset loading here.
+  };
+
+  const GoogleButton = (
+    <button
+      type="button"
+      onClick={handleGoogleSignIn}
+      disabled={googleLoading}
+      className="w-full flex items-center justify-center gap-3 bg-white hover:bg-slate-100 text-slate-800 font-semibold py-3 rounded-xl transition-all text-sm disabled:opacity-60"
+    >
+      {googleLoading ? (
+        <span className="w-4 h-4 border-2 border-slate-400 border-t-slate-700 rounded-full animate-spin" />
+      ) : (
+        <GoogleIcon />
+      )}
+      Continue with Google
+    </button>
+  );
+
+  const Divider = (
+    <div className="flex items-center gap-3 my-4">
+      <div className="flex-1 h-px bg-white/10" />
+      <span className="text-slate-500 text-xs">OR</span>
+      <div className="flex-1 h-px bg-white/10" />
+    </div>
+  );
+
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
@@ -67,6 +113,10 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
             <>
               <h2 className="text-2xl font-bold text-white mb-1">Welcome back</h2>
               <p className="text-slate-400 text-sm mb-6">Sign in to access your guidebook</p>
+
+              {GoogleButton}
+              {Divider}
+
               <form onSubmit={handleLogin} className="space-y-4">
                 <div>
                   <label className="block text-slate-300 text-sm font-medium mb-1.5">Email</label>
@@ -95,6 +145,10 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
             <>
               <h2 className="text-2xl font-bold text-white mb-1">Create account</h2>
               <p className="text-slate-400 text-sm mb-6">Start free — upgrade anytime</p>
+
+              {GoogleButton}
+              {Divider}
+
               <form onSubmit={handleRegister} className="space-y-4">
                 <div>
                   <label className="block text-slate-300 text-sm font-medium mb-1.5">Full name</label>
