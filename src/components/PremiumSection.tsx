@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { WHOP_STANDARD_LINK, WHOP_PREMIUM_LINK, WHOP_UPGRADE_LINK, AuthUser } from "../hooks/useAuth";
+import { STRIPE_STANDARD_LINK, STRIPE_PREMIUM_LINK, AuthUser } from "../hooks/useAuth";
 import BackButton from "./BackButton";
 
 interface Props {
@@ -19,64 +19,50 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
   const termsRef = useRef<HTMLDivElement>(null);
 
   const isStandard = user?.tier === "standard";
-  const isPremium = user?.tier === "premium";
+  const isPremium  = user?.tier === "premium";
   const isLoggedIn = !!user;
 
-  const getWhopLink = (baseLink: string) => {
+  const getStripeLink = (baseLink: string) => {
     if (user?.email) {
-      return `${baseLink}?email=${encodeURIComponent(user.email)}`;
+      return `${baseLink}?prefilled_email=${encodeURIComponent(user.email)}`;
     }
     return baseLink;
   };
 
   const handleUnlock = () => {
-    // Must be logged in before any payment
-    if (!isLoggedIn) {
-      onLoginClick?.();
-      return;
-    }
+    if (!isLoggedIn) { onLoginClick?.(); return; }
     if (!termsAccepted || !privacyAccepted) {
       setShowTermsError(true);
       termsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
-    let link = getWhopLink(WHOP_STANDARD_LINK);
-    if (selectedPlan === "premium") {
-      link = isStandard ? getWhopLink(WHOP_UPGRADE_LINK) : getWhopLink(WHOP_PREMIUM_LINK);
-    }
+    const link = selectedPlan === "premium"
+      ? getStripeLink(STRIPE_PREMIUM_LINK)
+      : getStripeLink(STRIPE_STANDARD_LINK);
     window.open(link, "_blank");
   };
 
-  // When not logged in, clicking a plan card triggers login
   const handleSelectPlan = (plan: "standard" | "premium") => {
-    if (!isLoggedIn) {
-      onLoginClick?.();
-      return;
-    }
+    if (!isLoggedIn) { onLoginClick?.(); return; }
     setSelectedPlan(plan);
     termsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
   const comparisonRows = [
-    { feature: "Airline Requirements", free: true, standard: true, premium: true },
-    { feature: "1 Mock Interview session", free: true, standard: false, premium: false },
-    { feature: "Full Mock Exam", free: false, standard: true, premium: true },
-    { feature: "Full interview guidebook", free: false, standard: true, premium: true },
-    { feature: "CV Guide", free: false, standard: true, premium: true },
-    { feature: "Interview Questions & Answers", free: false, standard: true, premium: true },
-    { feature: "Mock Interview (unlimited)", free: false, standard: false, premium: true },
-    { feature: "Ask Cabin Crew (former crew feedback)", free: false, standard: false, premium: true },
-    { feature: "Group Discussion", free: false, standard: false, premium: true },
+    { feature: "Airline Requirements",         free: true,  standard: true,  premium: true  },
+    { feature: "1 Mock Interview session",      free: true,  standard: false, premium: false },
+    { feature: "Full Mock Exam",                free: false, standard: true,  premium: true  },
+    { feature: "Full interview guidebook",      free: false, standard: true,  premium: true  },
+    { feature: "CV Guide",                      free: false, standard: true,  premium: true  },
+    { feature: "Interview Questions & Answers", free: false, standard: true,  premium: true  },
+    { feature: "Mock Interview (unlimited)",    free: false, standard: false, premium: true  },
+    { feature: "Ask Cabin Crew (former crew)",  free: false, standard: false, premium: true  },
+    { feature: "Group Discussion",              free: false, standard: false, premium: true  },
   ];
 
-  const renderCell = (val: boolean | string) => {
-    if (val === true) return <span className="text-green-400 font-bold">✓</span>;
-    if (val === false) return <span className="text-slate-600">—</span>;
-    return <span className="text-amber-400 text-xs font-medium">{val}</span>;
-  };
-
-  const premiumPrice = isStandard ? "$10.99" : "$25";
-  const premiumLabel = isStandard ? "Upgrade to Premium — $10.99/mo →" : "Subscribe to Premium — $25/mo →";
+  const renderCell = (val: boolean) => val
+    ? <span className="text-green-400 font-bold">✓</span>
+    : <span className="text-slate-600">—</span>;
 
   return (
     <div className="min-h-screen bg-slate-900 py-20 px-4 pt-24">
@@ -94,7 +80,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
           </p>
           {isStandard && (
             <div className="mt-4 inline-block bg-blue-500/10 border border-blue-500/30 text-blue-400 text-sm px-4 py-2 rounded-xl">
-              ✨ You're on Standard — upgrade to Premium for just <strong>$10.99/month</strong> (you save $14!)
+              ✨ You're on Standard — upgrade to Premium for the full experience
             </div>
           )}
           {isPremium && (
@@ -106,6 +92,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
 
         {/* Pricing cards */}
         <div className="grid md:grid-cols-3 gap-4 md:gap-6 mb-12">
+
           {/* Free */}
           <div className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6">
             <p className="text-slate-400 font-bold text-sm uppercase tracking-wider mb-3">Free</p>
@@ -118,10 +105,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
               <li className="text-slate-500 text-sm flex items-center gap-2"><span>—</span> No forum</li>
             </ul>
             {!isLoggedIn ? (
-              <button
-                onClick={onLoginClick}
-                className="w-full bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 font-semibold py-3 rounded-xl text-center text-sm transition-all"
-              >
+              <button onClick={onLoginClick} className="w-full bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 font-semibold py-3 rounded-xl text-sm transition-all">
                 Create Free Account →
               </button>
             ) : (
@@ -157,13 +141,9 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
               <li className="text-slate-500 text-sm flex items-center gap-2"><span>—</span> No Mock Interview or forum</li>
             </ul>
             {isStandard ? (
-              <div className="w-full bg-blue-500/20 border border-blue-500/30 text-blue-400 font-semibold py-3 rounded-xl text-center text-sm">
-                ✓ Current Plan
-              </div>
+              <div className="w-full bg-blue-500/20 border border-blue-500/30 text-blue-400 font-semibold py-3 rounded-xl text-center text-sm">✓ Current Plan</div>
             ) : isPremium ? (
-              <div className="w-full bg-white/5 border border-white/10 text-slate-500 font-semibold py-3 rounded-xl text-center text-sm">
-                Included in Premium
-              </div>
+              <div className="w-full bg-white/5 border border-white/10 text-slate-500 font-semibold py-3 rounded-xl text-center text-sm">Included in Premium</div>
             ) : (
               <button
                 onClick={(e) => { e.stopPropagation(); handleSelectPlan("standard"); }}
@@ -195,11 +175,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
               {isPremium && <span className="bg-amber-500/20 text-amber-400 text-xs px-2 py-0.5 rounded-full border border-amber-500/30">Your plan</span>}
               {!isPremium && selectedPlan === "premium" && isLoggedIn && <span className="bg-amber-500/20 text-amber-400 text-xs px-2 py-0.5 rounded-full border border-amber-500/30">Selected</span>}
             </div>
-            <div className="flex items-baseline gap-2 mb-1">
-              <div className="text-4xl font-bold text-white">{premiumPrice}</div>
-              {isStandard && <div className="text-slate-500 text-sm line-through">$25</div>}
-            </div>
-            {isStandard && <p className="text-amber-400 text-xs mb-1">Special upgrade price for Standard members!</p>}
+            <div className="text-4xl font-bold text-white mb-1">$25</div>
             <p className="text-slate-500 text-sm mb-6">per month · cancel anytime</p>
             <ul className="space-y-2 mb-6">
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> Everything in Standard</li>
@@ -208,9 +184,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> Group Discussion access</li>
             </ul>
             {isPremium ? (
-              <div className="w-full bg-amber-500/20 border border-amber-500/30 text-amber-400 font-semibold py-3 rounded-xl text-center text-sm">
-                ✓ Current Plan
-              </div>
+              <div className="w-full bg-amber-500/20 border border-amber-500/30 text-amber-400 font-semibold py-3 rounded-xl text-center text-sm">✓ Current Plan</div>
             ) : (
               <button
                 onClick={(e) => { e.stopPropagation(); handleSelectPlan("premium"); }}
@@ -220,52 +194,46 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
                     : "bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30"
                 }`}
               >
-                {!isLoggedIn ? "Sign in to Subscribe →" : selectedPlan === "premium" ? "✓ Selected — accept terms below ↓" : isStandard ? `Upgrade for ${premiumPrice}/mo` : "Select Premium"}
+                {!isLoggedIn ? "Sign in to Subscribe →" : selectedPlan === "premium" ? "✓ Selected — accept terms below ↓" : "Select Premium"}
               </button>
             )}
           </div>
         </div>
 
-        {/* Sign in prompt for non-logged-in users */}
+        {/* Sign in prompt */}
         {!isLoggedIn && (
           <div className="bg-white/5 border border-white/10 rounded-2xl p-8 mb-10 text-center">
             <div className="text-4xl mb-4">🔐</div>
             <h3 className="text-white font-bold text-xl mb-2">Sign in to subscribe</h3>
             <p className="text-slate-400 text-sm mb-6 max-w-md mx-auto">
-              Create a free account or sign in first — this links your payment to your account so access is activated automatically.
+              Create a free account or sign in first — this links your payment to your account so access is activated automatically after payment.
             </p>
-            <button
-              onClick={onLoginClick}
-              className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-900 font-bold px-10 py-4 rounded-xl text-base transition-all hover:scale-[1.01] shadow-lg shadow-amber-500/20"
-            >
+            <button onClick={onLoginClick} className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-900 font-bold px-10 py-4 rounded-xl text-base transition-all hover:scale-[1.01] shadow-lg shadow-amber-500/20">
               Sign in / Create Free Account →
             </button>
           </div>
         )}
 
-        {/* Terms + CTA for logged-in users */}
+        {/* Terms + CTA */}
         {isLoggedIn && !isPremium && (
           <div className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6 mb-10">
             <p className="text-white font-bold text-base mb-4">
-              {isStandard && selectedPlan === "premium"
-                ? `Upgrade to Premium — $10.99/mo (Standard members price):`
-                : `Before subscribing to ${selectedPlan === "standard" ? "Standard ($15/mo)" : "Premium ($25/mo)"}:`}
+              Before subscribing to {selectedPlan === "standard" ? "Standard ($15/mo)" : "Premium ($25/mo)"}:
             </p>
 
-            {/* PAYMENT DISCLAIMER */}
             <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 mb-5">
-              <p className="text-red-400 text-xs font-bold uppercase tracking-wider mb-2">⚠️ PAYMENT NOTICE — PLEASE READ</p>
+              <p className="text-red-400 text-xs font-bold uppercase tracking-wider mb-2">⚠️ IMPORTANT — PLEASE READ</p>
               <p className="text-slate-300 text-xs leading-relaxed mb-2">
-                All payments are processed securely via Whop. If you already have a Whop account, make sure you are logged in with the same email address you used to register on this site
-                {user?.email && <span className="text-amber-400 font-bold"> ({user.email})</span>}.
-                {" "}If your Whop account uses a different email, <span className="text-white font-semibold">please log out of Whop before proceeding to payment</span> — otherwise your access will not be activated automatically.
+                Payments are processed securely by <strong className="text-white">Stripe</strong>. After payment you will be redirected back to this site — log in with your registered email to access your content.
               </p>
               <p className="text-slate-300 text-xs leading-relaxed">
-                After payment, Whop will send a confirmation email to your address. <span className="text-white font-semibold">Keep this email</span> — it contains your subscription management link to pause or cancel your subscription anytime. No separate Whop account registration is required.
+                <strong className="text-white">Use the same email at checkout</strong> as your account email
+                {user?.email && <span className="text-amber-400 font-bold"> ({user.email})</span>}.
+                {" "}If you use a different email, your access will not activate automatically. Contact{" "}
+                <span className="text-amber-400">support@cabincrewguidebook.com</span> if you have any issues.
               </p>
             </div>
 
-            {/* TERMS CHECKBOXES */}
             <div className="space-y-3 mb-5" ref={termsRef}>
               <div className="flex items-start gap-3 cursor-pointer group" onClick={() => { setTermsAccepted(!termsAccepted); setShowTermsError(false); }}>
                 <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all ${termsAccepted ? "bg-amber-500 border-amber-500" : "border-white/30 group-hover:border-amber-500/50"}`}>
@@ -286,15 +254,12 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
                   <button onClick={(e) => { e.stopPropagation(); setActiveSection("privacy"); }} className="text-amber-400 hover:underline font-medium">Privacy Policy</button>.
                 </span>
               </div>
-              {showTermsError && (
-                <p className="text-red-400 text-sm">⚠️ Please accept both the Terms of Service and Privacy Policy to continue.</p>
-              )}
+              {showTermsError && <p className="text-red-400 text-sm">⚠️ Please accept both the Terms of Service and Privacy Policy to continue.</p>}
             </div>
 
-            {/* EMAIL BOX */}
             {user?.email && (
               <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4 mb-4">
-                <p className="text-blue-400 text-xs font-bold uppercase tracking-wider mb-2">Your registration email</p>
+                <p className="text-blue-400 text-xs font-bold uppercase tracking-wider mb-2">Your account email — use this at checkout</p>
                 <div className="bg-slate-900 rounded-lg px-4 py-2 text-center">
                   <span className="text-amber-400 font-bold text-sm">{user.email}</span>
                 </div>
@@ -312,12 +277,10 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
               }`}
             >
               {termsAccepted && privacyAccepted
-                ? selectedPlan === "standard"
-                  ? "Subscribe to Standard — $15/mo →"
-                  : premiumLabel
+                ? selectedPlan === "standard" ? "Subscribe to Standard — $15/mo →" : "Subscribe to Premium — $25/mo →"
                 : "Accept Terms Above to Continue"}
             </button>
-            <p className="text-slate-500 text-xs text-center mt-3">Secure payment via Whop · Cancel anytime · Billed monthly</p>
+            <p className="text-slate-500 text-xs text-center mt-3">Secure payment via Stripe · Cancel anytime · Billed monthly</p>
           </div>
         )}
 
@@ -349,6 +312,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
             </table>
           </div>
         </div>
+
       </div>
     </div>
   );
