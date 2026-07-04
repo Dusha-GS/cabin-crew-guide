@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { AuthUser, getStoredUser, clearStoredUser } from "./hooks/useAuth";
+import { AuthUser, getStoredUser, clearStoredUser, getUserFromActiveSession } from "./hooks/useAuth";
 import { supabase } from "./supabaseClient";
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
@@ -61,8 +61,22 @@ export default function App() {
       if (event === "PASSWORD_RECOVERY") {
         setShowResetPassword(true);
       }
+      if (event === "SIGNED_IN") {
+        // Covers Google sign-in: builds the AuthUser once Supabase confirms the session.
+        getUserFromActiveSession().then((u) => { if (u) setUser(u); });
+      }
     });
     return () => subscription.unsubscribe();
+  }, []);
+
+  // Catches the case where the Google redirect already completed and the
+  // session exists before this component's listener attached (e.g. after
+  // a full page reload back from Google).
+  useEffect(() => {
+    if (!user) {
+      getUserFromActiveSession().then((u) => { if (u) setUser(u); });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Sync browser back/forward buttons with app state
