@@ -11,9 +11,16 @@ export type AuthUser = {
 
 export type MembershipTier = "free" | "standard" | "premium";
 
-export const WHOP_STANDARD_LINK = "https://whop.com/cabin-crew-guidebook-through-interview/cabin-crew-interview-guidebook/";
-export const WHOP_PREMIUM_LINK = "https://whop.com/cabin-crew-guidebook-through-interview/premium-access-be-74b9/";
-export const WHOP_UPGRADE_LINK = "https://whop.com/cabin-crew-guidebook-through-interview/upgrade-to-premium-f2/";
+// ── Stripe payment links ─────────────────────────────────────
+export const STRIPE_STANDARD_LINK = "https://buy.stripe.com/3cIfZh4KCfXadVm8xVgrS00";
+export const STRIPE_PREMIUM_LINK  = "https://buy.stripe.com/8x29ATdh8cKYaJa6pNgrS01";
+// Upgrade link: handled by Stripe Customer Portal (coming soon)
+export const STRIPE_UPGRADE_LINK  = "";
+
+// Legacy aliases — keeps any code still referencing WHOP_ names working
+export const WHOP_STANDARD_LINK = STRIPE_STANDARD_LINK;
+export const WHOP_PREMIUM_LINK  = STRIPE_PREMIUM_LINK;
+export const WHOP_UPGRADE_LINK  = STRIPE_UPGRADE_LINK;
 
 async function getTierFromSupabase(email: string): Promise<MembershipTier> {
   try {
@@ -48,7 +55,7 @@ export function clearStoredUser() {
 }
 
 export async function loginUser(email: string, password: string): Promise<AuthUser> {
-  // Demo account
+  // Demo account for testing
   if (email === "demo@cabincrew.com" && password === "demo1234") {
     const user: AuthUser = {
       id: "demo-001",
@@ -62,12 +69,8 @@ export async function loginUser(email: string, password: string): Promise<AuthUs
     return user;
   }
 
-  // Real Supabase Auth login
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-  if (error) {
-    throw new Error("Invalid email or password. Please try again.");
-  }
+  if (error) throw new Error("Invalid email or password. Please try again.");
 
   const tier = await getTierFromSupabase(email);
   const user: AuthUser = {
@@ -86,20 +89,13 @@ export async function registerUser(email: string, password: string, name: string
   if (!email || !password || !name) throw new Error("All fields are required.");
   if (password.length < 8) throw new Error("Password must be at least 8 characters.");
 
-  // Register with Supabase Auth
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: { data: { name } },
   });
-
-  if (error) {
-    throw new Error(error.message);
-  }
-
-  if (!data.user) {
-    throw new Error("Registration failed. Please try again.");
-  }
+  if (error) throw new Error(error.message);
+  if (!data.user) throw new Error("Registration failed. Please try again.");
 
   const tier = await getTierFromSupabase(email);
   const user: AuthUser = {
