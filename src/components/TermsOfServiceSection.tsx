@@ -44,11 +44,11 @@ export default function TermsOfServiceSection({ goBack, previousLabel }: Props) 
             <h3 className="text-white font-bold text-lg mb-3">4. Paid Membership & Payments</h3>
             <p className="mb-3">Certain features of the Service require a paid membership. We offer two paid tiers: <strong className="text-white">Standard ($15/month)</strong> and <strong className="text-white">Premium ($25/month)</strong>. By purchasing a membership, you agree to the following:</p>
             <ul className="list-none space-y-2 pl-4 mb-4">
-              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Paid access is granted upon successful payment processing via our third-party payment provider, Whop.</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Paid access is granted upon successful payment processing via our third-party payment provider, Stripe.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Payments are processed in USD. Applicable taxes may apply based on your jurisdiction.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Memberships are non-transferable and for personal use only.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Refunds are available within 24 hours of purchase if you have not yet accessed any paid features. After 24 hours, or after accessing paid content, all sales are final. See EU consumer rights below.</li>
-              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> You may cancel your subscription at any time via the subscription management link provided in your Whop payment confirmation email, or through your Account page. Cancellation takes effect at the end of the current billing period. Access continues until that date.</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> You may cancel your subscription at any time via the Stripe customer portal or by contacting support@cabincrewguidebook.com. Cancellation can also be managed through your Account page. Cancellation takes effect at the end of the current billing period. Access continues until that date.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> We reserve the right to modify paid features with at least 30 days' notice to active members.</li>
             </ul>
 
