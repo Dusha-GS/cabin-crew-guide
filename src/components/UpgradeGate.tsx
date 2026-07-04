@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { WHOP_STANDARD_LINK, WHOP_PREMIUM_LINK, WHOP_UPGRADE_LINK, AuthUser } from "../hooks/useAuth";
+import { STRIPE_STANDARD_LINK, STRIPE_PREMIUM_LINK, AuthUser } from "../hooks/useAuth";
 
 interface Props {
   requiredTier: "standard" | "premium";
@@ -16,24 +16,20 @@ export default function UpgradeGate({ requiredTier, featureName, featureDescript
 
   const isStandard = user?.tier === "standard";
 
-  const getWhopLink = (baseLink: string) => {
-    if (user?.email) return `${baseLink}?email=${encodeURIComponent(user.email)}`;
+  // Pre-fill user's registered email at Stripe checkout
+  const getStripeLink = (baseLink: string) => {
+    if (user?.email) return `${baseLink}?prefilled_email=${encodeURIComponent(user.email)}`;
     return baseLink;
   };
 
-  const premiumLink = getWhopLink(isStandard ? WHOP_UPGRADE_LINK : WHOP_PREMIUM_LINK);
-  const standardLink = getWhopLink(WHOP_STANDARD_LINK);
-  const premiumPrice = isStandard ? "$10.99" : "$25";
-  const premiumButtonLabel = isStandard ? "Upgrade to Premium — $10.99/mo →" : "Get Premium — $25/mo →";
+  const premiumLink  = getStripeLink(STRIPE_PREMIUM_LINK);
+  const standardLink = getStripeLink(STRIPE_STANDARD_LINK);
 
   const standardFeatures = ["Full interview guidebook", "Full Mock Exam", "CV Guide", "Interview Questions & Answers"];
-  const premiumFeatures = ["Everything in Standard", "AI Interview (unlimited)", "Ask Cabin Crew (former crew feedback)", "Group Discussion access"];
+  const premiumFeatures  = ["Everything in Standard", "Mock Interview (unlimited)", "Ask Cabin Crew (former crew feedback)", "Group Discussion access"];
 
   const handlePay = (link: string) => {
-    if (!termsAccepted || !privacyAccepted) {
-      setShowError(true);
-      return;
-    }
+    if (!termsAccepted || !privacyAccepted) { setShowError(true); return; }
     window.open(link, "_blank");
   };
 
@@ -44,16 +40,17 @@ export default function UpgradeGate({ requiredTier, featureName, featureDescript
         <h3 className="text-2xl font-bold text-white mb-3">{featureName}</h3>
         <p className="text-slate-400 mb-6 leading-relaxed">{featureDescription}</p>
 
-        {/* PAYMENT DISCLAIMER */}
+        {/* PAYMENT NOTICE */}
         <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-4 mb-4 text-left">
-          <p className="text-red-400 text-xs font-bold uppercase tracking-wider mb-2">⚠️ PAYMENT NOTICE — PLEASE READ</p>
+          <p className="text-red-400 text-xs font-bold uppercase tracking-wider mb-2">⚠️ IMPORTANT — PLEASE READ</p>
           <p className="text-slate-300 text-xs leading-relaxed mb-2">
-            All payments are processed securely via Whop. If you already have a Whop account, make sure you are logged in with the same email address you used to register on this site
-            {user?.email && <span className="text-amber-400 font-bold"> ({user.email})</span>}.
-            {" "}If your Whop account uses a different email, <span className="text-white font-semibold">please log out of Whop before proceeding to payment</span> — otherwise your access will not be activated automatically.
+            Payments are processed securely by <strong className="text-white">Stripe</strong>. After payment you will be redirected back to this site — log in with your registered email to access your content.
           </p>
           <p className="text-slate-300 text-xs leading-relaxed">
-            After payment, Whop will send a confirmation email to your address. <span className="text-white font-semibold">Keep this email</span> — it contains your subscription management link to pause or cancel your subscription anytime. No separate Whop account registration is required.
+            <strong className="text-white">Use the same email at checkout</strong> as your account email
+            {user?.email && <span className="text-amber-400 font-bold"> ({user.email})</span>}.
+            {" "}If you use a different email, your access will not activate automatically. Contact{" "}
+            <span className="text-amber-400">support@cabincrewguidebook.com</span> if you have any issues.
           </p>
         </div>
 
@@ -111,17 +108,13 @@ export default function UpgradeGate({ requiredTier, featureName, featureDescript
             <div className="flex items-center justify-between mb-3">
               <div className="text-left">
                 <p className="text-white font-bold text-lg">Premium</p>
-                <p className="text-slate-400 text-sm">Everything + AI Interview & Forum</p>
+                <p className="text-slate-400 text-sm">Everything + Mock Interview & Forum</p>
               </div>
               <div className="text-right">
-                <p className="text-amber-400 font-bold text-2xl">{premiumPrice}</p>
-                {isStandard && <p className="text-slate-500 text-xs line-through">$25</p>}
+                <p className="text-amber-400 font-bold text-2xl">$25</p>
                 <p className="text-slate-500 text-xs">per month</p>
               </div>
             </div>
-            {isStandard && (
-              <p className="text-amber-400 text-xs mb-3 text-left">✨ Special upgrade price for Standard members!</p>
-            )}
             <ul className="text-left space-y-1.5 mb-4">
               {premiumFeatures.map(f => (
                 <li key={f} className="flex items-center gap-2 text-sm text-slate-300">
@@ -133,7 +126,7 @@ export default function UpgradeGate({ requiredTier, featureName, featureDescript
               onClick={() => handlePay(premiumLink)}
               className="block w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-900 font-bold py-3 rounded-xl transition-all hover:scale-[1.01]"
             >
-              {premiumButtonLabel}
+              Get Premium — $25/mo →
             </button>
           </div>
         </div>
