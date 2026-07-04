@@ -54,6 +54,30 @@ export function clearStoredUser() {
   localStorage.removeItem("ccg_user");
 }
 
+// Shared builder used by email/password login, registration, and Google sign-in
+async function buildUserFromSupabaseUser(supaUser: {
+  id: string;
+  email?: string | null;
+  user_metadata?: Record<string, unknown>;
+  created_at: string;
+}): Promise<AuthUser> {
+  const email = supaUser.email || "";
+  const tier = await getTierFromSupabase(email);
+  const metaName =
+    (supaUser.user_metadata?.name as string | undefined) ||
+    (supaUser.user_metadata?.full_name as string | undefined);
+  const user: AuthUser = {
+    id: supaUser.id,
+    email,
+    name: metaName || email.split("@")[0] || "Member",
+    tier,
+    tosAccepted: true,
+    createdAt: supaUser.created_at,
+  };
+  storeUser(user);
+  return user;
+}
+
 export async function loginUser(email: string, password: string): Promise<AuthUser> {
   // Demo account for testing
   if (email === "demo@cabincrew.com" && password === "demo1234") {
@@ -72,17 +96,7 @@ export async function loginUser(email: string, password: string): Promise<AuthUs
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) throw new Error("Invalid email or password. Please try again.");
 
-  const tier = await getTierFromSupabase(email);
-  const user: AuthUser = {
-    id: data.user.id,
-    email,
-    name: data.user.user_metadata?.name || email.split("@")[0],
-    tier,
-    tosAccepted: true,
-    createdAt: data.user.created_at,
-  };
-  storeUser(user);
-  return user;
+  return buildUserFromSupabaseUser(data.user);
 }
 
 export async function registerUser(email: string, password: string, name: string): Promise<AuthUser> {
@@ -97,17 +111,7 @@ export async function registerUser(email: string, password: string, name: string
   if (error) throw new Error(error.message);
   if (!data.user) throw new Error("Registration failed. Please try again.");
 
-  const tier = await getTierFromSupabase(email);
-  const user: AuthUser = {
-    id: data.user.id,
-    email,
-    name,
-    tier,
-    tosAccepted: true,
-    createdAt: data.user.created_at,
-  };
-  storeUser(user);
-  return user;
+  return buildUserFromSupabaseUser(data.user);
 }
 
 export async function sendPasswordReset(email: string): Promise<void> {
@@ -116,4 +120,25 @@ export async function sendPasswordReset(email: string): Promise<void> {
     redirectTo: "https://cabincrewguidebook.com",
   });
   if (error) throw new Error(error.message);
+}
+
+// ── Google sign-in ────────────────────────────────────────────
+// Redirects the browser to Google, then back to the site once authenticated.
+export async function signInWithGoogle(): Promise<void> {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: window.location.origin,
+    },
+  });
+  if (error) throw new Error(error.message);
+}
+
+// Checks for an already-active Supabase session (used after the Google
+// redirect lands back on the site) and builds an AuthUser from it.
+export async function getUserFromActiveSession(): Promise<AuthUser | null> {
+  const { data } = await supabase.auth.getSession();
+  const supaUser = data.session?.user;
+  if (!supaUser || !supaUser.email) return null;
+  return buildUserFromSupabaseUser(supaUser);
 }
