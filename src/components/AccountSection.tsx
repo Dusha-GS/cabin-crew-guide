@@ -1,4 +1,4 @@
-import { AuthUser, WHOP_UPGRADE_LINK, WHOP_PREMIUM_LINK } from "../hooks/useAuth";
+import { AuthUser } from "../hooks/useAuth";
 import { sendPasswordReset } from "../hooks/useAuth";
 import BackButton from "./BackButton";
 import { useState } from "react";
@@ -41,7 +41,6 @@ export default function AccountSection({ user, goBack, previousLabel, onLogout, 
     premium: "Premium",
   };
 
-  const upgradeLink = user.tier === "standard" ? WHOP_UPGRADE_LINK : WHOP_PREMIUM_LINK;
 
   return (
     <div className="min-h-screen bg-slate-900 pt-24 pb-20 px-4">
@@ -95,23 +94,22 @@ export default function AccountSection({ user, goBack, previousLabel, onLogout, 
                 </p>
                 <p className="text-slate-400 text-xs leading-relaxed">
                   {user.tier === "standard"
-                    ? "Add AI Interview, Ask Cabin Crew forum, and Group Discussion for just $10.99/mo."
+                    ? "Add AI Interview, Ask Cabin Crew forum, and Group Discussion — Premium at $25/mo."
                     : "Get the full guidebook, mock exam, CV guide, and AI interview tools."}
                 </p>
               </div>
               <span className="text-amber-400 font-bold text-sm flex-shrink-0">
-                {user.tier === "standard" ? "$10.99/mo" : "$25/mo"}
+                {"$25/mo"}
               </span>
             </div>
             <div className="flex gap-3 mt-4">
               
-                <a href={upgradeLink}
-                target="_blank"
-                rel="noopener noreferrer"
+                <button
+                onClick={onNavigatePremium}
                 className="flex-1 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 font-bold py-2.5 rounded-xl text-sm text-center transition-all hover:scale-[1.01]"
               >
                 {user.tier === "standard" ? "Upgrade to Premium →" : "Get Premium →"}
-              </a>
+              </button>
               <button
                 onClick={onNavigatePremium}
                 className="px-4 py-2.5 bg-white/5 border border-white/10 text-slate-400 rounded-xl text-sm hover:text-white transition-colors"
@@ -171,11 +169,10 @@ export default function AccountSection({ user, goBack, previousLabel, onLogout, 
 
         {/* Manage subscription note */}
         <p className="text-slate-600 text-xs text-center leading-relaxed">
-          To cancel your subscription, visit{" "}
-          <a href="https://whop.com" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-slate-400 underline">
-            whop.com
-          </a>{" "}
-          and manage your membership there.
+          To manage or cancel your subscription, email{" "}
+          <a href="mailto:support@cabincrewguidebook.com" className="text-slate-500 hover:text-slate-400 underline">
+            support@cabincrewguidebook.com
+          </a>.
         </p>
       </div>
     </div>

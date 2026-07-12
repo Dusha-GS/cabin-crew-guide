@@ -17,10 +17,6 @@ export const STRIPE_PREMIUM_LINK  = "https://buy.stripe.com/8x29ATdh8cKYaJa6pNgr
 // Upgrade link: handled by Stripe Customer Portal (coming soon)
 export const STRIPE_UPGRADE_LINK  = "";
 
-// Legacy aliases — keeps any code still referencing WHOP_ names working
-export const WHOP_STANDARD_LINK = STRIPE_STANDARD_LINK;
-export const WHOP_PREMIUM_LINK  = STRIPE_PREMIUM_LINK;
-export const WHOP_UPGRADE_LINK  = STRIPE_UPGRADE_LINK;
 
 async function getTierFromSupabase(email: string): Promise<MembershipTier> {
   try {
@@ -54,6 +50,14 @@ export function clearStoredUser() {
   localStorage.removeItem("ccg_user");
 }
 
+// Ends the Supabase session (server-side) and clears the local copy.
+// Without the signOut() call, the Supabase session lingers and the user
+// gets silently re-logged-in on the next page load.
+export async function signOutUser() {
+  try { await supabase.auth.signOut(); } catch { /* ignore network errors */ }
+  clearStoredUser();
+}
+
 // Shared builder used by email/password login, registration, and Google sign-in
 async function buildUserFromSupabaseUser(supaUser: {
   id: string;
@@ -79,20 +83,6 @@ async function buildUserFromSupabaseUser(supaUser: {
 }
 
 export async function loginUser(email: string, password: string): Promise<AuthUser> {
-  // Demo account for testing
-  if (email === "demo@cabincrew.com" && password === "demo1234") {
-    const user: AuthUser = {
-      id: "demo-001",
-      email,
-      name: "Demo User",
-      tier: "premium",
-      tosAccepted: true,
-      createdAt: new Date().toISOString(),
-    };
-    storeUser(user);
-    return user;
-  }
-
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) throw new Error("Invalid email or password. Please try again.");
 

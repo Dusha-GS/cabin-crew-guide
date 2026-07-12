@@ -1,6 +1,5 @@
 // src/hooks/useMembership.ts
 // Manages membership tier and free trial limits
-// In production, Standard/Premium would be verified via Whop webhook
 // Free trial limits are tracked in localStorage (1-time per visitor)
 
 export type MembershipTier = "free" | "standard" | "premium";
@@ -43,5 +42,3 @@ export function recordCVReviewUsed() {
   localStorage.setItem("cv-reviews-used", String(used + 1));
 }
 
-export const WHOP_STANDARD_LINK = "https://whop.com/cabin-crew-guidebook-through-interview/cabin-crew-interview-guidebook/"; // ← Replace
-export const WHOP_PREMIUM_LINK = "https://whop.com/cabin-crew-guidebook-through-interview/premium-access-be-74b9";   // ← Replace

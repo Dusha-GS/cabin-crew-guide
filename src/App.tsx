@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { AuthUser, getStoredUser, clearStoredUser, getUserFromActiveSession } from "./hooks/useAuth";
+import { AuthUser, getStoredUser, signOutUser, getUserFromActiveSession } from "./hooks/useAuth";
 import { supabase } from "./supabaseClient";
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
@@ -124,7 +124,7 @@ export default function App() {
   })();
 
   const handleLoginSuccess = (loggedInUser: AuthUser) => setUser(loggedInUser);
-  const handleLogout = () => { clearStoredUser(); setUser(null); handleSetSection("home"); };
+  const handleLogout = async () => { await signOutUser(); setUser(null); handleSetSection("home"); };
   const openLogin = () => setShowAuthModal(true);
 
   // If not logged in, show login modal first — never send anonymous users straight to payment
