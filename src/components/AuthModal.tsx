@@ -168,9 +168,9 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
                   <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 text-sm" />
                 </div>
                 <div>
-                  <label className="block text-slate-300 text-sm font-medium mb-1.5">Password <span className="text-slate-500 font-normal">(min. 8 characters)</span></label>
+                  <label className="block text-slate-300 text-sm font-medium mb-1.5">Password <span className="text-slate-500 font-normal">(min. 10, letters and numbers)</span></label>
                   <div className="relative">
-                    <input type={showPass ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required minLength={8} placeholder="••••••••" className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 pr-10 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 text-sm" />
+                    <input type={showPass ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required minLength={10} placeholder="••••••••" className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 pr-10 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 text-sm" />
                     <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">{showPass ? "🙈" : "👁"}</button>
                   </div>
                 </div>

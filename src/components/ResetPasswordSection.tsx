@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { supabase } from "../supabaseClient";
-import { sendAccountEmail } from "../hooks/useAuth";
+import { sendAccountEmail, validatePassword } from "../hooks/useAuth";
 
 interface Props {
   onDone: () => void;
@@ -17,7 +17,8 @@ export default function ResetPasswordSection({ onDone }: Props) {
   const handleReset = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (password.length < 8) { setError("Password must be at least 8 characters."); return; }
+    const pwErr = validatePassword(password);
+    if (pwErr) { setError(pwErr); return; }
     if (password !== confirm) { setError("Passwords do not match."); return; }
     setLoading(true);
     const { error } = await supabase.auth.updateUser({ password });
@@ -61,8 +62,8 @@ export default function ResetPasswordSection({ onDone }: Props) {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
-                      minLength={8}
-                      placeholder="Min. 8 characters"
+                      minLength={10}
+                      placeholder="Min. 10 characters"
                       className="w-full bg-slate-700 border border-white/10 rounded-xl px-4 py-3 pr-10 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 text-sm"
                     />
                     <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">

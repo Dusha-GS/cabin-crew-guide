@@ -124,6 +124,13 @@ export async function loginUser(email: string, password: string): Promise<AuthUs
   return buildUserFromSupabaseUser(data.user);
 }
 
+// Shared password rule \u2014 mirrors the Supabase policy (min 10 chars, letters + numbers).
+export function validatePassword(pw: string): string | null {
+  if (pw.length < 10) return "Password must be at least 10 characters.";
+  if (!/[A-Za-z]/.test(pw) || !/[0-9]/.test(pw)) return "Password must include at least one letter and one number.";
+  return null;
+}
+
 // Result of a sign-up attempt. With email confirmation enabled, sign-up does NOT
 // create a session \u2014 the user must click the link in their inbox first.
 export type RegisterResult =
@@ -133,7 +140,8 @@ export type RegisterResult =
 
 export async function registerUser(email: string, password: string, name: string): Promise<RegisterResult> {
   if (!email || !password || !name) throw new Error("All fields are required.");
-  if (password.length < 8) throw new Error("Password must be at least 8 characters.");
+  const pwErr = validatePassword(password);
+  if (pwErr) throw new Error(pwErr);
 
   const { data, error } = await supabase.auth.signUp({
     email,
