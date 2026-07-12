@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { AuthUser, getStoredUser, signOutUser, getUserFromActiveSession } from "./hooks/useAuth";
+import { AuthUser, getStoredUser, signOutUser, getUserFromActiveSession, sendAccountEmail } from "./hooks/useAuth";
 import { supabase } from "./supabaseClient";
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
@@ -65,7 +65,8 @@ export default function App() {
       }
       if (event === "SIGNED_IN") {
         // Covers Google sign-in: builds the AuthUser once Supabase confirms the session.
-        getUserFromActiveSession().then((u) => { if (u) setUser(u); });
+        // Also fires the welcome email once per user (idempotent server-side).
+        getUserFromActiveSession().then((u) => { if (u) { setUser(u); sendAccountEmail("welcome"); } });
       }
     });
     return () => subscription.unsubscribe();

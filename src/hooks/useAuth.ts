@@ -56,6 +56,24 @@ export function clearStoredUser() {
 // localStorage, so a page refresh silently signs the user back in.
 // We therefore clear local state directly (guaranteed, no network) and use
 // scope:"local" which removes the session from THIS browser without a round-trip.
+// Fires an account email (welcome / password-changed alert) through the
+// session-protected send-email function. Non-fatal: failures are swallowed so
+// they never block the auth UX.
+export async function sendAccountEmail(type: "welcome" | "password_changed"): Promise<void> {
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    const token = session?.access_token;
+    if (!token) return;
+    await fetch("/.netlify/functions/send-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ type }),
+    });
+  } catch {
+    /* non-fatal */
+  }
+}
+
 export async function signOutUser() {
   // 1) Remove our own stored user immediately.
   clearStoredUser();

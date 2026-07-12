@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supabase } from "../supabaseClient";
+import { sendAccountEmail } from "../hooks/useAuth";
 
 interface Props {
   onDone: () => void;
@@ -23,6 +24,8 @@ export default function ResetPasswordSection({ onDone }: Props) {
     if (error) { setError(error.message); setLoading(false); return; }
     setSuccess(true);
     setLoading(false);
+    // Fire the "password changed" security alert (non-fatal).
+    sendAccountEmail("password_changed");
     setTimeout(() => onDone(), 3000);
   };
 
