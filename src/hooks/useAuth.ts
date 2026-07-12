@@ -50,12 +50,23 @@ export function clearStoredUser() {
   localStorage.removeItem("ccg_user");
 }
 
-// Ends the Supabase session (server-side) and clears the local copy.
-// Without the signOut() call, the Supabase session lingers and the user
-// gets silently re-logged-in on the next page load.
+// Signs the user out reliably. The default supabase.auth.signOut() uses a
+// "global" scope that makes a network call to revoke the token — that call can
+// hang or fail, and when it does, supabase-js leaves the session in
+// localStorage, so a page refresh silently signs the user back in.
+// We therefore clear local state directly (guaranteed, no network) and use
+// scope:"local" which removes the session from THIS browser without a round-trip.
 export async function signOutUser() {
-  try { await supabase.auth.signOut(); } catch { /* ignore network errors */ }
+  // 1) Remove our own stored user immediately.
   clearStoredUser();
+  // 2) Hard-remove any lingering Supabase session token from this browser.
+  try {
+    for (const k of Object.keys(localStorage)) {
+      if (k.startsWith("sb-") && k.endsWith("-auth-token")) localStorage.removeItem(k);
+    }
+  } catch { /* ignore */ }
+  // 3) Tell Supabase to clear its in-memory session (local scope = no network call).
+  try { await supabase.auth.signOut({ scope: "local" }); } catch { /* ignore */ }
 }
 
 // Shared builder used by email/password login, registration, and Google sign-in
