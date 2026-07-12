@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { loginUser, registerUser, sendPasswordReset, signInWithGoogle, AuthUser } from "../hooks/useAuth";
 
-type ModalView = "login" | "register" | "forgot" | "forgot-sent";
+type ModalView = "login" | "register" | "forgot" | "forgot-sent" | "confirm-sent";
 
 interface Props {
   onClose: () => void;
@@ -46,7 +46,16 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
     e.preventDefault(); setError("");
     if (!tosAccepted || !privacyAccepted) { setError("You must agree to the Terms of Service and Privacy Policy."); return; }
     setLoading(true);
-    try { const user = await registerUser(email, password, name); onSuccess(user); onClose(); }
+    try {
+      const result = await registerUser(email, password, name);
+      if (result.status === "already_exists") {
+        setError("An account with this email already exists \u2014 please sign in instead.");
+      } else if (result.status === "confirm_email") {
+        setView("confirm-sent");
+      } else {
+        onSuccess(result.user); onClose();
+      }
+    }
     catch (err: unknown) { setError(err instanceof Error ? err.message : "Registration failed"); }
     finally { setLoading(false); }
   };
@@ -214,6 +223,15 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
               <div className="text-5xl mb-4">📬</div>
               <h2 className="text-2xl font-bold text-white mb-2">Check your inbox</h2>
               <p className="text-slate-400 text-sm mb-6">We sent a reset link to <span className="text-white font-medium">{email}</span></p>
+              <button onClick={() => switchView("login")} className="text-amber-400 hover:text-amber-300 text-sm">← Back to sign in</button>
+            </div>
+          )}
+
+          {view === "confirm-sent" && (
+            <div className="text-center py-4">
+              <div className="text-5xl mb-4">✉️</div>
+              <h2 className="text-2xl font-bold text-white mb-2">Confirm your email</h2>
+              <p className="text-slate-400 text-sm mb-6">We sent a confirmation link to <span className="text-white font-medium">{email}</span>. Click it to activate your account, then sign in.</p>
               <button onClick={() => switchView("login")} className="text-amber-400 hover:text-amber-300 text-sm">← Back to sign in</button>
             </div>
           )}

@@ -95,12 +95,25 @@ async function buildUserFromSupabaseUser(supaUser: {
 
 export async function loginUser(email: string, password: string): Promise<AuthUser> {
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) throw new Error("Invalid email or password. Please try again.");
+  if (error) {
+    // Supabase returns "Email not confirmed" when the account exists but is unverified.
+    if (/confirm/i.test(error.message)) {
+      throw new Error("Please confirm your email first \u2014 we sent a confirmation link to your inbox.");
+    }
+    throw new Error("Invalid email or password. Please try again.");
+  }
 
   return buildUserFromSupabaseUser(data.user);
 }
 
-export async function registerUser(email: string, password: string, name: string): Promise<AuthUser> {
+// Result of a sign-up attempt. With email confirmation enabled, sign-up does NOT
+// create a session \u2014 the user must click the link in their inbox first.
+export type RegisterResult =
+  | { status: "signed_in"; user: AuthUser }
+  | { status: "confirm_email"; email: string }
+  | { status: "already_exists" };
+
+export async function registerUser(email: string, password: string, name: string): Promise<RegisterResult> {
   if (!email || !password || !name) throw new Error("All fields are required.");
   if (password.length < 8) throw new Error("Password must be at least 8 characters.");
 
@@ -112,7 +125,19 @@ export async function registerUser(email: string, password: string, name: string
   if (error) throw new Error(error.message);
   if (!data.user) throw new Error("Registration failed. Please try again.");
 
-  return buildUserFromSupabaseUser(data.user);
+  // Supabase obfuscates duplicate sign-ups: an existing email returns a user with
+  // an empty identities array and no session. Treat that as "already exists".
+  if (Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+    return { status: "already_exists" };
+  }
+
+  // Email confirmation on \u2192 no session yet. Do NOT fake a logged-in state.
+  if (!data.session) {
+    return { status: "confirm_email", email };
+  }
+
+  const user = await buildUserFromSupabaseUser(data.user);
+  return { status: "signed_in", user };
 }
 
 export async function sendPasswordReset(email: string): Promise<void> {

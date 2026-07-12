@@ -55,10 +55,12 @@ export default function App() {
   const [user, setUser] = useState<AuthUser | null>(() => getStoredUser());
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showResetPassword, setShowResetPassword] = useState(false);
+  const [authNotice, setAuthNotice] = useState<string | null>(null);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
       if (event === "PASSWORD_RECOVERY") {
+        sessionStorage.setItem("ccg_recovery", "1");
         setShowResetPassword(true);
       }
       if (event === "SIGNED_IN") {
@@ -75,6 +77,27 @@ export default function App() {
   useEffect(() => {
     if (!user) {
       getUserFromActiveSession().then((u) => { if (u) setUser(u); });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Surface auth-callback errors (expired/used confirmation or reset links) and
+  // keep the password-reset screen visible even if the page is reloaded.
+  useEffect(() => {
+    const raw = window.location.hash.replace(/^#/, "") || window.location.search.replace(/^\?/, "");
+    const params = new URLSearchParams(raw);
+    const errCode = params.get("error_code") || params.get("error");
+    if (errCode) {
+      const expired = /expired/i.test(errCode);
+      setAuthNotice(
+        expired
+          ? "That link has expired or was already used. Please request a new one."
+          : "We couldn't complete that request. Please try again or request a new link."
+      );
+      window.history.replaceState(null, "", window.location.pathname);
+    }
+    if (sessionStorage.getItem("ccg_recovery") === "1") {
+      setShowResetPassword(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -137,7 +160,7 @@ export default function App() {
 
   if (showResetPassword) {
     return (
-      <ResetPasswordSection onDone={() => { setShowResetPassword(false); handleSetSection("home"); }} />
+      <ResetPasswordSection onDone={() => { sessionStorage.removeItem("ccg_recovery"); setShowResetPassword(false); handleSetSection("home"); }} />
     );
   }
 
@@ -219,6 +242,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-900 font-sans">
+      {authNotice && (
+        <div className="fixed top-0 inset-x-0 z-[200] bg-amber-500/95 text-slate-900 text-sm text-center px-4 py-2 font-medium">
+          {authNotice}
+          <button onClick={() => setAuthNotice(null)} className="ml-3 underline">Dismiss</button>
+        </div>
+      )}
       <Header activeSection={activeSection} setActiveSection={handleSetSection} user={user} onLoginClick={openLogin} onLogout={handleLogout} />
       <main>{renderSection()}</main>
 
