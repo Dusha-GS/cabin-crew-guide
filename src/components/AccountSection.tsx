@@ -1,5 +1,5 @@
 import { AuthUser } from "../hooks/useAuth";
-import { sendPasswordReset } from "../hooks/useAuth";
+import { sendPasswordReset, openBillingPortal } from "../hooks/useAuth";
 import BackButton from "./BackButton";
 import { useState } from "react";
 
@@ -15,6 +15,19 @@ export default function AccountSection({ user, goBack, previousLabel, onLogout, 
   const [resetSent, setResetSent] = useState(false);
   const [resetLoading, setResetLoading] = useState(false);
   const [resetError, setResetError] = useState("");
+  const [portalLoading, setPortalLoading] = useState(false);
+  const [portalError, setPortalError] = useState("");
+
+  const handleManageSubscription = async () => {
+    setPortalLoading(true);
+    setPortalError("");
+    try {
+      await openBillingPortal(); // redirects on success
+    } catch (e: any) {
+      setPortalError(e.message || "Could not open the subscription portal.");
+      setPortalLoading(false);
+    }
+  };
 
   const handlePasswordReset = async () => {
     setResetLoading(true);
@@ -150,6 +163,26 @@ export default function AccountSection({ user, goBack, previousLabel, onLogout, 
             {resetError && <p className="text-red-400 text-xs mt-2">{resetError}</p>}
           </div>
 
+          {/* Manage subscription (paying members only) */}
+          {user.tier !== "free" && (
+            <div className="p-5 border-b border-white/5">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-slate-300 text-sm font-medium">Manage Subscription</p>
+                  <p className="text-slate-500 text-xs mt-0.5">Upgrade, update payment, or cancel &mdash; self-service</p>
+                </div>
+                <button
+                  onClick={handleManageSubscription}
+                  disabled={portalLoading}
+                  className="text-amber-400 text-xs font-medium bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-lg hover:bg-amber-500/20 transition-colors flex-shrink-0 disabled:opacity-50"
+                >
+                  {portalLoading ? "Opening..." : "Open portal"}
+                </button>
+              </div>
+              {portalError && <p className="text-red-400 text-xs mt-2">{portalError}</p>}
+            </div>
+          )}
+
           {/* Sign out */}
           <div className="p-5">
             <div className="flex items-center justify-between">
@@ -169,7 +202,7 @@ export default function AccountSection({ user, goBack, previousLabel, onLogout, 
 
         {/* Manage subscription note */}
         <p className="text-slate-600 text-xs text-center leading-relaxed">
-          To manage or cancel your subscription, email{" "}
+          Upgrade or cancel anytime via <span className="text-slate-500">Manage Subscription</span> above. Need help? Email{" "}
           <a href="mailto:support@cabincrewguidebook.com" className="text-slate-500 hover:text-slate-400 underline">
             support@cabincrewguidebook.com
           </a>.

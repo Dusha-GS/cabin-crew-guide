@@ -74,6 +74,21 @@ export async function sendAccountEmail(type: "welcome" | "password_changed"): Pr
   }
 }
 
+// Opens the Stripe Customer Portal so a member can upgrade, update payment,
+// or cancel their subscription. Redirects the browser to the secure portal URL.
+export async function openBillingPortal(): Promise<void> {
+  const { data: { session } } = await supabase.auth.getSession();
+  const token = session?.access_token;
+  if (!token) throw new Error("Please sign in first.");
+  const res = await fetch("/.netlify/functions/create-portal-session", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || !data.url) throw new Error(data.error || "Could not open the subscription portal.");
+  window.location.href = data.url;
+}
+
 export async function signOutUser() {
   // 1) Remove our own stored user immediately.
   clearStoredUser();
