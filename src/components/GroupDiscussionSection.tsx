@@ -1,12 +1,23 @@
 import { useState } from "react";
-import { groupDiscussionTopics } from "../data/guideData";
 import BackButton from "./BackButton";
+import { usePaidContent } from "../hooks/usePaidContent";
+import { ContentLoading, ContentError } from "./ContentState";
 
 interface Props { goBack: () => void; previousLabel: string; }
 
+interface GDTopic {
+  topic: string;
+  type: string;
+  description: string;
+  tips: string[];
+  commonItems?: string[];
+}
+
 export default function GroupDiscussionSection({ goBack, previousLabel }: Props) {
   const [selected, setSelected] = useState(0);
-  const topic = groupDiscussionTopics[selected];
+
+  const { data: groupDiscussionTopics, loading, error, retry } =
+    usePaidContent<GDTopic[]>("group-discussion");
 
   const dosList = [
     "Listen actively and acknowledge others' points",
@@ -40,6 +51,20 @@ export default function GroupDiscussionSection({ goBack, previousLabel }: Props)
     { role: "The Summarizer", description: "Wraps up key points and brings the group to a conclusion.", tip: "End with 'To summarize our key points...' — this role is highly valued.", icon: "📋" },
     { role: "The Bridge Builder", description: "Connects different ideas and finds common ground between conflicting views.", tip: "This shows emotional intelligence and team-building skills.", icon: "🌉" },
   ];
+
+  if (loading) return <ContentLoading goBack={goBack} previousLabel={previousLabel} />;
+  if (error || !groupDiscussionTopics || groupDiscussionTopics.length === 0) {
+    return (
+      <ContentError
+        goBack={goBack}
+        previousLabel={previousLabel}
+        message={error || "We couldn't load the discussion topics."}
+        onRetry={retry}
+      />
+    );
+  }
+
+  const topic = groupDiscussionTopics[selected] ?? groupDiscussionTopics[0];
 
   return (
     <div className="min-h-screen bg-slate-900 py-20 px-4 pt-24">
@@ -86,7 +111,7 @@ export default function GroupDiscussionSection({ goBack, previousLabel }: Props)
           <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2"><span className="text-teal-400">📚</span> Practice Topics</h3>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-3">
-              {groupDiscussionTopics.map((t: { topic: string; type: string }, index: number) => (
+              {groupDiscussionTopics.map((t: GDTopic, index: number) => (
                 <button
                   key={index}
                   onClick={() => setSelected(index)}

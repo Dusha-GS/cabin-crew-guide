@@ -1,11 +1,40 @@
 import { useState } from "react";
-import { cvGuide } from "../data/guideData";
 import BackButton from "./BackButton";
+import { usePaidContent } from "../hooks/usePaidContent";
+import { ContentLoading, ContentError } from "./ContentState";
 
 interface Props { goBack: () => void; previousLabel: string; }
 
+interface CVSection {
+  section: string;
+  description: string;
+  example?: string;
+  tips?: string[];
+  items?: string[];
+  levels?: string[];
+  examples?: string[];
+}
+interface CVGuide {
+  structure: CVSection[];
+  dosDonts: { dos: string[]; donts: string[] };
+}
+
 export default function CVGuideSection({ goBack, previousLabel }: Props) {
   const [activeSection, setActiveSection] = useState(0);
+
+  const { data: cvGuide, loading, error, retry } = usePaidContent<CVGuide>("cv-guide");
+
+  if (loading) return <ContentLoading goBack={goBack} previousLabel={previousLabel} />;
+  if (error || !cvGuide) {
+    return (
+      <ContentError
+        goBack={goBack}
+        previousLabel={previousLabel}
+        message={error || "We couldn't load the CV guide."}
+        onRetry={retry}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-900 py-20 px-4 pt-24">
@@ -126,7 +155,7 @@ export default function CVGuideSection({ goBack, previousLabel }: Props) {
 
         {/* CV Structure Guide — Section Tabs */}
         <div className="grid md:grid-cols-4 gap-3 mb-10">
-          {cvGuide.structure.map((section: { section: string }, index: number) => (
+          {cvGuide.structure.map((section: CVSection, index: number) => (
             <button
               key={index}
               onClick={() => setActiveSection(index)}

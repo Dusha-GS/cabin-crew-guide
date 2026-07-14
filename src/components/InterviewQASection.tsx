@@ -1,10 +1,20 @@
 import { useState } from "react";
-import { interviewQuestions } from "../data/guideData";
 import BackButton from "./BackButton";
+import { usePaidContent } from "../hooks/usePaidContent";
+import { ContentLoading, ContentError } from "./ContentState";
 
 interface Props { goBack: () => void; previousLabel: string; }
 
 type Category = "personal" | "behavioral" | "situational" | "knowledge";
+
+interface QA {
+  question: string;
+  difficulty: string;
+  category: string;
+  sampleAnswer: string;
+  tips: string[];
+}
+type QuestionBank = Record<Category, QA[]>;
 
 const categoryConfig = {
   personal: { label: "Personal Questions", icon: "👤", color: "from-blue-600 to-blue-700" },
@@ -23,7 +33,22 @@ export default function InterviewQASection({ goBack, previousLabel }: Props) {
   const [activeCategory, setActiveCategory] = useState<Category>("personal");
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
-  const questions = interviewQuestions[activeCategory];
+  const { data: interviewQuestions, loading, error, retry } =
+    usePaidContent<QuestionBank>("interview-questions");
+
+  if (loading) return <ContentLoading goBack={goBack} previousLabel={previousLabel} />;
+  if (error || !interviewQuestions) {
+    return (
+      <ContentError
+        goBack={goBack}
+        previousLabel={previousLabel}
+        message={error || "We couldn't load these questions."}
+        onRetry={retry}
+      />
+    );
+  }
+
+  const questions = interviewQuestions[activeCategory] ?? [];
 
   return (
     <div className="min-h-screen bg-slate-900 py-20 px-4 pt-24">
@@ -80,7 +105,7 @@ export default function InterviewQASection({ goBack, previousLabel }: Props) {
                 <p className={`text-sm font-semibold ${activeCategory === cat ? "text-white" : "text-slate-300"}`}>
                   {config.label}
                 </p>
-                <p className="text-xs text-white/60 mt-0.5">{interviewQuestions[cat].length} questions</p>
+                <p className="text-xs text-white/60 mt-0.5">{(interviewQuestions[cat] ?? []).length} questions</p>
               </button>
             );
           })}
@@ -88,7 +113,7 @@ export default function InterviewQASection({ goBack, previousLabel }: Props) {
 
         {/* Questions List */}
         <div className="space-y-4">
-          {questions.map((q: { question: string; difficulty: string; category: string; sampleAnswer: string; tips: string[] }, index: number) => (
+          {questions.map((q: QA, index: number) => (
             <div
               key={index}
               className={`border rounded-2xl overflow-hidden transition-all duration-300 ${
