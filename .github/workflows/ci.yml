@@ -1,0 +1,39 @@
+name: CI
+
+# Runs on every push and pull request to main.
+# Netlify only checks that the code COMPILES. This checks that it still
+# behaves — that paid content is still protected, endpoints still require a
+# session, consent is still opt-in, and the security headers are still there.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    name: Build & guard checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check and build
+        run: npm run build
+
+      - name: Run guard tests
+        run: npm test
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
