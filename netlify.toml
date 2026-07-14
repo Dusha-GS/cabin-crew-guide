@@ -3,7 +3,50 @@
   publish = "dist"
   functions = "netlify/functions"
 
+# ---------------------------------------------------------------------------
+# Redirects
+# Netlify serves existing static files (robots.txt, sitemap.xml, /assets/*)
+# before applying redirects, so the SPA catch-all below no longer swallows them
+# now that those files actually exist.
+# ---------------------------------------------------------------------------
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+# ---------------------------------------------------------------------------
+# Security headers
+# Previously only HSTS was set. Without X-Frame-Options the login and payment
+# screens could be framed on an attacker's page (clickjacking).
+# ---------------------------------------------------------------------------
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Don't let anyone put this site in an iframe.
+    X-Frame-Options = "DENY"
+    # Don't let browsers guess content types.
+    X-Content-Type-Options = "nosniff"
+    # Don't leak full URLs to third parties.
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    # Turn off powerful APIs we never use.
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+    # Force HTTPS for a year, including subdomains.
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    # Content Security Policy. Allowed: our own origin, Supabase, Stripe,
+    # Sentry, PostHog. 'unsafe-inline' is required for the styles Vite/Tailwind
+    # inject; scripts are limited to known origins.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://browser.sentry-cdn.com https://js.sentry-cdn.com https://eu.i.posthog.com https://eu-assets.i.posthog.com https://js.stripe.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co https://*.ingest.de.sentry.io https://*.ingest.sentry.io https://eu.i.posthog.com https://eu-assets.i.posthog.com https://api.stripe.com; frame-src https://js.stripe.com https://hooks.stripe.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://checkout.stripe.com; object-src 'none'"
+
+# Hashed build assets never change — cache them hard.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Never cache the shell, or users get stale JS after a deploy.
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

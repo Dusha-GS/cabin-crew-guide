@@ -304,7 +304,7 @@ export default function App() {
             <div className="flex flex-wrap justify-center gap-6 mb-4">
               <button onClick={() => handleSetSection("terms")} className="text-slate-400 hover:text-amber-400 text-sm">Terms of Service</button>
               <button onClick={() => handleSetSection("privacy")} className="text-slate-400 hover:text-amber-400 text-sm">Privacy Policy</button>
-              <button onClick={() => { localStorage.removeItem("cookie-consent"); window.location.reload(); }} className="text-slate-400 hover:text-amber-400 text-sm">Cookie Preferences</button>
+              <button onClick={() => window.dispatchEvent(new Event("ccg:open-cookie-settings"))} className="text-slate-400 hover:text-amber-400 text-sm">Cookie Preferences</button>
               <button onClick={() => handleSetSection("premium")} className="text-slate-400 hover:text-amber-400 text-sm">Pricing Plans</button>
             </div>
             <div className="text-center">

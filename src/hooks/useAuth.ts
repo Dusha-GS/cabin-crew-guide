@@ -18,12 +18,23 @@ export const STRIPE_PREMIUM_LINK  = "https://buy.stripe.com/8x29ATdh8cKYaJa6pNgr
 export const STRIPE_UPGRADE_LINK  = "";
 
 
-async function getTierFromSupabase(email: string): Promise<MembershipTier> {
+/**
+ * Reads the signed-in user's tier. The server derives the identity from the
+ * session token — we no longer send an email address, because an endpoint that
+ * accepts an arbitrary email is a customer-lookup oracle.
+ */
+async function getTierFromSupabase(_email?: string): Promise<MembershipTier> {
   try {
+    const { data: { session } } = await supabase.auth.getSession();
+    const token = session?.access_token;
+    if (!token) return "free";
+
     const response = await fetch("/.netlify/functions/get-tier", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     });
     if (!response.ok) return "free";
     const data = await response.json();

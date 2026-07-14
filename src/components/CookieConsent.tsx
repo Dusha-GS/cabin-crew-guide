@@ -8,13 +8,27 @@ interface Props {
 export default function CookieConsent({ onNavigate }: Props) {
   const [visible, setVisible] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
-  const [analytics, setAnalytics] = useState(true);
+  // GDPR: consent must be a positive opt-in. A pre-ticked box is not consent,
+  // so this defaults to OFF.
+  const [analytics, setAnalytics] = useState(false);
 
   useEffect(() => {
     const consent = localStorage.getItem("cookie-consent");
     if (!consent) {
       setTimeout(() => setVisible(true), 1500);
     }
+    // GDPR: withdrawing consent must be as easy as giving it. The footer's
+    // "Cookie settings" link fires this event to reopen the banner.
+    const reopen = () => {
+      try {
+        const saved = localStorage.getItem("cookie-consent");
+        setAnalytics(saved ? JSON.parse(saved)?.analytics === true : false);
+      } catch { setAnalytics(false); }
+      setShowDetails(true);
+      setVisible(true);
+    };
+    window.addEventListener("ccg:open-cookie-settings", reopen);
+    return () => window.removeEventListener("ccg:open-cookie-settings", reopen);
   }, []);
 
   // Save the choice AND honour it immediately — analytics only ever loads

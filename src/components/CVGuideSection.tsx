@@ -141,7 +141,7 @@ export default function CVGuideSection({ goBack, previousLabel }: Props) {
                   </div>
                   <div>
                     <p className="text-slate-400 text-xs">Height</p>
-                    <p className="text-slate-700 text-xs font-bold">XXX cm</p>
+                    <p className="text-slate-700 text-xs font-bold">Your height</p>
                   </div>
                   <div>
                     <p className="text-slate-400 text-xs">DOB</p>
