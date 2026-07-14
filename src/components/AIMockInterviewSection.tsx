@@ -95,6 +95,7 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
         { role: "user", content: "Please start the interview." }
       ];
       const response = await callClaude(initMessages, {
+        feature: "mock-interview",
         system: systemMsg,
         max_tokens: 300,
       });
@@ -126,6 +127,7 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
 
     try {
       const response = await callClaude(newMessages, {
+        feature: "mock-interview",
         system: SYSTEM_PROMPT(selectedAirline, difficulty),
         max_tokens: 400,
       });
@@ -150,7 +152,7 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
     try {
       const feedback = await callClaude(
         [{ role: "user", content: FEEDBACK_PROMPT(transcript, selectedAirline) }],
-        { max_tokens: 1000 }
+        { feature: "mock-interview", max_tokens: 1000 }
       );
       setFinalFeedback(feedback);
     } catch (e: unknown) {

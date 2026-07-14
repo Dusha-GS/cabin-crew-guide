@@ -102,7 +102,7 @@ Candidate Answer: "${answer}"
 Model Answer Guidance: "${question.modelAnswer}"
 
 Format: Start with "Score: X/10" then give your assessment.`,
-      }]);
+      }], { feature: "mock-exam" });
       setFeedback(result);
       const scoreMatch = result.match(/Score:\s*(\d+)/i);
       if (scoreMatch) setScores((prev) => ({ ...prev, [question.id]: parseInt(scoreMatch[1]) }));

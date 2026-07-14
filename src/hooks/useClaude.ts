@@ -5,9 +5,13 @@ export interface ClaudeMessage {
   content: string;
 }
 
+/** Which paid feature this call belongs to. The server enforces the limits. */
+export type ClaudeFeature = "mock-interview" | "cv-review" | "mock-exam";
+
 export interface ClaudeOptions {
   system?: string;
   max_tokens?: number;
+  feature?: ClaudeFeature;
 }
 
 export async function callClaude(
@@ -18,6 +22,7 @@ export async function callClaude(
     messages,
     system: options.system || "",
     max_tokens: options.max_tokens || 1024,
+    feature: options.feature,
   };
 
   const { data: { session } } = await supabase.auth.getSession();

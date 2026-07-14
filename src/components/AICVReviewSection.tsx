@@ -174,7 +174,7 @@ export default function AICVReviewSection({ goBack, previousLabel, tier, onNavig
     try {
       const result = await callClaude(
         [{ role: "user", content: buildPrompt(cvText, airline) }],
-        { system: CV_REVIEW_SYSTEM, max_tokens: 1200 }
+        { feature: "cv-review", system: CV_REVIEW_SYSTEM, max_tokens: 1200 }
       );
       setFeedback(result);
       setReviewed(true);
