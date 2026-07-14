@@ -39,7 +39,7 @@ const sectionLabels: Record<string, string> = {
 
 // Prepare section is free for all users (no account needed)
 // Interview Q&A requires Standard or above
-const STANDARD_SECTIONS = ["questions"];
+const STANDARD_SECTIONS = ["questions", "cv-guide"];
 const PREMIUM_SECTIONS = ["ask-cabin-crew", "group-discussion", "mock-interview"];
 
 // All sections that require at least a free account to access
