@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { AuthUser, getStoredUser, signOutUser, getUserFromActiveSession, sendAccountEmail } from "./hooks/useAuth";
 import { supabase } from "./supabaseClient";
+import { identify, resetAnalytics } from "./lib/analytics";
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
 import AirlinesSection from "./components/AirlinesSection";
@@ -66,7 +67,13 @@ export default function App() {
       if (event === "SIGNED_IN") {
         // Covers Google sign-in: builds the AuthUser once Supabase confirms the session.
         // Also fires the welcome email once per user (idempotent server-side).
-        getUserFromActiveSession().then((u) => { if (u) { setUser(u); sendAccountEmail("welcome"); } });
+        getUserFromActiveSession().then((u) => {
+          if (u) {
+            setUser(u);
+            sendAccountEmail("welcome");
+            identify(u.id, u.tier); // ties the funnel together (consent-gated)
+          }
+        });
       }
     });
     return () => subscription.unsubscribe();
@@ -148,7 +155,7 @@ export default function App() {
   })();
 
   const handleLoginSuccess = (loggedInUser: AuthUser) => setUser(loggedInUser);
-  const handleLogout = async () => { await signOutUser(); setUser(null); handleSetSection("home"); };
+  const handleLogout = async () => { await signOutUser(); resetAnalytics(); setUser(null); handleSetSection("home"); };
   const openLogin = () => setShowAuthModal(true);
 
   // If not logged in, show login modal first — never send anonymous users straight to payment

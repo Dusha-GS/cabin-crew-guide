@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { setAnalyticsConsent } from "../lib/analytics";
 
 interface Props {
   onNavigate: (section: string) => void;
@@ -16,20 +17,20 @@ export default function CookieConsent({ onNavigate }: Props) {
     }
   }, []);
 
-  const acceptAll = () => {
-    localStorage.setItem("cookie-consent", JSON.stringify({ essential: true, analytics: true, timestamp: Date.now() }));
+  // Save the choice AND honour it immediately — analytics only ever loads
+  // after an explicit "yes".
+  const save = (analyticsGranted: boolean) => {
+    localStorage.setItem(
+      "cookie-consent",
+      JSON.stringify({ essential: true, analytics: analyticsGranted, timestamp: Date.now() })
+    );
+    setAnalyticsConsent(analyticsGranted);
     setVisible(false);
   };
 
-  const acceptSelected = () => {
-    localStorage.setItem("cookie-consent", JSON.stringify({ essential: true, analytics, timestamp: Date.now() }));
-    setVisible(false);
-  };
-
-  const rejectAll = () => {
-    localStorage.setItem("cookie-consent", JSON.stringify({ essential: true, analytics: false, timestamp: Date.now() }));
-    setVisible(false);
-  };
+  const acceptAll = () => save(true);
+  const acceptSelected = () => save(analytics);
+  const rejectAll = () => save(false);
 
   if (!visible) return null;
 
