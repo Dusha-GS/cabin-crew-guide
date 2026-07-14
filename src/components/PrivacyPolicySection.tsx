@@ -39,7 +39,7 @@ export default function PrivacyPolicySection({ goBack, previousLabel }: Props) {
                   <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Name and email address when you register</li>
                   <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> CV content submitted for review (processed in real-time, not stored)</li>
                   <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Forum posts and questions you submit</li>
-                  <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Payment information (processed entirely by our payment provider — we never see your card details)</li>
+                  <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Payment information (processed entirely by Stripe, Inc., our payment processor — we never see or store your card details)</li>
                 </ul>
               </div>
               <div>
@@ -73,7 +73,7 @@ export default function PrivacyPolicySection({ goBack, previousLabel }: Props) {
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Your input is transmitted to Anthropic's servers for processing</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Anthropic's Privacy Policy applies to this processing</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> We do not store your CV content or interview conversations on our servers</li>
-              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Payment processing is handled by our payment provider. We receive only confirmation of successful payment and never access your card or banking details.</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Payments and subscriptions are processed by <strong className="text-white">Stripe, Inc.</strong> — our payment processor. When you subscribe, your card details are entered directly with Stripe and transmitted to Stripe's servers; they never pass through, and are never stored on, our systems. We receive only your Stripe customer reference, your subscription status, and confirmation of successful payment. Stripe's Privacy Policy applies to this processing and can be viewed at <a href="https://stripe.com/privacy" className="text-amber-400 hover:underline" target="_blank" rel="noopener noreferrer">stripe.com/privacy</a>.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Community forum questions submitted via the Ask Cabin Crew feature are processed by Formspree, Inc. (formspree.io), a US-based form processing service. Your name, email, and question are transmitted to Formspree for delivery. Formspree's Privacy Policy applies to this processing.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> User account data (including email address, display name, login timestamps, and subscription tier) is stored by <strong className="text-white">Supabase, Inc.</strong> — our database and authentication provider. Supabase hosts this data on Amazon Web Services (AWS) infrastructure in the Ireland (EU) region. Supabase's Privacy Policy applies to this processing. You can view it at <a href="https://supabase.com/privacy" className="text-amber-400 hover:underline" target="_blank" rel="noopener noreferrer">supabase.com/privacy</a>.</li>
             </ul>
@@ -95,7 +95,7 @@ export default function PrivacyPolicySection({ goBack, previousLabel }: Props) {
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Account data (name, email, membership tier) is retained while your account is active</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Forum posts are retained while your Premium membership is active and for 30 days after cancellation</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> CV content and interview sessions are not retained beyond your session</li>
-              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Payment records are retained for 7 years for tax and legal compliance</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Payment records held by Stripe are retained for 7 years for tax and legal compliance. Deleting your account erases your data from our systems, but Stripe must retain transaction records to meet its own legal obligations.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Analytics data is retained for 24 months</li>
             </ul>
           </section>
@@ -106,7 +106,7 @@ export default function PrivacyPolicySection({ goBack, previousLabel }: Props) {
             <ul className="list-none space-y-2 pl-4">
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Right to access the personal data we hold about you</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Right to correct inaccurate personal data</li>
-              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Right to request deletion of your personal data</li>
+              <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Right to request deletion of your personal data &mdash; you can do this yourself, immediately, from <strong className="text-white">My Account &rarr; Delete Account</strong>. This erases your account, your data, and your usage history, and cancels any active subscription.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Right to object to processing of your personal data</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Right to data portability</li>
             </ul>

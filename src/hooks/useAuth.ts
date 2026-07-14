@@ -89,6 +89,24 @@ export async function openBillingPortal(): Promise<void> {
   window.location.href = data.url;
 }
 
+/**
+ * Permanently deletes the signed-in user's account. Cancels any Stripe
+ * subscription first, then erases their data and login. Irreversible.
+ */
+export async function deleteAccount(): Promise<void> {
+  const { data: { session } } = await supabase.auth.getSession();
+  const token = session?.access_token;
+  if (!token) throw new Error("Please sign in first.");
+  const res = await fetch("/.netlify/functions/delete-account", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || !data.deleted) {
+    throw new Error(data.error || "Could not delete your account. Please contact support.");
+  }
+}
+
 export async function signOutUser() {
   // 1) Remove our own stored user immediately.
   clearStoredUser();
