@@ -110,6 +110,39 @@ export const handler = async () => {
   ok("X-Frame-Options", h["x-frame-options"] === "DENY", h["x-frame-options"] || "MISSING");
   ok("Content-Security-Policy", !!h["content-security-policy"], h["content-security-policy"] ? "present" : "MISSING");
 
+  // 5. Growth signal + backup-upgrade nudge.
+  // Counts paying subscribers. While the DB is on Supabase Free (no backups),
+  // an encrypted nightly GitHub Actions backup covers us. Once real revenue
+  // arrives, this nudges the owner to move to Supabase Pro for proper PITR.
+  const UPGRADE_AT = Number(process.env.BACKUP_UPGRADE_THRESHOLD) || 5;
+  let payingCount = null;
+  try {
+    const SUPABASE_URL = process.env.SUPABASE_URL;
+    const KEY = process.env.SUPABASE_SERVICE_KEY;
+    if (SUPABASE_URL && KEY) {
+      const r = await fetch(`${SUPABASE_URL}/rest/v1/users?tier=neq.free&select=id`, {
+        headers: { apikey: KEY, Authorization: `Bearer ${KEY}`, Prefer: "count=exact", Range: "0-0" },
+      });
+      const cr = r.headers.get("content-range"); // e.g. "0-0/12" or "*/0"
+      payingCount = cr && cr.includes("/") ? parseInt(cr.split("/")[1], 10) : null;
+    }
+  } catch { /* non-fatal */ }
+
+  let upgradeNudge = "";
+  if (payingCount !== null) {
+    lines.push(`📊 Paying subscribers: ${payingCount}`);
+    if (payingCount >= UPGRADE_AT) {
+      upgradeNudge =
+        `You now have ${payingCount} paying subscriber${payingCount === 1 ? "" : "s"}. ` +
+        `The database is still on the Supabase FREE plan, which has NO built-in backups ` +
+        `(a nightly encrypted GitHub backup is running, but it's daily snapshots, not ` +
+        `point-in-time). At this revenue it's time to upgrade to Supabase Pro (~$25/mo) ` +
+        `for proper backups and point-in-time recovery.`;
+      // Surface it as a "problem" so a threshold crossing always triggers an email.
+      problems.push(`ACTION: upgrade database backups — ${payingCount} paying subscribers`);
+    }
+  }
+
   const healthy = problems.length === 0;
   if (!healthy || ALWAYS) {
     const subject = healthy
@@ -120,11 +153,15 @@ export const handler = async () => {
       : `<p style="color:#b91c1c;font-weight:bold">Action needed. The following checks failed:</p><ul>${problems
           .map((p) => `<li>${p}</li>`)
           .join("")}</ul>`;
+    const nudgeBlock = upgradeNudge
+      ? `<p style="background:#fef3c7;border:1px solid #f59e0b;border-radius:8px;padding:12px;color:#92400e"><strong>⬆️ Time to upgrade your database backups.</strong><br>${upgradeNudge}</p>`
+      : "";
     const html = `
       <div style="font-family:system-ui,sans-serif;font-size:14px;line-height:1.6;color:#0f172a">
         <h2 style="margin:0 0 8px">Cabin Crew Guidebook — health check</h2>
         <p style="color:#64748b;margin:0 0 16px">${new Date().toUTCString()}</p>
         ${intro}
+        ${nudgeBlock}
         <pre style="background:#f1f5f9;padding:12px;border-radius:8px;white-space:pre-wrap">${lines.join("\n")}</pre>
         <p style="color:#94a3b8;font-size:12px">Automated monitor · cabincrewguidebook.com</p>
       </div>`;

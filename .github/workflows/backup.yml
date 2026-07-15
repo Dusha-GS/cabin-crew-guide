@@ -1,0 +1,63 @@
+name: Nightly database backup
+
+# Free, off-site, encrypted backups of the Supabase database — the pre-revenue
+# alternative to Supabase Pro. Runs in GitHub's cloud (not anyone's laptop).
+#
+# A daily pg_dump is encrypted and kept as an artifact for 90 days — more
+# history than Pro's 7-day window. Because this repo is PUBLIC, the dump is
+# encrypted BEFORE upload: it contains customer emails and must never sit in
+# plaintext anywhere.
+#
+# Bonus: the nightly connection also keeps the free Supabase project from
+# auto-pausing when idle.
+#
+# Requires two repository secrets (Settings → Secrets and variables → Actions):
+#   SUPABASE_DB_URL    — the Postgres connection string (Supabase → Project
+#                        Settings → Database → Connection string → URI)
+#   BACKUP_PASSPHRASE  — a strong passphrase you store in your password manager.
+#                        WITHOUT IT THE BACKUP CANNOT BE RESTORED. Do not lose it.
+
+on:
+  schedule:
+    - cron: "0 3 * * *" # 03:00 UTC nightly
+  workflow_dispatch: {}   # allows a manual "Run workflow" from the Actions tab
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install PostgreSQL 17 client
+        run: |
+          sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+          curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/pgdg.gpg
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client-17
+
+      - name: Dump and encrypt
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          BACKUP_PASSPHRASE: ${{ secrets.BACKUP_PASSPHRASE }}
+        run: |
+          set -euo pipefail
+          if [ -z "${SUPABASE_DB_URL:-}" ] || [ -z "${BACKUP_PASSPHRASE:-}" ]; then
+            echo "::error::Missing SUPABASE_DB_URL or BACKUP_PASSPHRASE secret."
+            exit 1
+          fi
+          STAMP=$(date -u +%Y-%m-%d)
+          # -Fc = compressed custom format, restorable with pg_restore.
+          pg_dump "$SUPABASE_DB_URL" --no-owner --no-privileges -Fc -f "backup-$STAMP.dump"
+          # Symmetric-encrypt before it ever leaves this runner.
+          gpg --batch --yes --pinentry-mode loopback \
+              --passphrase "$BACKUP_PASSPHRASE" \
+              -c "backup-$STAMP.dump"
+          rm -f "backup-$STAMP.dump"
+          echo "STAMP=$STAMP" >> "$GITHUB_ENV"
+          echo "Encrypted backup created: backup-$STAMP.dump.gpg"
+
+      - name: Upload encrypted backup (90-day retention)
+        uses: actions/upload-artifact@v4
+        with:
+          name: db-backup-${{ env.STAMP }}
+          path: "backup-${{ env.STAMP }}.dump.gpg"
+          retention-days: 90
+          if-no-files-found: error
