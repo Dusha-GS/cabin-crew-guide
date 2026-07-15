@@ -1,31 +1,31 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, lazy, Suspense } from "react";
 import { AuthUser, getStoredUser, signOutUser, getUserFromActiveSession, sendAccountEmail } from "./hooks/useAuth";
 import { supabase } from "./supabaseClient";
 import { identify, resetAnalytics } from "./lib/analytics";
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
-import AirlinesSection from "./components/AirlinesSection";
-import RequirementsSection from "./components/RequirementsSection";
-import DressCodeSection from "./components/DressCodeSection";
-import CVGuideSection from "./components/CVGuideSection";
-import InterviewQASection from "./components/InterviewQASection";
-import GroupDiscussionSection from "./components/GroupDiscussionSection";
-import MockExamSection from "./components/MockExamSection";
-import CodeOfConductSection from "./components/CodeOfConductSection";
-import PremiumSection from "./components/PremiumSection";
-import AIMockInterviewSection from "./components/AIMockInterviewSection";
-import AICVReviewSection from "./components/AICVReviewSection";
-import AskCabinCrewSection from "./components/AskCabinCrewSection";
-import OpenDaysSection from "./components/OpenDaysSection";
-import TermsOfServiceSection from "./components/TermsOfServiceSection";
-import PrivacyPolicySection from "./components/PrivacyPolicySection";
+const AirlinesSection = lazy(() => import("./components/AirlinesSection"));
+const RequirementsSection = lazy(() => import("./components/RequirementsSection"));
+const DressCodeSection = lazy(() => import("./components/DressCodeSection"));
+const CVGuideSection = lazy(() => import("./components/CVGuideSection"));
+const InterviewQASection = lazy(() => import("./components/InterviewQASection"));
+const GroupDiscussionSection = lazy(() => import("./components/GroupDiscussionSection"));
+const MockExamSection = lazy(() => import("./components/MockExamSection"));
+const CodeOfConductSection = lazy(() => import("./components/CodeOfConductSection"));
+const PremiumSection = lazy(() => import("./components/PremiumSection"));
+const AIMockInterviewSection = lazy(() => import("./components/AIMockInterviewSection"));
+const AICVReviewSection = lazy(() => import("./components/AICVReviewSection"));
+const AskCabinCrewSection = lazy(() => import("./components/AskCabinCrewSection"));
+const OpenDaysSection = lazy(() => import("./components/OpenDaysSection"));
+const TermsOfServiceSection = lazy(() => import("./components/TermsOfServiceSection"));
+const PrivacyPolicySection = lazy(() => import("./components/PrivacyPolicySection"));
 import CookieConsent from "./components/CookieConsent";
-import UpgradeGate from "./components/UpgradeGate";
+const UpgradeGate = lazy(() => import("./components/UpgradeGate"));
 import AuthModal from "./components/AuthModal";
-import ResetPasswordSection from "./components/ResetPasswordSection";
-import AccountSection from "./components/AccountSection";
-import RejectionDecodedSection from "./components/RejectionDecodedSection";
-import AfterTheInterviewSection from "./components/AfterTheInterviewSection";
+const ResetPasswordSection = lazy(() => import("./components/ResetPasswordSection"));
+const AccountSection = lazy(() => import("./components/AccountSection"));
+const RejectionDecodedSection = lazy(() => import("./components/RejectionDecodedSection"));
+const AfterTheInterviewSection = lazy(() => import("./components/AfterTheInterviewSection"));
 
 const sectionLabels: Record<string, string> = {
   home: "Home", airlines: "Airlines", requirements: "Requirements",
@@ -46,6 +46,15 @@ const PREMIUM_SECTIONS = ["ask-cabin-crew", "group-discussion", "mock-interview"
 // All sections that require at least a free account to access
 // cv-review included: free users get 1 trial review, but must be logged in first
 const LOGIN_REQUIRED_SECTIONS = [...STANDARD_SECTIONS, ...PREMIUM_SECTIONS, "cv-review"];
+
+function PageLoader() {
+  return (
+    <div className="min-h-screen bg-slate-900 flex items-center justify-center" role="status" aria-label="Loading">
+      <div className="w-8 h-8 border-2 border-amber-500/30 border-t-amber-500 rounded-full animate-spin" />
+      <span className="sr-only">Loading…</span>
+    </div>
+  );
+}
 
 export default function App() {
   const [activeSection, setActiveSection] = useState(() => {
@@ -168,7 +177,9 @@ export default function App() {
 
   if (showResetPassword) {
     return (
-      <ResetPasswordSection onDone={() => { sessionStorage.removeItem("ccg_recovery"); setShowResetPassword(false); handleSetSection("home"); }} />
+      <Suspense fallback={<PageLoader />}>
+        <ResetPasswordSection onDone={() => { sessionStorage.removeItem("ccg_recovery"); setShowResetPassword(false); handleSetSection("home"); }} />
+      </Suspense>
     );
   }
 
@@ -257,7 +268,7 @@ export default function App() {
         </div>
       )}
       <Header activeSection={activeSection} setActiveSection={handleSetSection} user={user} onLoginClick={openLogin} onLogout={handleLogout} />
-      <main>{renderSection()}</main>
+      <main><Suspense fallback={<PageLoader />}>{renderSection()}</Suspense></main>
 
       <footer className="bg-slate-950 border-t border-white/5 py-10 px-4">
         <div className="max-w-6xl mx-auto">

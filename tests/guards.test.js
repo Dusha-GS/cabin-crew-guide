@@ -314,3 +314,17 @@ test("the unsubscribe endpoint verifies a signed token (can't unsubscribe others
   assert.match(u, /timingSafeEqual/, "token comparison must be timing-safe");
   assert.match(u, /lifecycle_unsubscribed/, "unsubscribe must set the opt-out flag");
 });
+
+
+// ---------------------------------------------------------------------------
+// 10. PERFORMANCE. Route sections must stay code-split (React.lazy), or the
+//     whole app collapses back into one big bundle and mobile first-load suffers.
+// ---------------------------------------------------------------------------
+test("route sections are code-split (lazy-loaded), not bundled into the initial load", () => {
+  const app = read(join(ROOT, "src/App.tsx"));
+  assert.match(app, /lazy\(\(\) => import\(/, "sections must be React.lazy()-loaded to keep the initial bundle small");
+  assert.match(app, /Suspense/, "a Suspense boundary must wrap the lazily-loaded sections");
+  for (const c of ["AfterTheInterviewSection", "RejectionDecodedSection", "OpenDaysSection"]) {
+    assert.ok(!app.includes(`import ${c} from`), `${c} is statically imported again — it must stay lazy-loaded`);
+  }
+});
