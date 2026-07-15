@@ -228,4 +228,15 @@ test("auth forms are wired for Turnstile bot protection", () => {
   assert.match(auth, /loginUser\([^)]*captchaToken/, "loginUser must accept a captchaToken");
   assert.match(auth, /registerUser\([^)]*captchaToken/, "registerUser must accept a captchaToken");
   assert.match(auth, /sendPasswordReset\([^)]*captchaToken/, "sendPasswordReset must accept a captchaToken");
+
+  // The CSP MUST allow Cloudflare Turnstile — otherwise the header silently
+  // blocks the widget and every login breaks (this actually happened once).
+  const toml = read(join(ROOT, "netlify.toml"));
+  const csp = (toml.match(/Content-Security-Policy\s*=\s*"([^"]*)"/) || [])[1] || "";
+  const scriptSrc = (csp.match(/script-src[^;]*/) || [""])[0];
+  const frameSrc = (csp.match(/frame-src[^;]*/) || [""])[0];
+  const connectSrc = (csp.match(/connect-src[^;]*/) || [""])[0];
+  assert.ok(scriptSrc.includes("challenges.cloudflare.com"), "CSP script-src must allow challenges.cloudflare.com (Turnstile)");
+  assert.ok(frameSrc.includes("challenges.cloudflare.com"), "CSP frame-src must allow challenges.cloudflare.com (Turnstile iframe)");
+  assert.ok(connectSrc.includes("challenges.cloudflare.com"), "CSP connect-src must allow challenges.cloudflare.com (Turnstile API)");
 });
