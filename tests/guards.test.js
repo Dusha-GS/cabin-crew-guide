@@ -288,3 +288,28 @@ test("body text meets the WCAG contrast minimum (no text-slate-500 as content)",
     .filter((f) => read(join(dir, f)).includes("text-slate-500"));
   assert.equal(offenders.length, 0, `low-contrast text-slate-500 reintroduced in: ${offenders.join(", ")}`);
 });
+
+
+// ---------------------------------------------------------------------------
+// 9. LIFECYCLE EMAILS (T3). Delayed welcome-sequence sends must stay idempotent,
+//    windowed (so they never blast the existing base), and unsubscribable.
+// ---------------------------------------------------------------------------
+test("lifecycle emails are idempotent, windowed, and unsubscribable", () => {
+  const fn = read(join(ROOT, "netlify/functions/lifecycle-emails.js"));
+  assert.match(fn, /email2_sent/, "email 2 must set an idempotency flag");
+  assert.match(fn, /email3_sent/, "email 3 must set an idempotency flag");
+  assert.match(fn, /lifecycle_unsubscribed/, "sender must skip unsubscribed users");
+  assert.match(fn, /ageDays\s*<=\s*\d+/, "sends must be age-windowed so existing users aren't blasted");
+  assert.match(fn, /List-Unsubscribe/, "promotional emails must carry a List-Unsubscribe header");
+  assert.match(fn, /tier\s*!==\s*"free"/, "the upgrade nudge must be free-tier only (don't upsell payers)");
+
+  const toml = read(join(ROOT, "netlify.toml"));
+  assert.match(toml, /\[functions\."lifecycle-emails"\]/, "lifecycle-emails must be registered as a scheduled function");
+});
+
+test("the unsubscribe endpoint verifies a signed token (can't unsubscribe others)", () => {
+  const u = read(join(ROOT, "netlify/functions/unsubscribe.js"));
+  assert.match(u, /createHmac/, "unsubscribe must verify an HMAC token, not trust a raw user id");
+  assert.match(u, /timingSafeEqual/, "token comparison must be timing-safe");
+  assert.match(u, /lifecycle_unsubscribed/, "unsubscribe must set the opt-out flag");
+});

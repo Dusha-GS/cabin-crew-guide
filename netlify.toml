@@ -8,6 +8,12 @@
 [functions."health-check"]
   schedule = "0 6 * * *"
 
+# Lifecycle / welcome-sequence emails (T3). Daily at 09:00 UTC: sends the day-2
+# "free win" and day-5 Premium-upgrade emails to new signups (idempotent, windowed,
+# free-tier only for the upgrade nudge, with one-click unsubscribe).
+[functions."lifecycle-emails"]
+  schedule = "0 9 * * *"
+
 # ---------------------------------------------------------------------------
 # Redirects
 # Netlify serves existing static files (robots.txt, sitemap.xml, /assets/*)
