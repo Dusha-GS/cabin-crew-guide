@@ -250,14 +250,16 @@ export default function AccountSection({ user, goBack, previousLabel, onLogout, 
                   )}{" "}
                   You cannot undo this.
                 </p>
-                <label className="block text-slate-400 text-xs mb-1.5">
+                <label htmlFor="delete-confirm" className="block text-slate-400 text-xs mb-1.5">
                   Type <strong className="text-white">DELETE</strong> to confirm
                 </label>
                 <input
+                  id="delete-confirm"
                   type="text"
                   value={deleteConfirm}
                   onChange={(e) => setDeleteConfirm(e.target.value)}
                   placeholder="DELETE"
+                  aria-label="Type DELETE to confirm account deletion"
                   className="w-full bg-slate-900 border border-white/10 rounded-lg px-3 py-2 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-red-500/50 mb-3"
                 />
                 <div className="flex gap-2">

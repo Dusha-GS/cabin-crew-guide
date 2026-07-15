@@ -464,21 +464,24 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
         <div className="flex items-center gap-1 mb-6 overflow-x-auto pb-1">
           {effPhases.map((phase, i) => (
             <div key={phase.id} className="flex items-center gap-1 flex-shrink-0">
-              <div
+              <button
+                type="button"
                 onClick={() => handleStepClick(phase.id, phase.free)}
-                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
+                disabled={isLocked(phase.free)}
+                aria-label={`${phase.title}${isLocked(phase.free) ? " (locked — Standard or Premium)" : ""}`}
+                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold border transition-all ${
                   isLocked(phase.free)
-                    ? "border-white/8 bg-white/3 text-slate-600"
+                    ? "border-white/8 bg-white/3 text-slate-600 cursor-not-allowed"
                     : openPhase === phase.id
                     ? `${phase.border} bg-white/8 text-white`
                     : "border-white/10 bg-white/5 text-slate-400 hover:text-white hover:bg-white/8"
                 }`}
               >
-                <span>{phase.emoji}</span>
+                <span aria-hidden="true">{phase.emoji}</span>
                 <span className="hidden sm:block">{phase.title}</span>
                 <span className="sm:hidden">{phase.number}</span>
-                {isLocked(phase.free) && <span className="text-slate-600">🔒</span>}
-              </div>
+                {isLocked(phase.free) && <span className="text-slate-600" aria-hidden="true">🔒</span>}
+              </button>
               {i < phases.length - 1 && <div className="w-3 h-px bg-white/10 flex-shrink-0" />}
             </div>
           ))}

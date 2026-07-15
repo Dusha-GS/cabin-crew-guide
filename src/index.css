@@ -2,6 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ---------------------------------------------------------------------------
+   Accessibility (WCAG 2.2 AA)
+   - A visible keyboard focus indicator on every interactive element. Uses
+     :focus-visible so it only shows for keyboard users, not on mouse click.
+   - Respect the user's reduced-motion preference.
+--------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid #fbbf24; /* amber-400 */
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+/* Elements that manage their own ring (peer-driven checkboxes) opt out. */
+.sr-only:focus-visible + label,
+input.peer:focus-visible + label {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 @keyframes slow-spin {
   from { transform: rotateY(0deg); }
   to { transform: rotateY(360deg); }

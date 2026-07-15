@@ -56,20 +56,22 @@ export default function UpgradeGate({ requiredTier, featureName, featureDescript
 
         {/* Terms checkboxes */}
         <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-6 text-left space-y-3">
-          <div className="flex items-start gap-3 cursor-pointer group" onClick={() => { setTermsAccepted(!termsAccepted); setShowError(false); }}>
-            <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all ${termsAccepted ? "bg-amber-500 border-amber-500" : "border-white/30 group-hover:border-amber-500/50"}`}>
-              {termsAccepted && <span className="text-slate-900 text-xs font-bold">✓</span>}
-            </div>
+          <div className="flex items-start gap-3 group">
+            <input id="gate-terms" type="checkbox" checked={termsAccepted} onChange={(e) => { setTermsAccepted(e.target.checked); setShowError(false); }} className="peer sr-only" />
+            <label htmlFor="gate-terms" aria-label="I agree to the Terms of Service and cancellation policy" className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 cursor-pointer transition-all peer-focus-visible:ring-2 peer-focus-visible:ring-amber-400 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-slate-900 ${termsAccepted ? "bg-amber-500 border-amber-500" : "border-white/30 group-hover:border-amber-500/50"}`}>
+              {termsAccepted && <span className="text-slate-900 text-xs font-bold" aria-hidden="true">✓</span>}
+            </label>
             <span className="text-slate-300 text-sm leading-relaxed">
-              I agree to the <button onClick={(e) => { e.stopPropagation(); onNavigatePremium(); }} className="text-amber-400 hover:underline font-medium">Terms of Service</button> and cancellation policy.
+              <label htmlFor="gate-terms" className="cursor-pointer">I agree to the </label><button type="button" onClick={() => onNavigatePremium()} className="text-amber-400 hover:underline font-medium">Terms of Service</button> and cancellation policy.
             </span>
           </div>
-          <div className="flex items-start gap-3 cursor-pointer group" onClick={() => { setPrivacyAccepted(!privacyAccepted); setShowError(false); }}>
-            <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all ${privacyAccepted ? "bg-amber-500 border-amber-500" : "border-white/30 group-hover:border-amber-500/50"}`}>
-              {privacyAccepted && <span className="text-slate-900 text-xs font-bold">✓</span>}
-            </div>
+          <div className="flex items-start gap-3 group">
+            <input id="gate-privacy" type="checkbox" checked={privacyAccepted} onChange={(e) => { setPrivacyAccepted(e.target.checked); setShowError(false); }} className="peer sr-only" />
+            <label htmlFor="gate-privacy" aria-label="I agree to the Privacy Policy" className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 cursor-pointer transition-all peer-focus-visible:ring-2 peer-focus-visible:ring-amber-400 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-slate-900 ${privacyAccepted ? "bg-amber-500 border-amber-500" : "border-white/30 group-hover:border-amber-500/50"}`}>
+              {privacyAccepted && <span className="text-slate-900 text-xs font-bold" aria-hidden="true">✓</span>}
+            </label>
             <span className="text-slate-300 text-sm leading-relaxed">
-              I agree to the <span className="text-amber-400 font-medium">Privacy Policy</span>.
+              <label htmlFor="gate-privacy" className="cursor-pointer">I agree to the </label><span className="text-amber-400 font-medium">Privacy Policy</span>.
             </span>
           </div>
           {showError && <p className="text-red-400 text-xs">⚠️ Please accept both to continue.</p>}

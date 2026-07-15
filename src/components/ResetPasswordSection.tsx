@@ -55,9 +55,10 @@ export default function ResetPasswordSection({ onDone }: Props) {
               <p className="text-slate-400 text-sm mb-6">Choose a strong password for your account.</p>
               <form onSubmit={handleReset} className="space-y-4">
                 <div>
-                  <label className="block text-slate-300 text-sm font-medium mb-1.5">New password</label>
+                  <label htmlFor="reset-new-password" className="block text-slate-300 text-sm font-medium mb-1.5">New password</label>
                   <div className="relative">
                     <input
+                      id="reset-new-password"
                       type={showPass ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
@@ -66,14 +67,15 @@ export default function ResetPasswordSection({ onDone }: Props) {
                       placeholder="Min. 10 characters"
                       className="w-full bg-slate-700 border border-white/10 rounded-xl px-4 py-3 pr-10 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 text-sm"
                     />
-                    <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
-                      {showPass ? "🙈" : "👁"}
+                    <button type="button" onClick={() => setShowPass(!showPass)} aria-label={showPass ? "Hide password" : "Show password"} aria-pressed={showPass} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 rounded">
+                      <span aria-hidden="true">{showPass ? "🙈" : "👁"}</span>
                     </button>
                   </div>
                 </div>
                 <div>
-                  <label className="block text-slate-300 text-sm font-medium mb-1.5">Confirm password</label>
+                  <label htmlFor="reset-confirm-password" className="block text-slate-300 text-sm font-medium mb-1.5">Confirm password</label>
                   <input
+                    id="reset-confirm-password"
                     type={showPass ? "text" : "password"}
                     value={confirm}
                     onChange={(e) => setConfirm(e.target.value)}

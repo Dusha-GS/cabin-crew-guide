@@ -460,9 +460,10 @@ export default function AIMockInterviewSection({ goBack, previousLabel, tier, on
           <button
             onClick={sendAnswer}
             disabled={!input.trim() || loading}
+            aria-label="Send answer"
             className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 disabled:opacity-40 text-slate-900 font-bold px-5 rounded-xl transition-all hover:scale-105"
           >
-            →
+            <span aria-hidden="true">→</span>
           </button>
         </div>
         <p className="text-slate-600 text-xs text-center mt-2">

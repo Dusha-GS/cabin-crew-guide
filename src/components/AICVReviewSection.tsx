@@ -287,7 +287,8 @@ export default function AICVReviewSection({ goBack, previousLabel, tier, onNavig
                     ref={fileInputRef}
                     type="file"
                     accept=".pdf,.doc,.docx,.txt"
-                    className="hidden"
+                    aria-label="Upload your CV file (PDF, DOC, DOCX, or TXT)"
+                    className="sr-only"
                     onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])}
                   />
                   {uploadedFileName ? (

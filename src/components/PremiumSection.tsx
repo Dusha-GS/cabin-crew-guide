@@ -119,13 +119,12 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
 
           {/* Standard */}
           <div
-            onClick={() => !isStandard && !isPremium && handleSelectPlan("standard")}
             className={`border-2 rounded-2xl p-4 md:p-6 transition-all ${
               isStandard || isPremium
-                ? "border-blue-500/40 bg-blue-500/5 cursor-default"
+                ? "border-blue-500/40 bg-blue-500/5"
                 : selectedPlan === "standard" && isLoggedIn
-                ? "border-blue-500/60 bg-blue-500/10 cursor-pointer"
-                : "border-white/10 bg-white/5 hover:border-blue-500/30 cursor-pointer"
+                ? "border-blue-500/60 bg-blue-500/10"
+                : "border-white/10 bg-white/5 hover:border-blue-500/30"
             }`}
           >
             <div className="flex items-center justify-between mb-3">
@@ -162,13 +161,12 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
 
           {/* Premium */}
           <div
-            onClick={() => !isPremium && handleSelectPlan("premium")}
             className={`border-2 rounded-2xl p-4 md:p-6 transition-all relative overflow-hidden ${
               isPremium
-                ? "border-amber-500/40 bg-amber-500/5 cursor-default"
+                ? "border-amber-500/40 bg-amber-500/5"
                 : selectedPlan === "premium" && isLoggedIn
-                ? "border-amber-500/60 bg-amber-500/10 cursor-pointer"
-                : "border-amber-500/30 bg-amber-500/5 hover:border-amber-500/50 cursor-pointer"
+                ? "border-amber-500/60 bg-amber-500/10"
+                : "border-amber-500/30 bg-amber-500/5 hover:border-amber-500/50"
             }`}
           >
             <div className="absolute top-3 right-3 bg-amber-500 text-slate-900 text-xs font-bold px-2 py-0.5 rounded-full">BEST VALUE</div>
@@ -237,23 +235,25 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
             </div>
 
             <div className="space-y-3 mb-5" ref={termsRef}>
-              <div className="flex items-start gap-3 cursor-pointer group" onClick={() => { setTermsAccepted(!termsAccepted); setShowTermsError(false); }}>
-                <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all ${termsAccepted ? "bg-amber-500 border-amber-500" : "border-white/30 group-hover:border-amber-500/50"}`}>
-                  {termsAccepted && <span className="text-slate-900 text-xs font-bold">✓</span>}
-                </div>
+              <div className="flex items-start gap-3 group">
+                <input id="prem-terms" type="checkbox" checked={termsAccepted} onChange={(e) => { setTermsAccepted(e.target.checked); setShowTermsError(false); }} className="peer sr-only" />
+                <label htmlFor="prem-terms" aria-label="I have read and agree to the Terms of Service, including the cancellation and refund policy" className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 cursor-pointer transition-all peer-focus-visible:ring-2 peer-focus-visible:ring-amber-400 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-slate-900 ${termsAccepted ? "bg-amber-500 border-amber-500" : "border-white/30 group-hover:border-amber-500/50"}`}>
+                  {termsAccepted && <span className="text-slate-900 text-xs font-bold" aria-hidden="true">✓</span>}
+                </label>
                 <span className="text-slate-300 text-sm leading-relaxed">
-                  I have read and agree to the{" "}
-                  <button onClick={(e) => { e.stopPropagation(); setActiveSection("terms"); }} className="text-amber-400 hover:underline font-medium">Terms of Service</button>
+                  <label htmlFor="prem-terms" className="cursor-pointer">I have read and agree to the </label>
+                  <button type="button" onClick={() => setActiveSection("terms")} className="text-amber-400 hover:underline font-medium">Terms of Service</button>
                   , including the cancellation and refund policy.
                 </span>
               </div>
-              <div className="flex items-start gap-3 cursor-pointer group" onClick={() => { setPrivacyAccepted(!privacyAccepted); setShowTermsError(false); }}>
-                <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all ${privacyAccepted ? "bg-amber-500 border-amber-500" : "border-white/30 group-hover:border-amber-500/50"}`}>
-                  {privacyAccepted && <span className="text-slate-900 text-xs font-bold">✓</span>}
-                </div>
+              <div className="flex items-start gap-3 group">
+                <input id="prem-privacy" type="checkbox" checked={privacyAccepted} onChange={(e) => { setPrivacyAccepted(e.target.checked); setShowTermsError(false); }} className="peer sr-only" />
+                <label htmlFor="prem-privacy" aria-label="I have read and agree to the Privacy Policy" className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 cursor-pointer transition-all peer-focus-visible:ring-2 peer-focus-visible:ring-amber-400 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-slate-900 ${privacyAccepted ? "bg-amber-500 border-amber-500" : "border-white/30 group-hover:border-amber-500/50"}`}>
+                  {privacyAccepted && <span className="text-slate-900 text-xs font-bold" aria-hidden="true">✓</span>}
+                </label>
                 <span className="text-slate-300 text-sm leading-relaxed">
-                  I have read and agree to the{" "}
-                  <button onClick={(e) => { e.stopPropagation(); setActiveSection("privacy"); }} className="text-amber-400 hover:underline font-medium">Privacy Policy</button>.
+                  <label htmlFor="prem-privacy" className="cursor-pointer">I have read and agree to the </label>
+                  <button type="button" onClick={() => setActiveSection("privacy")} className="text-amber-400 hover:underline font-medium">Privacy Policy</button>.
                 </span>
               </div>
               {showTermsError && <p className="text-red-400 text-sm">⚠️ Please accept both the Terms of Service and Privacy Policy to continue.</p>}

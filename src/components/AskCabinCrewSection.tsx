@@ -126,6 +126,7 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
                   value={authorName}
                   onChange={e => setAuthorName(e.target.value)}
                   placeholder="Your first name"
+                  aria-label="Your first name"
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-amber-500/50 transition-all"
                 />
                 <input
@@ -133,6 +134,7 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
                   onChange={e => setAuthorEmail(e.target.value)}
                   placeholder="Your email address"
                   type="email"
+                  aria-label="Your email address"
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-amber-500/50 transition-all"
                 />
               </div>

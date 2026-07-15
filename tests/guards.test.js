@@ -242,3 +242,37 @@ test("auth forms are wired for Turnstile bot protection", () => {
   assert.ok(frameSrc.includes("challenges.cloudflare.com"), "CSP frame-src must allow challenges.cloudflare.com (Turnstile iframe)");
   assert.ok(connectSrc.includes("challenges.cloudflare.com"), "CSP connect-src must allow challenges.cloudflare.com (Turnstile API)");
 });
+
+
+// ---------------------------------------------------------------------------
+// 8. ACCESSIBILITY (WCAG 2.2 AA). Keyboard operability, accessible names,
+//    and a visible focus indicator. These regressed silently before.
+// ---------------------------------------------------------------------------
+test("a global keyboard focus indicator and reduced-motion support exist", () => {
+  const css = read(join(ROOT, "src/index.css"));
+  assert.match(css, /:focus-visible/, "no :focus-visible ring — keyboard users cannot see which control has focus");
+  assert.match(css, /prefers-reduced-motion/, "no reduced-motion handling — a WCAG 2.3.3 concern");
+});
+
+test("the auth modal is a labelled dialog that closes on Escape with real checkboxes", () => {
+  const m = stripComments(read(join(ROOT, "src/components/AuthModal.tsx")));
+  assert.match(m, /role="dialog"/, "AuthModal must expose role=dialog");
+  assert.match(m, /aria-modal="true"/, "AuthModal must set aria-modal");
+  assert.match(m, /"Escape"/, "AuthModal must close on the Escape key (keyboard users can't click the backdrop)");
+  assert.match(m, /type="checkbox"/, "agreement toggles must be real checkboxes, not keyboard-inaccessible clickable divs");
+});
+
+test("terms/privacy agreements are real checkboxes, not clickable divs", () => {
+  for (const f of ["PremiumSection.tsx", "UpgradeGate.tsx"]) {
+    const src = read(join(ROOT, "src/components", f));
+    assert.match(src, /type="checkbox"/, `${f} must use a real checkbox for the agreement toggle — a div onClick is not keyboard-operable`);
+  }
+});
+
+test("icon-only buttons expose an accessible name", () => {
+  const mock = read(join(ROOT, "src/components/AIMockInterviewSection.tsx"));
+  assert.match(mock, /aria-label="Send answer"/, "mock-interview send button lost its aria-label");
+  const modal = read(join(ROOT, "src/components/AuthModal.tsx"));
+  assert.match(modal, /aria-label="Close"/, "modal close button lost its aria-label");
+  assert.match(modal, /aria-label=\{showPass \? "Hide password" : "Show password"\}/, "password show/hide toggle lost its aria-label");
+});

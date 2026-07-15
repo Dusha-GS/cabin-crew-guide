@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { loginUser, registerUser, sendPasswordReset, signInWithGoogle, AuthUser } from "../hooks/useAuth";
 import TurnstileWidget, { turnstileEnabled } from "./TurnstileWidget";
 
@@ -44,6 +44,39 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
   );
 
   const switchView = (v: ModalView) => { setError(""); setLoading(false); resetCaptcha(); setView(v); };
+
+  // Accessibility: close on Escape, move focus into the dialog on open, and
+  // restore focus to the previously focused element on close.
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    closeBtnRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") { e.preventDefault(); onClose(); return; }
+      if (e.key !== "Tab") return;
+      const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (!focusable || focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      previouslyFocused?.focus?.();
+    };
+  }, [onClose]);
+
+  const viewLabel =
+    view === "register" ? "Create account"
+    : view === "forgot" ? "Reset your password"
+    : view === "forgot-sent" ? "Password reset email sent"
+    : view === "confirm-sent" ? "Confirm your email"
+    : "Sign in";
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault(); setError(""); setLoading(true);
@@ -113,18 +146,25 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
-      <div className="relative w-full max-w-md bg-slate-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" aria-hidden="true" onClick={onClose} />
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label={viewLabel}
+        tabIndex={-1}
+        className="relative w-full max-w-md bg-slate-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
+      >
         <div className="h-1 w-full bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500" />
         <div className="p-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center text-slate-900 font-bold text-lg">✈</div>
+            <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center text-slate-900 font-bold text-lg" aria-hidden="true">✈</div>
             <div>
               <p className="text-white font-bold text-sm leading-none">Cabin Crew</p>
               <p className="text-amber-400 text-xs">Interview Guidebook</p>
             </div>
-            <button onClick={onClose} className="ml-auto text-slate-400 hover:text-white">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+            <button ref={closeBtnRef} type="button" onClick={onClose} aria-label="Close" className="ml-auto text-slate-400 hover:text-white rounded">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
           </div>
 
@@ -138,14 +178,14 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
 
               <form onSubmit={handleLogin} className="space-y-4">
                 <div>
-                  <label className="block text-slate-300 text-sm font-medium mb-1.5">Email</label>
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 text-sm" />
+                  <label className="block text-slate-300 text-sm font-medium mb-1.5">Email
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" className="mt-1.5 w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 text-sm" /></label>
                 </div>
                 <div>
-                  <label className="block text-slate-300 text-sm font-medium mb-1.5">Password</label>
+                  <label htmlFor="login-password" className="block text-slate-300 text-sm font-medium mb-1.5">Password</label>
                   <div className="relative">
-                    <input type={showPass ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="••••••••" className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 pr-10 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 text-sm" />
-                    <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">{showPass ? "🙈" : "👁"}</button>
+                    <input id="login-password" type={showPass ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="••••••••" className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 pr-10 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 text-sm" />
+                    <button type="button" onClick={() => setShowPass(!showPass)} aria-label={showPass ? "Hide password" : "Show password"} aria-pressed={showPass} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 rounded"><span aria-hidden="true">{showPass ? "🙈" : "👁"}</span></button>
                   </div>
                 </div>
                 <div className="flex justify-end">
@@ -171,33 +211,35 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
 
               <form onSubmit={handleRegister} className="space-y-4">
                 <div>
-                  <label className="block text-slate-300 text-sm font-medium mb-1.5">Full name</label>
-                  <input type="text" value={name} onChange={(e) => setName(e.target.value)} required placeholder="Your name" className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 text-sm" />
+                  <label className="block text-slate-300 text-sm font-medium mb-1.5">Full name
+                  <input type="text" value={name} onChange={(e) => setName(e.target.value)} required placeholder="Your name" className="mt-1.5 w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 text-sm" /></label>
                 </div>
                 <div>
-                  <label className="block text-slate-300 text-sm font-medium mb-1.5">Email</label>
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 text-sm" />
+                  <label className="block text-slate-300 text-sm font-medium mb-1.5">Email
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" className="mt-1.5 w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 text-sm" /></label>
                 </div>
                 <div>
-                  <label className="block text-slate-300 text-sm font-medium mb-1.5">Password <span className="text-slate-500 font-normal">(min. 10, letters and numbers)</span></label>
+                  <label htmlFor="register-password" className="block text-slate-300 text-sm font-medium mb-1.5">Password <span className="text-slate-500 font-normal">(min. 10, letters and numbers)</span></label>
                   <div className="relative">
-                    <input type={showPass ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required minLength={10} placeholder="••••••••" className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 pr-10 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 text-sm" />
-                    <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">{showPass ? "🙈" : "👁"}</button>
+                    <input id="register-password" type={showPass ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required minLength={10} placeholder="••••••••" className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 pr-10 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 text-sm" />
+                    <button type="button" onClick={() => setShowPass(!showPass)} aria-label={showPass ? "Hide password" : "Show password"} aria-pressed={showPass} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 rounded"><span aria-hidden="true">{showPass ? "🙈" : "👁"}</span></button>
                   </div>
                 </div>
-                <div className="space-y-3 bg-slate-800/50 border border-white/5 rounded-xl p-4" onClick={(e) => e.stopPropagation()}>
+                <div className="space-y-3 bg-slate-800/50 border border-white/5 rounded-xl p-4">
                   <p className="text-slate-400 text-xs font-medium uppercase tracking-wider">Required agreements</p>
-                  <div className="flex items-start gap-3 cursor-pointer" onClick={() => setTosAccepted(!tosAccepted)}>
-                    <div className={`mt-0.5 w-5 h-5 rounded border-2 flex-shrink-0 flex items-center justify-center ${tosAccepted ? "bg-amber-500 border-amber-500" : "border-slate-600"}`}>
-                      {tosAccepted && <svg className="w-3 h-3 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
-                    </div>
-                    <span className="text-slate-300 text-sm">I agree to the <button type="button" onClick={(e) => { e.stopPropagation(); onNavigate("terms"); }} className="text-amber-400 hover:underline">Terms of Service</button></span>
+                  <div className="flex items-start gap-3">
+                    <input id="reg-tos" type="checkbox" checked={tosAccepted} onChange={(e) => setTosAccepted(e.target.checked)} className="peer sr-only" />
+                    <label htmlFor="reg-tos" aria-label="I agree to the Terms of Service" className={`mt-0.5 w-5 h-5 rounded border-2 flex-shrink-0 flex items-center justify-center cursor-pointer peer-focus-visible:ring-2 peer-focus-visible:ring-amber-400 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-slate-900 ${tosAccepted ? "bg-amber-500 border-amber-500" : "border-slate-600"}`}>
+                      {tosAccepted && <svg className="w-3 h-3 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+                    </label>
+                    <span className="text-slate-300 text-sm"><label htmlFor="reg-tos" className="cursor-pointer">I agree to the </label><button type="button" onClick={() => onNavigate("terms")} className="text-amber-400 hover:underline">Terms of Service</button></span>
                   </div>
-                  <div className="flex items-start gap-3 cursor-pointer" onClick={() => setPrivacyAccepted(!privacyAccepted)}>
-                    <div className={`mt-0.5 w-5 h-5 rounded border-2 flex-shrink-0 flex items-center justify-center ${privacyAccepted ? "bg-amber-500 border-amber-500" : "border-slate-600"}`}>
-                      {privacyAccepted && <svg className="w-3 h-3 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
-                    </div>
-                    <span className="text-slate-300 text-sm">I agree to the <button type="button" onClick={(e) => { e.stopPropagation(); onNavigate("privacy"); }} className="text-amber-400 hover:underline">Privacy Policy</button></span>
+                  <div className="flex items-start gap-3">
+                    <input id="reg-privacy" type="checkbox" checked={privacyAccepted} onChange={(e) => setPrivacyAccepted(e.target.checked)} className="peer sr-only" />
+                    <label htmlFor="reg-privacy" aria-label="I agree to the Privacy Policy" className={`mt-0.5 w-5 h-5 rounded border-2 flex-shrink-0 flex items-center justify-center cursor-pointer peer-focus-visible:ring-2 peer-focus-visible:ring-amber-400 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-slate-900 ${privacyAccepted ? "bg-amber-500 border-amber-500" : "border-slate-600"}`}>
+                      {privacyAccepted && <svg className="w-3 h-3 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+                    </label>
+                    <span className="text-slate-300 text-sm"><label htmlFor="reg-privacy" className="cursor-pointer">I agree to the </label><button type="button" onClick={() => onNavigate("privacy")} className="text-amber-400 hover:underline">Privacy Policy</button></span>
                   </div>
                 </div>
                 {error && <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 text-red-400 text-sm">{error}</div>}
@@ -219,8 +261,8 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
               <p className="text-slate-400 text-sm mb-6">Enter your email and we'll send you a reset link</p>
               <form onSubmit={handleForgot} className="space-y-4">
                 <div>
-                  <label className="block text-slate-300 text-sm font-medium mb-1.5">Email address</label>
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 text-sm" />
+                  <label className="block text-slate-300 text-sm font-medium mb-1.5">Email address
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" className="mt-1.5 w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 text-sm" /></label>
                 </div>
                 {error && <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 text-red-400 text-sm">{error}</div>}
                 {Captcha}

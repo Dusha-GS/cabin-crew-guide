@@ -202,6 +202,7 @@ export default function OpenDaysSection({ goBack, previousLabel }: Props) {
                 <input
                   type="text"
                   placeholder="Search country..."
+                  aria-label="Search country"
                   value={countrySearch}
                   onChange={e => setCountrySearch(e.target.value)}
                   className="w-full bg-slate-800 border border-slate-600/50 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 mb-3 focus:outline-none focus:border-amber-500/50"
