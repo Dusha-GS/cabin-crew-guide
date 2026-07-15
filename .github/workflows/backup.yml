@@ -44,8 +44,12 @@ jobs:
             exit 1
           fi
           STAMP=$(date -u +%Y-%m-%d)
+          # Use the v17 binary by full path. The runner ships pg_dump 16 on PATH,
+          # which refuses to dump a newer server (Supabase is on Postgres 17).
+          PGDUMP=/usr/lib/postgresql/17/bin/pg_dump
+          "$PGDUMP" --version
           # -Fc = compressed custom format, restorable with pg_restore.
-          pg_dump "$SUPABASE_DB_URL" --no-owner --no-privileges -Fc -f "backup-$STAMP.dump"
+          "$PGDUMP" "$SUPABASE_DB_URL" --no-owner --no-privileges -Fc -f "backup-$STAMP.dump"
           # Symmetric-encrypt before it ever leaves this runner.
           gpg --batch --yes --pinentry-mode loopback \
               --passphrase "$BACKUP_PASSPHRASE" \
