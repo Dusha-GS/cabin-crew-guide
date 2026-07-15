@@ -727,12 +727,75 @@ const rejectionDecodedPaid = {
   ),
 };
 
+// After The Interview is a free/paid split: phases 1-2 (The Silence, The Medical)
+// ship in the client bundle as the lead magnet. Only the PAID phase BODIES live
+// here — the content + action-checklist insights for phases 3, 4, 5 — released to
+// Standard+ members. The phase shells (title/headline/tagline/colours) stay in the
+// bundle so free users see locked previews.
+const afterTheInterviewPaid = {
+  phases: [
+    {
+      id: 3,
+      content: `The offer letter arrives after medical clearance and background checks. It contains your salary, benefits, contract terms, base location, and either your Date of Joining or a note that it will be confirmed shortly.
+
+DOJ timing depends entirely on the airline's training class schedule. Classes run in cohorts at fixed intervals. If your medical clears the same week a class is forming, your DOJ could be days away. If you just missed a cycle, you wait for the next. The gap between offer and DOJ varies from immediate to several months — and candidates who have already resigned find this gap brutal.
+
+The rule is simple: an offer letter without a confirmed DOJ date is still a conditional offer. Keep your current job until both are in hand.`,
+      insights: [
+        { icon: "📋", text: "Read every line of your offer letter. Check salary structure, contract duration, probation period, and every condition before signing" },
+        { icon: "⏰", text: "Accept within the deadline stated — typically 5–7 days. Request an extension in writing if you need it" },
+        { icon: "🚫", text: "Do NOT resign from your current employer until you have both a signed offer letter AND a confirmed DOJ date" },
+        { icon: "🛂", text: "The airline arranges your employment visa — you do not apply separately. Never pay a third party claiming to assist with this" },
+        { icon: "📑", text: "Start apostilling documents now: birth certificate, criminal record clearance, degree or diploma. Allow 2–6 weeks depending on your country" },
+        { icon: "✉️", text: "If your DOJ is delayed beyond what was communicated, contact recruitment by email and keep every exchange in writing" },
+      ],
+    },
+    {
+      id: 4,
+      content: `Most candidates spend the DOJ wait checking their email. The ones who perform best in training spend it preparing.
+
+Initial joining training is intense — typically 7.5 to 8 weeks for the Big 3 carriers, shorter for flydubai and Air Arabia. Days start early, sessions run long, and assessments are continuous throughout. You are trained and certified on all aircraft types the airline operates from the start. Failing any module means remedial training or, in serious cases, failing out entirely.
+
+What most candidates don't realise: the initial joining training is only the beginning. After completing it, you fly under senior crew supervision for a period (6 months at Emirates). Annual recurrent SEP training is then mandatory every year by law — typically a 2-day refresher covering door operations, fire procedures, medical scenarios, and CRM. When the airline introduces new aircraft types to its fleet, all crew undergo additional aircraft-specific type training before those aircraft enter service.
+
+The practical side of relocation is equally real. New country, new banking, new transport, new cost of living — all of this hits in the first two weeks while you are also managing the most demanding professional training of your life. What you sort now, you will not have to sort under pressure.`,
+      insights: [
+        { icon: "🏃‍♀️", text: "Fitness: training is physically demanding with early starts and long practical sessions. Build stamina and endurance now, not on arrival day" },
+        { icon: "💰", text: "Financial buffer: calculate 2–3 months of living expenses minimum. Airline cities are expensive, and salary is paid monthly — plan for the gap" },
+        { icon: "📑", text: "Documents: apostille birth certificate, criminal record clearance, degree certificate. Start now — many countries take 4–6 weeks" },
+        { icon: "🗣️", text: "Arabic basics: شكراً (shukran = thank you) · أهلاً (ahlan = hello) · من فضلك (min fadlak = please). Ten phrases signals real cultural respect" },
+        { icon: "🌆", text: "City prep: learn the key neighbourhoods, public transport system, and app-based services for your base city before you arrive" },
+        { icon: "🏦", text: "Banking: open a Wise or Revolut account for international transfers now. Your local bank account comes after you arrive — do not wait" },
+        { icon: "🧠", text: "Mental health: stay connected to your support network. The anticipation plus the uncertainty is a real emotional challenge. Name it — it helps" },
+      ],
+    },
+    {
+      id: 5,
+      content: `A mandatory wait period applies after rejection at any stage — typically 6 months for the Big 3, with shorter or unconfirmed periods for flydubai and Air Arabia. The clock starts from the date your rejection is confirmed.
+
+Many cabin crew now flying for Gulf carriers failed on their first, second, or even third attempt. The pattern across successful candidates is consistent: they identified the exact stage they failed, targeted that specific weakness, and approached the next application as a materially different candidate. A repeat attempt without a specific improvement plan produces the same result.
+
+The 6 months are not dead time. They are the best preparation window you will ever have — because now you know exactly what the process looks like from the inside.`,
+      insights: [
+        { icon: "🧘‍♀️", text: "Month 1: Process the rejection properly. Allow 2–3 weeks before starting your debrief. Rushed re-preparation and emotional burnout produce weak applications" },
+        { icon: "🔍", text: "Month 1–2: Identify the exact stage you failed. Be honest. Use the Rejection Decoded section of this guidebook to diagnose your specific weak point" },
+        { icon: "🎯", text: "Month 2–3: Target that stage exclusively. Failed HireVue? Daily English and STAR practice. Failed group exercise? Seek out group settings and practise inclusive language every day" },
+        { icon: "🎥", text: "Month 3–4: Film yourself answering interview questions weekly. Watch them back. The gap between how you think you come across and how you actually appear is almost always larger than expected" },
+        { icon: "✨", text: "Month 4–5: Refresh your materials — new professional photos, updated CV, revised application answers. Do not resubmit unchanged application materials" },
+        { icon: "🚀", text: "Month 6: Apply — as a different, better-prepared candidate. Treat this as a new start, not a retry" },
+        { icon: "✈️", text: "During the Big 3 wait: consider applying to flydubai or Air Arabia. The interview skills transfer directly — and the experience strengthens your Big 3 application" },
+      ],
+    },
+  ],
+};
+
 const CONTENT = {
   "cv-guide":            { data: cvGuide,               requires: "standard" },
   "interview-questions": { data: interviewQuestions,    requires: "standard" },
   "group-discussion":    { data: groupDiscussionTopics, requires: "premium"  },
   "mock-exam":           { data: mockExamQuestions,     requires: "standard" },
   "rejection-decoded":   { data: rejectionDecodedPaid,  requires: "standard" },
+  "after-the-interview": { data: afterTheInterviewPaid, requires: "standard" },
 };
 
 const TIER_RANK = { free: 0, standard: 1, premium: 2 };

@@ -43,6 +43,7 @@ test("paid content is NOT shipped in the client bundle", () => {
     "Recruiters test this specifically",
     "Release seatbelts, leave everything",  // mock-exam (paid)
     "Speak at 75% of your normal speed",     // rejection-decoded (paid)
+    "Keep your current job until both are in hand", // after-the-interview (paid)
   ];
 
   for (const s of paidStrings) {
