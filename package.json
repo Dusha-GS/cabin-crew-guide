@@ -12,9 +12,6 @@
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "@anthropic-ai/sdk": "^0.39.0",
-    "clsx": "^2.1.1",
-    "tailwind-merge": "^2.5.4",
     "@supabase/supabase-js": "^2.49.4"
   },
   "devDependencies": {

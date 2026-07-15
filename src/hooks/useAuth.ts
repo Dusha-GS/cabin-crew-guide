@@ -14,8 +14,7 @@ export type MembershipTier = "free" | "standard" | "premium";
 // ── Stripe payment links ─────────────────────────────────────
 export const STRIPE_STANDARD_LINK = "https://buy.stripe.com/3cIfZh4KCfXadVm8xVgrS00";
 export const STRIPE_PREMIUM_LINK  = "https://buy.stripe.com/8x29ATdh8cKYaJa6pNgrS01";
-// Upgrade link: handled by Stripe Customer Portal (coming soon)
-export const STRIPE_UPGRADE_LINK  = "";
+// Upgrades/downgrades are handled by the Stripe Customer Portal (see openBillingPortal).
 
 
 /**
