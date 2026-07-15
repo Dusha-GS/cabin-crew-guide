@@ -3,6 +3,11 @@
   publish = "dist"
   functions = "netlify/functions"
 
+# Server-side daily health monitor. Runs on Netlify's servers at 06:00 UTC,
+# independent of anyone's laptop. Emails a report via Resend.
+[functions."health-check"]
+  schedule = "0 6 * * *"
+
 # ---------------------------------------------------------------------------
 # Redirects
 # Netlify serves existing static files (robots.txt, sitemap.xml, /assets/*)
