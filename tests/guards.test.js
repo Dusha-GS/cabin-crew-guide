@@ -41,6 +41,7 @@ test("paid content is NOT shipped in the client bundle", () => {
     "Desert Island Survival",
     "A high-quality professional headshot is MANDATORY",
     "Recruiters test this specifically",
+    "Release seatbelts, leave everything",  // mock-exam (paid)
   ];
 
   for (const s of paidStrings) {

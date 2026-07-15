@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { callClaude } from "../hooks/useClaude";
 import BackButton from "./BackButton";
+import { usePaidContent } from "../hooks/usePaidContent";
+import { ContentLoading, ContentError } from "./ContentState";
 
 interface Props {
   goBack: () => void;
@@ -20,40 +22,15 @@ type Question = {
   correctOption?: number;
 };
 
-const QUESTIONS: Question[] = [
-  // ── Situational ───────────────────────────────────────────────────────────
-  { id: 1, type: "open", question: "You notice a passenger appears very anxious before takeoff. What do you do?", category: "Situational", difficulty: "Easy", modelAnswer: "Approach calmly and warmly, offer reassurance, explain procedures if needed, check in throughout flight." },
-  { id: 2, type: "open", question: "A passenger becomes verbally aggressive because their meal choice is unavailable. How do you handle this?", category: "Behavioral", difficulty: "Medium", modelAnswer: "Stay calm, acknowledge frustration, apologise sincerely, offer alternatives, escalate to senior crew if needed." },
-  { id: 3, type: "open", question: "During a flight, two passengers in the same row have a heated argument. What steps do you take?", category: "Situational", difficulty: "Medium", modelAnswer: "Intervene professionally, separate if possible, de-escalate calmly, document and inform senior crew." },
-  { id: 4, type: "open", question: "Why do you want to work specifically for Emirates/a Middle Eastern airline?", category: "Personal", difficulty: "Easy", modelAnswer: "Show genuine airline knowledge — routes, values, service culture, crew diversity, training reputation." },
-  { id: 5, type: "open", question: "A passenger is showing signs of a medical emergency (clutching chest). Walk me through your response.", category: "Emergency", difficulty: "Hard", modelAnswer: "Alert senior crew immediately, assess symptoms, retrieve the emergency medical kit and AED if cardiac arrest is suspected, follow the airline's emergency medical protocol, ask for medical professionals onboard, and prepare for possible diversion if needed." },
-  { id: 6, type: "open", question: "You've been awake for 18 hours and have a 12-hour flight ahead. How do you ensure you deliver excellent service?", category: "Personal", difficulty: "Medium", modelAnswer: "Professional responsibility, rest strategies during layover, teamwork with crew, maintaining standards regardless of fatigue." },
-  { id: 7, type: "open", question: "A child is travelling alone and seems frightened. How do you manage their journey?", category: "Situational", difficulty: "Easy", modelAnswer: "Introduce yourself warmly, explain who you are, ensure comfort, follow Unaccompanied Minor protocols." },
-  { id: 8, type: "open", question: "A colleague is behaving unprofessionally during service. What do you do?", category: "Behavioral", difficulty: "Hard", modelAnswer: "Address privately after service, support the team during service, escalate to senior crew if passenger-facing, document if needed." },
-  { id: 9, type: "open", question: "Describe a time you went above and beyond for someone. What was the outcome?", category: "Personal", difficulty: "Easy", modelAnswer: "Use STAR format — Situation, Task, Action, Result. Show empathy, initiative, and positive impact." },
-  { id: 10, type: "open", question: "A passenger refuses to fasten their seatbelt during turbulence. How do you handle it?", category: "Situational", difficulty: "Medium", modelAnswer: "Calmly explain the safety regulation, use firm but polite tone, escalate to senior crew if non-compliant, document the refusal." },
-  { id: 11, type: "open", question: "How would you handle a language barrier with a distressed passenger?", category: "Situational", difficulty: "Medium", modelAnswer: "Use simple words, gestures, translation apps or crew who speak the language, remain calm and patient." },
-  { id: 12, type: "open", question: "What does excellent customer service mean to you in a cabin crew context?", category: "Personal", difficulty: "Easy", modelAnswer: "Anticipating needs, personalised service, cultural sensitivity, consistency under pressure, making passengers feel genuinely cared for." },
-
-  // ── Multiple Choice ───────────────────────────────────────────────────────
-  { id: 13, type: "multiple", question: "What is the primary purpose of the passenger safety briefing before takeoff?", category: "Safety", difficulty: "Easy", modelAnswer: "To ensure all passengers are aware of emergency procedures and safety equipment.", options: ["To entertain passengers during boarding", "To ensure passengers know emergency procedures and safety equipment", "To introduce the cabin crew team", "To explain the meal service"], correctOption: 1 },
-  { id: 14, type: "multiple", question: "A passenger has an allergic reaction during the flight. What is your FIRST action?", category: "Emergency", difficulty: "Hard", modelAnswer: "Inform the senior crew member immediately so the emergency protocol can begin.", options: ["Give them water and wait", "Inform the senior crew member immediately", "Ask other passengers for antihistamines", "Announce over PA for a doctor"], correctOption: 1 },
-  { id: 15, type: "multiple", question: "Which of the following is NOT an acceptable reason to upgrade a passenger?", category: "Behavioral", difficulty: "Medium", modelAnswer: "Personal preference for the passenger is not a valid or ethical reason for an upgrade.", options: ["Medical necessity approved by senior crew", "Operational reasons (overbooking)", "Personal preference for the passenger", "Unaccompanied minor needing closer supervision"], correctOption: 2 },
-  { id: 16, type: "multiple", question: "How should you address a passenger who appears intoxicated and is requesting more alcohol?", category: "Situational", difficulty: "Hard", modelAnswer: "Politely decline and inform the senior crew member — serving more alcohol to an intoxicated passenger is against aviation regulations.", options: ["Serve them one last drink and then stop", "Politely decline and inform senior crew", "Ignore the request and avoid the passenger", "Ask other passengers to intervene"], correctOption: 1 },
-  { id: 17, type: "multiple", question: "What does CRM stand for in aviation?", category: "Knowledge", difficulty: "Medium", modelAnswer: "Crew Resource Management — the use of all available resources to ensure safe and efficient operations.", options: ["Cabin Resource Management", "Crew Resource Management", "Customer Relations Manual", "Crisis Response Method"], correctOption: 1 },
-  { id: 18, type: "multiple", question: "During an emergency evacuation, which of the following is a widely used cabin crew command?", category: "Emergency", difficulty: "Hard", modelAnswer: "A widely used evacuation command is: 'Release seatbelts, leave everything, come this way!' However, the exact wording varies by airline — you will learn your specific airline's commands during initial training.", options: ["Please gather your belongings and proceed to the exit", "Release seatbelts, leave everything, come this way", "Remain seated until further instructions", "Please walk calmly to the nearest exit"], correctOption: 1 },
-  { id: 19, type: "multiple", question: "Which airline is headquartered in Doha, Qatar?", category: "Knowledge", difficulty: "Easy", modelAnswer: "Qatar Airways is headquartered at Hamad International Airport in Doha, Qatar.", options: ["Emirates", "Etihad Airways", "Qatar Airways", "flydubai"], correctOption: 2 },
-
-  // ── Math / Time Zone ──────────────────────────────────────────────────────
-  { id: 20, type: "multiple", question: "You depart Dubai (UTC+4) at 08:00 local time on a flight to London (UTC+1). The flight duration is 7 hours 30 minutes. What is the local arrival time in London?", category: "Math", difficulty: "Medium", modelAnswer: "Depart 08:00 Dubai (UTC+4) = 04:00 UTC. Add 7h30m = 11:30 UTC. London UTC+1 = 12:30 local time.", options: ["12:30", "13:30", "15:30", "11:30"], correctOption: 0 },
-  { id: 21, type: "multiple", question: "A flight departs Bangkok (UTC+7) at 23:45 and arrives in Dubai (UTC+4) after 6 hours 10 minutes. What is the local arrival time in Dubai?", category: "Math", difficulty: "Hard", modelAnswer: "Depart 23:45 Bangkok (UTC+7) = 16:45 UTC. Add 6h10m = 22:55 UTC. Dubai UTC+4 = 02:55 next day.", options: ["02:55", "03:55", "01:55", "04:55"], correctOption: 0 },
-  { id: 22, type: "multiple", question: "You are serving a row of 4 passengers. Each meal tray costs the airline $18.50. What is the total cost for the row?", category: "Math", difficulty: "Easy", modelAnswer: "4 × $18.50 = $74.00", options: ["$64.00", "$72.00", "$74.00", "$76.50"], correctOption: 2 },
-  { id: 23, type: "multiple", question: "A flight from Doha (UTC+3) departs at 14:20 local time. It arrives in New York (UTC-5) after 14 hours 45 minutes. What is the local arrival time in New York?", category: "Math", difficulty: "Hard", modelAnswer: "Depart 14:20 Doha (UTC+3) = 11:20 UTC. Add 14h45m = 02:05 UTC next day. New York UTC-5 = 21:05 same day.", options: ["21:05", "22:05", "20:05", "23:05"], correctOption: 0 },
-  { id: 24, type: "multiple", question: "You have 47 economy passengers and each is allowed 23kg of checked baggage. What is the total maximum checked baggage weight for the cabin?", category: "Math", difficulty: "Medium", modelAnswer: "47 × 23 = 1,081 kg", options: ["1,061 kg", "1,081 kg", "1,101 kg", "1,021 kg"], correctOption: 1 },
-  { id: 25, type: "multiple", question: "A flight departs Abu Dhabi (UTC+4) at 06:30 and arrives in Paris (UTC+2) at 11:45 local Paris time. What is the actual flight duration?", category: "Math", difficulty: "Hard", modelAnswer: "Depart 06:30 Abu Dhabi (UTC+4) = 02:30 UTC. Arrive 11:45 Paris (UTC+2) = 09:45 UTC. Duration = 7 hours 15 minutes.", options: ["5h 15min", "6h 15min", "7h 15min", "8h 15min"], correctOption: 2 },
-];
-
-const DEMO_QUESTIONS: Question[] = [QUESTIONS[0]];
+// The full 25-question set is PAID and now lives server-side
+// (netlify/functions/get-content.js, key "mock-exam"). Only this single demo
+// question ships in the public bundle, as the free preview.
+const DEMO_QUESTION: Question = {
+  id: 1, type: "open",
+  question: "You notice a passenger appears very anxious before takeoff. What do you do?",
+  category: "Situational", difficulty: "Easy",
+  modelAnswer: "Approach calmly and warmly, offer reassurance, explain procedures if needed, check in throughout flight.",
+};
 
 const difficultyColor: Record<string, string> = {
   Easy: "text-green-400 bg-green-400/10 border-green-400/20",
@@ -72,6 +49,11 @@ export default function MockExamSection({ goBack, previousLabel, tier, onNavigat
   const isUnlocked = tier === "standard" || tier === "premium";
   const [demoMode, setDemoMode] = useState(false);
 
+  // Paid questions are fetched only for unlocked users; free/demo users use the
+  // single inline demo question, so nothing paid is in the public bundle.
+  const { data: paidQuestions, loading: qLoading, error: qError, retry: qRetry } =
+    usePaidContent<Question[]>("mock-exam");
+
   const [currentQ, setCurrentQ] = useState(0);
   const [answer, setAnswer] = useState("");
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
@@ -83,12 +65,12 @@ export default function MockExamSection({ goBack, previousLabel, tier, onNavigat
   const [scores, setScores] = useState<Record<number, number>>({});
   const [correctCount, setCorrectCount] = useState(0);
 
-  const questions = isUnlocked ? QUESTIONS : DEMO_QUESTIONS;
-  const question = questions[currentQ];
-  const isMultiple = question.type === "multiple";
+  const questions = isUnlocked ? (paidQuestions ?? []) : [DEMO_QUESTION];
+  const question = questions[currentQ] as Question | undefined;
+  const isMultiple = question?.type === "multiple";
 
   const getFeedback = async () => {
-    if (!answer.trim()) return;
+    if (!question || !answer.trim()) return;
     setLoadingFeedback(true);
     setFeedback("");
     try {
@@ -114,7 +96,7 @@ Format: Start with "Score: X/10" then give your assessment.`,
   };
 
   const submitOption = () => {
-    if (selectedOption === null) return;
+    if (!question || selectedOption === null) return;
     setOptionSubmitted(true);
     const isCorrect = selectedOption === question.correctOption;
     if (isCorrect) setCorrectCount((c) => c + 1);
@@ -148,6 +130,21 @@ Format: Start with "Score: X/10" then give your assessment.`,
 
   const multipleChoiceTotal = questions.filter(q => q.type === "multiple").length;
   const answeredMultiple = questions.filter(q => q.type === "multiple" && scores[q.id] !== undefined).length;
+
+  // ── Unlocked users: wait for the paid question set to arrive ─────────────
+  if (isUnlocked) {
+    if (qLoading) return <ContentLoading goBack={goBack} previousLabel={previousLabel} />;
+    if (qError || !paidQuestions) {
+      return (
+        <ContentError
+          goBack={goBack}
+          previousLabel={previousLabel}
+          message={qError || "We couldn't load the exam questions."}
+          onRetry={qRetry}
+        />
+      );
+    }
+  }
 
   // ── Gate for free users ──────────────────────────────────────────────────
   if (!isUnlocked && !demoMode) {
@@ -186,6 +183,8 @@ Format: Start with "Score: X/10" then give your assessment.`,
       </div>
     );
   }
+
+  if (!question) return null;
 
   // ── Exam complete ────────────────────────────────────────────────────────
   if (examComplete) {
