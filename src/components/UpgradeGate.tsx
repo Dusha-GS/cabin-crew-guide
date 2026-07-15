@@ -87,7 +87,7 @@ export default function UpgradeGate({ requiredTier, featureName, featureDescript
                 </div>
                 <div className="text-right">
                   <p className="text-blue-400 font-bold text-2xl">$15</p>
-                  <p className="text-slate-500 text-xs">per month</p>
+                  <p className="text-slate-400 text-xs">per month</p>
                 </div>
               </div>
               <ul className="text-left space-y-1.5 mb-4">
@@ -114,7 +114,7 @@ export default function UpgradeGate({ requiredTier, featureName, featureDescript
               </div>
               <div className="text-right">
                 <p className="text-amber-400 font-bold text-2xl">$25</p>
-                <p className="text-slate-500 text-xs">per month</p>
+                <p className="text-slate-400 text-xs">per month</p>
               </div>
             </div>
             <ul className="text-left space-y-1.5 mb-4">
@@ -133,7 +133,7 @@ export default function UpgradeGate({ requiredTier, featureName, featureDescript
           </div>
         </div>
 
-        <button onClick={onNavigatePremium} className="mt-4 text-slate-500 hover:text-slate-300 text-sm transition-colors">
+        <button onClick={onNavigatePremium} className="mt-4 text-slate-400 hover:text-slate-300 text-sm transition-colors">
           View full comparison →
         </button>
       </div>

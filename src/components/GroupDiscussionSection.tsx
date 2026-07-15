@@ -120,7 +120,7 @@ export default function GroupDiscussionSection({ goBack, previousLabel }: Props)
                   }`}
                 >
                   <p className={`font-semibold text-sm ${selected === index ? "text-teal-300" : "text-white"}`}>{t.topic}</p>
-                  <span className="text-xs text-slate-500 bg-white/5 px-2 py-0.5 rounded-full mt-1 inline-block">{t.type}</span>
+                  <span className="text-xs text-slate-400 bg-white/5 px-2 py-0.5 rounded-full mt-1 inline-block">{t.type}</span>
                 </button>
               ))}
             </div>

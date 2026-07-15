@@ -161,7 +161,7 @@ export default function AskCabinCrewSection({ goBack, previousLabel, isPremium, 
               >
                 {submitting ? "Sending..." : "Post Question"}
               </button>
-              <p className="text-slate-500 text-xs text-center">
+              <p className="text-slate-400 text-xs text-center">
                 Our expert will reply directly to your email, typically within 2–3 business days. ✈️
               </p>
             </div>

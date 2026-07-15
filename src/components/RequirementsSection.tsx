@@ -22,8 +22,8 @@ export default function RequirementsSection({ goBack, previousLabel }: Props) {
 
         {/* Global disclaimer */}
         <div className="bg-slate-800/50 border border-slate-700/40 rounded-xl px-5 py-4 mb-8 flex items-start gap-3">
-          <span className="text-slate-500 text-base flex-shrink-0 mt-0.5">ℹ️</span>
-          <p className="text-slate-500 text-xs leading-relaxed">
+          <span className="text-slate-400 text-base flex-shrink-0 mt-0.5">ℹ️</span>
+          <p className="text-slate-400 text-xs leading-relaxed">
             Requirements shown are based on publicly available information and candidate-reported experiences. They are subject to change at any time. Always verify current requirements directly with each airline before applying. For flydubai and Air Arabia requirements, see the <strong className="text-slate-400">Airlines Overview</strong> section.
           </p>
         </div>
@@ -50,7 +50,7 @@ export default function RequirementsSection({ goBack, previousLabel }: Props) {
                   <li>• Arrive at assessment day wearing heels for overall presentation — but you will remove them for the reach test itself</li>
                 </ul>
               </div>
-              <p className="text-slate-600 text-xs mt-3 italic">
+              <p className="text-slate-400 text-xs mt-3 italic">
                 Note: flydubai also requires a 212cm reach. Air Arabia minimum height is 160cm (female) / 170cm (male) — verify their exact reach requirement directly with Air Arabia.
               </p>
             </div>
@@ -58,7 +58,7 @@ export default function RequirementsSection({ goBack, previousLabel }: Props) {
               <div className="text-6xl font-bold text-purple-400 mb-2">212</div>
               <div className="text-2xl font-bold text-white mb-1">centimetres</div>
               <div className="text-slate-400 text-sm">Minimum arm reach</div>
-              <div className="text-slate-500 text-xs mt-1">Barefoot · One arm · Tiptoes allowed</div>
+              <div className="text-slate-400 text-xs mt-1">Barefoot · One arm · Tiptoes allowed</div>
             </div>
           </div>
         </div>
@@ -141,7 +141,7 @@ export default function RequirementsSection({ goBack, previousLabel }: Props) {
 
         {/* flydubai and Air Arabia note */}
         <div className="bg-slate-800/40 border border-slate-700/30 rounded-xl px-5 py-4 text-center">
-          <p className="text-slate-500 text-sm">
+          <p className="text-slate-400 text-sm">
             Requirements for <span className="text-slate-400 font-semibold">flydubai</span> and{" "}
             <span className="text-slate-400 font-semibold">Air Arabia</span> are available in the{" "}
             <span className="text-slate-400 font-semibold">Airlines Overview</span> section.

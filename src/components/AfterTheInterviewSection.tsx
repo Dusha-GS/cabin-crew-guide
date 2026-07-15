@@ -346,7 +346,7 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
               ].map((s, i) => (
                 <div key={i} className="bg-white/5 border border-white/8 rounded-xl p-3 text-center">
                   <div className="text-amber-400 font-black text-lg">{s.value}</div>
-                  <div className="text-slate-500 text-xs mt-0.5">{s.label}</div>
+                  <div className="text-slate-400 text-xs mt-0.5">{s.label}</div>
                 </div>
               ))}
             </div>
@@ -384,7 +384,7 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
             {selectedAirline && (
               <button
                 onClick={() => setSelectedAirline(null)}
-                className="px-4 py-2 rounded-xl text-sm font-semibold border border-white/10 bg-white/3 text-slate-500 hover:text-slate-300 transition-all"
+                className="px-4 py-2 rounded-xl text-sm font-semibold border border-white/10 bg-white/3 text-slate-400 hover:text-slate-300 transition-all"
               >
                 Clear ✕
               </button>
@@ -409,7 +409,7 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
                 { label: "Reapply after rejection", value: airline.reapply },
               ].map((item, i) => (
                 <div key={i} className="bg-white/8 border border-white/10 rounded-xl p-3">
-                  <div className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mb-1">{item.label}</div>
+                  <div className="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">{item.label}</div>
                   <div className="text-white text-xs font-semibold leading-tight">{item.value}</div>
                 </div>
               ))}
@@ -424,7 +424,7 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
             </div>
             {airline.portalStatuses.length > 0 && (
               <div>
-                <div className="text-slate-500 text-xs font-bold uppercase tracking-wider mb-3">Application Portal Status Guide</div>
+                <div className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-3">Application Portal Status Guide</div>
                 <div className="space-y-2">
                   {airline.portalStatuses.map((s, i) => (
                     <div key={i} className="flex items-start gap-3 bg-white/5 border border-white/8 rounded-xl p-3">
@@ -440,8 +440,8 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
 
         {/* ── LEGAL DISCLAIMER ── */}
         <div className="bg-slate-800/40 border border-slate-700/30 rounded-xl px-5 py-3.5 mb-6 flex items-start gap-3">
-          <span className="text-slate-600 text-sm flex-shrink-0 mt-0.5">ℹ️</span>
-          <p className="text-slate-600 text-xs leading-relaxed">
+          <span className="text-slate-400 text-sm flex-shrink-0 mt-0.5">ℹ️</span>
+          <p className="text-slate-400 text-xs leading-relaxed">
             All timelines, process details, and status descriptions on this page are based on publicly reported candidate accounts from forums and community platforms. They do not represent confirmed policies of any airline. Always verify current processes directly with the relevant airline before making any decisions.
           </p>
         </div>
@@ -471,7 +471,7 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
                 aria-label={`${phase.title}${isLocked(phase.free) ? " (locked — Standard or Premium)" : ""}`}
                 className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold border transition-all ${
                   isLocked(phase.free)
-                    ? "border-white/8 bg-white/3 text-slate-600 cursor-not-allowed"
+                    ? "border-white/8 bg-white/3 text-slate-400 cursor-not-allowed"
                     : openPhase === phase.id
                     ? `${phase.border} bg-white/8 text-white`
                     : "border-white/10 bg-white/5 text-slate-400 hover:text-white hover:bg-white/8"
@@ -632,16 +632,16 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
                         <p className="text-white text-sm font-semibold group-hover:text-amber-400 transition-colors">
                           ▶ Watch: Real candidate experiences — {phase.title}
                         </p>
-                        <p className="text-slate-600 text-xs mt-0.5">Opens YouTube search for verified experiences</p>
+                        <p className="text-slate-400 text-xs mt-0.5">Opens YouTube search for verified experiences</p>
                       </div>
-                      <svg className="w-4 h-4 text-slate-600 group-hover:text-amber-400 transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 text-slate-400 group-hover:text-amber-400 transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                       </svg>
                     </a>
 
                     <button
                       onClick={scrollToTop}
-                      className="flex items-center gap-1.5 text-slate-600 hover:text-amber-400 text-xs transition-colors group"
+                      className="flex items-center gap-1.5 text-slate-400 hover:text-amber-400 text-xs transition-colors group"
                     >
                       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7-7" />
@@ -679,7 +679,7 @@ export default function AfterTheInterviewSection({ goBack, previousLabel, tier, 
       <div className="flex justify-start mt-6 pb-4">
         <button
           onClick={scrollToTop}
-          className="flex items-center gap-2 text-slate-500 hover:text-amber-400 text-sm transition-colors group"
+          className="flex items-center gap-2 text-slate-400 hover:text-amber-400 text-sm transition-colors group"
         >
           <svg className="w-4 h-4 group-hover:text-amber-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7-7" />

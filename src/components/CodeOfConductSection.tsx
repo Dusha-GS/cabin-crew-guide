@@ -21,8 +21,8 @@ export default function CodeOfConductSection({ goBack, previousLabel }: Props) {
 
         {/* Disclaimer */}
         <div className="bg-slate-800/50 border border-slate-700/40 rounded-xl px-5 py-4 mb-8 flex items-start gap-3">
-          <span className="text-slate-500 text-base flex-shrink-0 mt-0.5">ℹ️</span>
-          <p className="text-slate-500 text-xs leading-relaxed">
+          <span className="text-slate-400 text-base flex-shrink-0 mt-0.5">ℹ️</span>
+          <p className="text-slate-400 text-xs leading-relaxed">
             The professional standards on this page represent general industry principles widely upheld across Gulf airline cabin crew operations. This is not the official policy document of any specific airline. Individual airline policies may differ — always refer to the airline's own documentation once you have been hired.
           </p>
         </div>

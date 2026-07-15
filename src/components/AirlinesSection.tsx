@@ -27,8 +27,8 @@ export default function AirlinesSection({ goBack, previousLabel }: Props) {
 
         {/* Global disclaimer */}
         <div className="bg-slate-800/50 border border-slate-700/40 rounded-xl px-5 py-4 mb-8 flex items-start gap-3">
-          <span className="text-slate-500 text-base flex-shrink-0 mt-0.5">ℹ️</span>
-          <p className="text-slate-500 text-xs leading-relaxed">
+          <span className="text-slate-400 text-base flex-shrink-0 mt-0.5">ℹ️</span>
+          <p className="text-slate-400 text-xs leading-relaxed">
             Airline information, fleet figures, route counts, and interview process details on this page are based on publicly available sources and candidate-reported experiences. They are subject to change at any time. Always verify current requirements and processes directly with each airline before applying.
           </p>
         </div>
@@ -125,7 +125,7 @@ export default function AirlinesSection({ goBack, previousLabel }: Props) {
         </div>
 
         {/* Fleet/route data note */}
-        <p className="text-slate-600 text-xs text-right mb-10 pr-1">
+        <p className="text-slate-400 text-xs text-right mb-10 pr-1">
           Fleet and route figures are approximate and subject to change — verify current data on each airline's official website.
         </p>
 
@@ -134,7 +134,7 @@ export default function AirlinesSection({ goBack, previousLabel }: Props) {
           <h4 className="text-2xl font-bold text-white mb-2 flex items-center gap-2">
             <span className="text-amber-400">🗺️</span> Interview Process — Step by Step
           </h4>
-          <p className="text-slate-500 text-xs mb-6">
+          <p className="text-slate-400 text-xs mb-6">
             Process outlines are based on publicly reported candidate experiences and are subject to change. Always verify the current recruitment process directly with {airline.name} before attending an event.
           </p>
           <div className="relative">

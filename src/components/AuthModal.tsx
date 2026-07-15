@@ -139,7 +139,7 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
   const Divider = (
     <div className="flex items-center gap-3 my-4">
       <div className="flex-1 h-px bg-white/10" />
-      <span className="text-slate-500 text-xs">OR</span>
+      <span className="text-slate-400 text-xs">OR</span>
       <div className="flex-1 h-px bg-white/10" />
     </div>
   );
@@ -219,7 +219,7 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
                   <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" className="mt-1.5 w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 text-sm" /></label>
                 </div>
                 <div>
-                  <label htmlFor="register-password" className="block text-slate-300 text-sm font-medium mb-1.5">Password <span className="text-slate-500 font-normal">(min. 10, letters and numbers)</span></label>
+                  <label htmlFor="register-password" className="block text-slate-300 text-sm font-medium mb-1.5">Password <span className="text-slate-400 font-normal">(min. 10, letters and numbers)</span></label>
                   <div className="relative">
                     <input id="register-password" type={showPass ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required minLength={10} placeholder="••••••••" className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 pr-10 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 text-sm" />
                     <button type="button" onClick={() => setShowPass(!showPass)} aria-label={showPass ? "Hide password" : "Show password"} aria-pressed={showPass} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 rounded"><span aria-hidden="true">{showPass ? "🙈" : "👁"}</span></button>

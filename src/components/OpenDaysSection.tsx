@@ -250,7 +250,7 @@ export default function OpenDaysSection({ goBack, previousLabel }: Props) {
 
         {/* ── EVENT LIST ───────────────────────────────────────── */}
         {grouped.length === 0 ? (
-          <div className="text-center py-16 text-slate-500">
+          <div className="text-center py-16 text-slate-400">
             <div className="text-4xl mb-3">🔍</div>
             <p className="text-lg font-medium text-slate-400">No events found</p>
             <p className="text-sm mt-1">Try adjusting your filters</p>
@@ -272,7 +272,7 @@ export default function OpenDaysSection({ goBack, previousLabel }: Props) {
                     {month === "ONGOING" ? "Ongoing — no fixed date" : month}
                   </div>
                   <div className="flex-1 h-px bg-slate-700/50" />
-                  <span className="text-slate-600 text-xs">{events.length} event{events.length !== 1 ? "s" : ""}</span>
+                  <span className="text-slate-400 text-xs">{events.length} event{events.length !== 1 ? "s" : ""}</span>
                 </div>
 
                 {/* Event cards */}
@@ -290,7 +290,7 @@ export default function OpenDaysSection({ goBack, previousLabel }: Props) {
                         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
 
                           {/* Date */}
-                          <div className={`flex-shrink-0 text-xs font-semibold min-w-[100px] ${isOngoing ? "text-slate-500" : "text-white"}`}>
+                          <div className={`flex-shrink-0 text-xs font-semibold min-w-[100px] ${isOngoing ? "text-slate-400" : "text-white"}`}>
                             {event.dateLabel}
                           </div>
 
@@ -303,7 +303,7 @@ export default function OpenDaysSection({ goBack, previousLabel }: Props) {
                                 <span className="text-slate-400 text-xs ml-1.5">· {event.city}</span>
                               )}
                               {event.venue && (
-                                <p className="text-slate-500 text-xs mt-0.5 truncate">{event.venue}</p>
+                                <p className="text-slate-400 text-xs mt-0.5 truncate">{event.venue}</p>
                               )}
                             </div>
                           </div>
@@ -326,7 +326,7 @@ export default function OpenDaysSection({ goBack, previousLabel }: Props) {
 
                         {/* Notes */}
                         {event.notes && (
-                          <p className="text-slate-500 text-xs mt-2 pl-0 sm:pl-[116px] leading-relaxed">
+                          <p className="text-slate-400 text-xs mt-2 pl-0 sm:pl-[116px] leading-relaxed">
                             {event.notes}
                           </p>
                         )}
@@ -341,7 +341,7 @@ export default function OpenDaysSection({ goBack, previousLabel }: Props) {
 
         {/* ── LEGEND ──────────────────────────────────────────── */}
         <div className="mt-10 border-t border-slate-700/40 pt-6">
-          <p className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-3">Event types</p>
+          <p className="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-3">Event types</p>
           <div className="flex flex-wrap gap-4">
             {Object.entries(TYPE_LABELS).map(([, { label, dot }]) => (
               <div key={label} className="flex items-center gap-2 text-xs text-slate-400">
@@ -350,7 +350,7 @@ export default function OpenDaysSection({ goBack, previousLabel }: Props) {
               </div>
             ))}
           </div>
-          <p className="text-slate-600 text-xs mt-4 leading-relaxed">
+          <p className="text-slate-400 text-xs mt-4 leading-relaxed">
             Sources: Emirates — emiratesgroupcareers.com · Qatar Airways — careers.qatarairways.com · Etihad — etihad.com/careers · flydubai — flydubai.com/careers · Air Arabia — airarabia.com/careers.
             Qatar Airways recruits mainly through an online application and video interview, so it rarely publishes dated walk-in open days. Etihad runs a small number of dated walk-in CV-drop events on its own live events portal (etihad.com/careers) alongside invite-only assessment days — check there for current Etihad dates.
             Airlines publish schedules 4–8 weeks ahead and change them frequently. Dates shown were verified on the last-updated date above — always confirm directly with the airline before travelling.

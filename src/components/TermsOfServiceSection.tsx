@@ -105,7 +105,7 @@ export default function TermsOfServiceSection({ goBack, previousLabel }: Props) 
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> We are not liable for any indirect, incidental, or consequential damages arising from your use of the Service.</li>
               <li className="flex items-start gap-2"><span className="text-amber-400 mt-1">◆</span> Our total liability shall not exceed the amount you paid for your membership in the 12 months preceding the claim.</li>
             </ul>
-            <p className="mt-3 text-slate-500 text-xs">Nothing in this clause limits your statutory rights as a consumer under applicable local law, including rights that cannot be excluded by contract.</p>
+            <p className="mt-3 text-slate-400 text-xs">Nothing in this clause limits your statutory rights as a consumer under applicable local law, including rights that cannot be excluded by contract.</p>
           </section>
 
           <section>

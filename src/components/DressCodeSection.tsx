@@ -144,8 +144,8 @@ export default function DressCodeSection({ goBack, previousLabel }: Props) {
 
         {/* Global disclaimer */}
         <div className="bg-slate-800/50 border border-slate-700/40 rounded-xl px-5 py-4 mb-8 flex items-start gap-3">
-          <span className="text-slate-500 text-base flex-shrink-0 mt-0.5">ℹ️</span>
-          <p className="text-slate-500 text-xs leading-relaxed">
+          <span className="text-slate-400 text-base flex-shrink-0 mt-0.5">ℹ️</span>
+          <p className="text-slate-400 text-xs leading-relaxed">
             Uniform descriptions and grooming standards are based on publicly available information and candidate-reported experiences. Airline standards are subject to change — always verify current requirements directly with each airline before your assessment day.
           </p>
         </div>

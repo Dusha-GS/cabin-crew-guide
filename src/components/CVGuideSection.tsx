@@ -52,8 +52,8 @@ export default function CVGuideSection({ goBack, previousLabel }: Props) {
 
         {/* Disclaimer */}
         <div className="bg-slate-800/50 border border-slate-700/40 rounded-xl px-5 py-4 mb-8 flex items-start gap-3">
-          <span className="text-slate-500 text-base flex-shrink-0 mt-0.5">ℹ️</span>
-          <p className="text-slate-500 text-xs leading-relaxed">
+          <span className="text-slate-400 text-base flex-shrink-0 mt-0.5">ℹ️</span>
+          <p className="text-slate-400 text-xs leading-relaxed">
             CV guidance on this page is based on publicly available airline application requirements and candidate-reported experiences. Best practices are subject to change — always check the specific airline's application portal for current requirements before submitting. The personal details guidance applies specifically to Middle Eastern airline applications; conventions differ in other regions.
           </p>
         </div>
@@ -72,8 +72,8 @@ export default function CVGuideSection({ goBack, previousLabel }: Props) {
               </div>
               <div>
                 <div className="h-0.5 bg-gradient-to-r from-amber-400 to-transparent mb-3" />
-                <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-2">Contact</p>
-                <div className="space-y-1 text-slate-600 text-xs">
+                <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-2">Contact</p>
+                <div className="space-y-1 text-slate-400 text-xs">
                   <p>📧 yourname@email.com</p>
                   <p>📱 +971 XX XXX XXXX</p>
                   <p>🌍 Dubai, UAE</p>
@@ -82,7 +82,7 @@ export default function CVGuideSection({ goBack, previousLabel }: Props) {
               </div>
               <div>
                 <div className="h-0.5 bg-gradient-to-r from-amber-400 to-transparent mb-3" />
-                <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-2">Languages</p>
+                <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-2">Languages</p>
                 <div className="space-y-2">
                   {[
                     { lang: "English", level: "Fluent", width: "95%" },
@@ -114,19 +114,19 @@ export default function CVGuideSection({ goBack, previousLabel }: Props) {
               </div>
               <div className="h-0.5 bg-gradient-to-r from-amber-400 to-transparent" />
               <div>
-                <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-2">Professional Profile</p>
-                <p className="text-slate-600 text-sm leading-relaxed">
+                <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-2">Professional Profile</p>
+                <p className="text-slate-400 text-sm leading-relaxed">
                   Enthusiastic and customer-focused professional with [X] years of experience delivering
                   exceptional service in multicultural environments. Fluent in English and Arabic, with a
                   genuine passion for creating meaningful experiences for every guest.
                 </p>
               </div>
               <div>
-                <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-3">Work Experience</p>
+                <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-3">Work Experience</p>
                 <div className="border-l-2 border-amber-400 pl-4">
                   <p className="text-slate-800 font-bold text-sm">Senior Customer Service Representative</p>
                   <p className="text-amber-600 text-xs font-medium">Company Name | 2022 – Present</p>
-                  <ul className="mt-2 space-y-1 text-slate-600 text-xs">
+                  <ul className="mt-2 space-y-1 text-slate-400 text-xs">
                     <li>• Delivered exceptional service to 100+ daily customers</li>
                     <li>• Resolved complex complaints achieving 95% customer satisfaction</li>
                     <li>• Collaborated with multicultural team of 15+ colleagues</li>
@@ -186,7 +186,7 @@ export default function CVGuideSection({ goBack, previousLabel }: Props) {
               <p className="text-slate-300 text-sm italic leading-relaxed">
                 "{cvGuide.structure[activeSection].example}"
               </p>
-              <p className="text-slate-500 text-xs mt-2">
+              <p className="text-slate-400 text-xs mt-2">
                 ↑ This is a template example only — tailor every word to the specific airline you are applying to.
               </p>
             </div>

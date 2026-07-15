@@ -64,7 +64,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
 
   const renderCell = (val: boolean) => val
     ? <span className="text-green-400 font-bold">✓</span>
-    : <span className="text-slate-600">—</span>;
+    : <span className="text-slate-400">—</span>;
 
   return (
     <div className="min-h-screen bg-slate-900 py-20 px-4 pt-24">
@@ -99,12 +99,12 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
           <div className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6">
             <p className="text-slate-400 font-bold text-sm uppercase tracking-wider mb-3">Free</p>
             <div className="text-4xl font-bold text-white mb-1">$0</div>
-            <p className="text-slate-500 text-sm mb-6">No account needed</p>
+            <p className="text-slate-400 text-sm mb-6">No account needed</p>
             <ul className="space-y-2 mb-6">
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> 1 Mock Interview session</li>
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> Airline Requirements</li>
-              <li className="text-slate-500 text-sm flex items-center gap-2"><span>—</span> No guide access</li>
-              <li className="text-slate-500 text-sm flex items-center gap-2"><span>—</span> No forum</li>
+              <li className="text-slate-400 text-sm flex items-center gap-2"><span>—</span> No guide access</li>
+              <li className="text-slate-400 text-sm flex items-center gap-2"><span>—</span> No forum</li>
             </ul>
             {!isLoggedIn ? (
               <button onClick={onLoginClick} className="w-full bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 font-semibold py-3 rounded-xl text-sm transition-all">
@@ -133,18 +133,18 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
               {!isStandard && !isPremium && selectedPlan === "standard" && isLoggedIn && <span className="bg-blue-500/20 text-blue-400 text-xs px-2 py-0.5 rounded-full border border-blue-500/30">Selected</span>}
             </div>
             <div className="text-4xl font-bold text-white mb-1">$15</div>
-            <p className="text-slate-500 text-sm mb-6">per month · cancel anytime</p>
+            <p className="text-slate-400 text-sm mb-6">per month · cancel anytime</p>
             <ul className="space-y-2 mb-6">
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-blue-400">✓</span> Full interview guidebook</li>
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-blue-400">✓</span> Full Mock Exam</li>
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-blue-400">✓</span> CV Guide</li>
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-blue-400">✓</span> Interview Questions & Answers</li>
-              <li className="text-slate-500 text-sm flex items-center gap-2"><span>—</span> No Mock Interview or forum</li>
+              <li className="text-slate-400 text-sm flex items-center gap-2"><span>—</span> No Mock Interview or forum</li>
             </ul>
             {isStandard ? (
               <div className="w-full bg-blue-500/20 border border-blue-500/30 text-blue-400 font-semibold py-3 rounded-xl text-center text-sm">✓ Current Plan</div>
             ) : isPremium ? (
-              <div className="w-full bg-white/5 border border-white/10 text-slate-500 font-semibold py-3 rounded-xl text-center text-sm">Included in Premium</div>
+              <div className="w-full bg-white/5 border border-white/10 text-slate-400 font-semibold py-3 rounded-xl text-center text-sm">Included in Premium</div>
             ) : (
               <button
                 onClick={(e) => { e.stopPropagation(); handleSelectPlan("standard"); }}
@@ -176,7 +176,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
               {!isPremium && selectedPlan === "premium" && isLoggedIn && <span className="bg-amber-500/20 text-amber-400 text-xs px-2 py-0.5 rounded-full border border-amber-500/30">Selected</span>}
             </div>
             <div className="text-4xl font-bold text-white mb-1">$25</div>
-            <p className="text-slate-500 text-sm mb-6">per month · cancel anytime</p>
+            <p className="text-slate-400 text-sm mb-6">per month · cancel anytime</p>
             <ul className="space-y-2 mb-6">
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> Everything in Standard</li>
               <li className="text-slate-300 text-sm flex items-center gap-2"><span className="text-amber-400">✓</span> Mock Interview (unlimited)</li>
@@ -282,7 +282,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
                 ? selectedPlan === "standard" ? "Subscribe to Standard — $15/mo →" : "Subscribe to Premium — $25/mo →"
                 : "Accept Terms Above to Continue"}
             </button>
-            <p className="text-slate-500 text-xs text-center mt-3">Secure payment via Stripe · Cancel anytime · Billed monthly</p>
+            <p className="text-slate-400 text-xs text-center mt-3">Secure payment via Stripe · Cancel anytime · Billed monthly</p>
           </div>
         )}
 
@@ -297,8 +297,8 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
                 <tr className="border-b border-white/10">
                   <th className="text-left text-slate-400 text-xs font-bold uppercase tracking-wider p-4">Feature</th>
                   <th className="text-center text-slate-400 text-xs font-bold uppercase tracking-wider p-4">Free</th>
-                  <th className="text-center text-blue-400 text-xs font-bold uppercase tracking-wider p-4">Standard<br/><span className="text-slate-500 font-normal normal-case">$15/mo</span></th>
-                  <th className="text-center text-amber-400 text-xs font-bold uppercase tracking-wider p-4">Premium<br/><span className="text-slate-500 font-normal normal-case">$25/mo</span></th>
+                  <th className="text-center text-blue-400 text-xs font-bold uppercase tracking-wider p-4">Standard<br/><span className="text-slate-400 font-normal normal-case">$15/mo</span></th>
+                  <th className="text-center text-amber-400 text-xs font-bold uppercase tracking-wider p-4">Premium<br/><span className="text-slate-400 font-normal normal-case">$25/mo</span></th>
                 </tr>
               </thead>
               <tbody>

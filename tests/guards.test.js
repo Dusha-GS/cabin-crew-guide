@@ -276,3 +276,15 @@ test("icon-only buttons expose an accessible name", () => {
   assert.match(modal, /aria-label="Close"/, "modal close button lost its aria-label");
   assert.match(modal, /aria-label=\{showPass \? "Hide password" : "Show password"\}/, "password show/hide toggle lost its aria-label");
 });
+
+
+test("body text meets the WCAG contrast minimum (no text-slate-500 as content)", () => {
+  // text-slate-500 on this app's dark surfaces is ~3.1-3.75:1 — below the 4.5:1
+  // AA minimum for normal text. It was replaced with text-slate-400 (>=5.7:1).
+  // Remaining slate-600/700 are locked/disabled or decorative (WCAG-exempt).
+  const dir = join(ROOT, "src/components");
+  const offenders = readdirSync(dir)
+    .filter((f) => f.endsWith(".tsx"))
+    .filter((f) => read(join(dir, f)).includes("text-slate-500"));
+  assert.equal(offenders.length, 0, `low-contrast text-slate-500 reintroduced in: ${offenders.join(", ")}`);
+});

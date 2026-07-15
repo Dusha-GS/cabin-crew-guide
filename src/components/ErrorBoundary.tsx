@@ -46,9 +46,9 @@ export default class ErrorBoundary extends Component<Props, State> {
               Go home
             </a>
           </div>
-          <p className="text-slate-600 text-xs mt-5">
+          <p className="text-slate-400 text-xs mt-5">
             Still stuck? Email{" "}
-            <a href="mailto:support@cabincrewguidebook.com" className="text-slate-500 underline hover:text-slate-400">
+            <a href="mailto:support@cabincrewguidebook.com" className="text-slate-400 underline hover:text-slate-400">
               support@cabincrewguidebook.com
             </a>
           </p>

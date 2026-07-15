@@ -161,7 +161,7 @@ export default function AccountSection({ user, goBack, previousLabel, onLogout, 
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-slate-300 text-sm font-medium">Change Password</p>
-                <p className="text-slate-500 text-xs mt-0.5">We'll send a reset link to your email</p>
+                <p className="text-slate-400 text-xs mt-0.5">We'll send a reset link to your email</p>
               </div>
               {resetSent ? (
                 <span className="text-green-400 text-xs font-medium bg-green-500/10 border border-green-500/20 px-3 py-1.5 rounded-lg flex-shrink-0">
@@ -186,7 +186,7 @@ export default function AccountSection({ user, goBack, previousLabel, onLogout, 
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-slate-300 text-sm font-medium">Manage Subscription</p>
-                  <p className="text-slate-500 text-xs mt-0.5">Upgrade, update payment, or cancel &mdash; self-service</p>
+                  <p className="text-slate-400 text-xs mt-0.5">Upgrade, update payment, or cancel &mdash; self-service</p>
                 </div>
                 <button
                   onClick={handleManageSubscription}
@@ -205,7 +205,7 @@ export default function AccountSection({ user, goBack, previousLabel, onLogout, 
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-slate-300 text-sm font-medium">Sign Out</p>
-                <p className="text-slate-500 text-xs mt-0.5">You can sign back in anytime</p>
+                <p className="text-slate-400 text-xs mt-0.5">You can sign back in anytime</p>
               </div>
               <button
                 onClick={onLogout}
@@ -223,7 +223,7 @@ export default function AccountSection({ user, goBack, previousLabel, onLogout, 
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-red-400 font-bold text-sm">Delete Account</p>
-                <p className="text-slate-500 text-xs mt-0.5 leading-relaxed">
+                <p className="text-slate-400 text-xs mt-0.5 leading-relaxed">
                   Permanently erase your account and personal data. This cannot be undone.
                 </p>
               </div>
@@ -260,7 +260,7 @@ export default function AccountSection({ user, goBack, previousLabel, onLogout, 
                   onChange={(e) => setDeleteConfirm(e.target.value)}
                   placeholder="DELETE"
                   aria-label="Type DELETE to confirm account deletion"
-                  className="w-full bg-slate-900 border border-white/10 rounded-lg px-3 py-2 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-red-500/50 mb-3"
+                  className="w-full bg-slate-900 border border-white/10 rounded-lg px-3 py-2 text-white text-sm placeholder:text-slate-400 focus:outline-none focus:border-red-500/50 mb-3"
                 />
                 <div className="flex gap-2">
                   <button
@@ -285,9 +285,9 @@ export default function AccountSection({ user, goBack, previousLabel, onLogout, 
         </div>
 
         {/* Manage subscription note */}
-        <p className="text-slate-600 text-xs text-center leading-relaxed">
-          Upgrade or cancel anytime via <span className="text-slate-500">Manage Subscription</span> above. Need help? Email{" "}
-          <a href="mailto:support@cabincrewguidebook.com" className="text-slate-500 hover:text-slate-400 underline">
+        <p className="text-slate-400 text-xs text-center leading-relaxed">
+          Upgrade or cancel anytime via <span className="text-slate-400">Manage Subscription</span> above. Need help? Email{" "}
+          <a href="mailto:support@cabincrewguidebook.com" className="text-slate-400 hover:text-slate-400 underline">
             support@cabincrewguidebook.com
           </a>.
         </p>

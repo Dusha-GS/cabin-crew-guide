@@ -134,7 +134,7 @@ export default function InterviewQASection({ goBack, previousLabel }: Props) {
                     <span className={`text-xs px-2 py-0.5 rounded-full border ${difficultyColors[q.difficulty as keyof typeof difficultyColors]}`}>
                       {q.difficulty}
                     </span>
-                    <span className="text-xs text-slate-500 bg-white/5 px-2 py-0.5 rounded-full">
+                    <span className="text-xs text-slate-400 bg-white/5 px-2 py-0.5 rounded-full">
                       {q.category}
                     </span>
                   </div>

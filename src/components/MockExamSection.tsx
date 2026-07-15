@@ -207,7 +207,7 @@ Format: Start with "Score: X/10" then give your assessment.`,
                 Multiple choice: <span className="text-blue-400 font-bold">{correctCount}/{answeredMultiple} correct</span>
               </p>
             )}
-            <p className="text-slate-500 text-sm mb-8">
+            <p className="text-slate-400 text-sm mb-8">
               {demoMode ? "You've completed the demo question." : `You answered all ${questions.length} questions.`}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -294,7 +294,7 @@ Format: Start with "Score: X/10" then give your assessment.`,
               if (optionSubmitted) {
                 if (i === question.correctOption) style = "border-green-500/60 bg-green-500/10 text-green-300";
                 else if (i === selectedOption) style = "border-red-500/60 bg-red-500/10 text-red-300";
-                else style = "border-white/5 bg-slate-800/30 text-slate-500";
+                else style = "border-white/5 bg-slate-800/30 text-slate-400";
               } else if (selectedOption === i) {
                 style = "border-amber-500/60 bg-amber-500/10 text-amber-300";
               }
@@ -365,7 +365,7 @@ Format: Start with "Score: X/10" then give your assessment.`,
               <div className="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-5 mb-4">
                 <p className="text-blue-400 text-xs font-bold uppercase tracking-wider mb-2">Feedback</p>
                 <p className="text-slate-200 text-sm leading-relaxed whitespace-pre-wrap">{feedback}</p>
-                <p className="text-slate-600 text-xs mt-3 pt-3 border-t border-white/5">
+                <p className="text-slate-400 text-xs mt-3 pt-3 border-t border-white/5">
                   ⓘ Feedback is AI-generated and for practice purposes only — not a substitute for professional interview coaching.
                 </p>
               </div>

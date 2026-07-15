@@ -129,7 +129,7 @@ export default function Header({ activeSection, setActiveSection, user, onLoginC
                               <span className="text-[10px] font-bold text-amber-300 bg-amber-500/15 border border-amber-500/30 px-1.5 py-0.5 rounded-full">PRO</span>
                             )}
                           </div>
-                          <p className="text-slate-500 text-xs mt-0.5">{item.desc}</p>
+                          <p className="text-slate-400 text-xs mt-0.5">{item.desc}</p>
                         </div>
                       </button>
                     ))}
@@ -275,7 +275,7 @@ export default function Header({ activeSection, setActiveSection, user, onLoginC
 
             {navGroups.map((group) => (
               <div key={group.label}>
-                <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest px-1 mb-2">{group.label}</p>
+                <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest px-1 mb-2">{group.label}</p>
                 <div className="grid grid-cols-2 gap-2">
                   {group.items.map((item) => (
                     <button

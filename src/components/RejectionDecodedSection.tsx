@@ -329,14 +329,14 @@ export default function RejectionDecodedSection({ goBack, previousLabel, tier, o
           {currentAirline ? (
             <p className="text-xs text-slate-400 mt-3">Showing <span className={getCalloutLabel(currentAirline.id)}>{currentAirline.name}</span> specific insights inside each rejection reason below. Tap again to deselect.</p>
           ) : (
-            <p className="text-xs text-slate-500 mt-3">Select an airline above to see how each rejection reason applies to your specific target carrier.</p>
+            <p className="text-xs text-slate-400 mt-3">Select an airline above to see how each rejection reason applies to your specific target carrier.</p>
           )}
         </div>
 
         {/* Legal disclaimer */}
         <div className="bg-slate-800/50 border border-slate-700/40 rounded-xl px-5 py-4 mb-6 flex items-start gap-3">
-          <span className="text-slate-500 text-base flex-shrink-0 mt-0.5">ℹ️</span>
-          <p className="text-slate-500 text-xs leading-relaxed">
+          <span className="text-slate-400 text-base flex-shrink-0 mt-0.5">ℹ️</span>
+          <p className="text-slate-400 text-xs leading-relaxed">
             The rejection reasons and recruitment process details on this page are based on publicly reported candidate experiences from forums, community platforms, and open candidate discussions. They do not represent confirmed policies of any airline. Always verify current requirements directly with the airline before applying.
           </p>
         </div>
@@ -371,10 +371,10 @@ export default function RejectionDecodedSection({ goBack, previousLabel, tier, o
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap mb-1">
-                        <span className={`text-xs font-bold uppercase tracking-wider border rounded-full px-2.5 py-0.5 ${locked ? "bg-white/5 text-slate-500 border-white/10" : reason.badgeBg}`}>{reason.label}</span>
+                        <span className={`text-xs font-bold uppercase tracking-wider border rounded-full px-2.5 py-0.5 ${locked ? "bg-white/5 text-slate-400 border-white/10" : reason.badgeBg}`}>{reason.label}</span>
                         {locked && <span className="text-xs font-bold text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-full px-2.5 py-0.5">Standard+</span>}
                       </div>
-                      <h3 className={`font-bold text-base md:text-lg leading-snug ${locked ? "text-slate-500" : "text-white"}`}>{reason.title}</h3>
+                      <h3 className={`font-bold text-base md:text-lg leading-snug ${locked ? "text-slate-400" : "text-white"}`}>{reason.title}</h3>
                       <p className={`text-sm mt-1 leading-relaxed ${locked ? "text-slate-600" : "text-slate-400"}`}>{reason.subtitle}</p>
                     </div>
                     {!locked && (
@@ -424,7 +424,7 @@ export default function RejectionDecodedSection({ goBack, previousLabel, tier, o
                         <div>
                           <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Real Candidate Experience</h4>
                           <blockquote className="text-slate-300 text-sm leading-relaxed italic mb-2">"{reason.testimonial?.quote}"</blockquote>
-                          <p className="text-slate-500 text-xs">— {reason.testimonial?.source}</p>
+                          <p className="text-slate-400 text-xs">— {reason.testimonial?.source}</p>
                         </div>
                       </div>
                     </div>
@@ -450,9 +450,9 @@ export default function RejectionDecodedSection({ goBack, previousLabel, tier, o
                       </div>
                       <div className="flex-1">
                         <p className="text-white text-sm font-semibold group-hover:text-amber-400 transition-colors">▶ {reason.youtubeLabel}</p>
-                        <p className="text-slate-500 text-xs mt-0.5">Search YouTube for relevant guides</p>
+                        <p className="text-slate-400 text-xs mt-0.5">Search YouTube for relevant guides</p>
                       </div>
-                      <svg className="w-4 h-4 text-slate-500 group-hover:text-amber-400 transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 text-slate-400 group-hover:text-amber-400 transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                       </svg>
                     </a>

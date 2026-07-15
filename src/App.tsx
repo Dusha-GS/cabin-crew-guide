@@ -183,7 +183,7 @@ export default function App() {
             Create a free account or sign in to access{" "}
             <span className="text-white font-medium">{sectionLabels[activeSection] || "this section"}</span>.
           </p>
-          <p className="text-slate-500 text-sm mb-8">Free accounts unlock Interview Q&amp;A, Mock Exam preview, and more.</p>
+          <p className="text-slate-400 text-sm mb-8">Free accounts unlock Interview Q&amp;A, Mock Exam preview, and more.</p>
           <button
             onClick={openLogin}
             className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-900 font-bold py-4 rounded-xl text-lg transition-all hover:scale-[1.01] shadow-lg shadow-amber-500/20 mb-4"
@@ -270,7 +270,7 @@ export default function App() {
                   <p className="text-amber-400 text-xs">Middle Eastern Airlines Edition</p>
                 </div>
               </div>
-              <p className="text-slate-500 text-sm leading-relaxed">Your comprehensive preparation guide for cabin crew interviews at Emirates, Etihad Airways, Qatar Airways, and more.</p>
+              <p className="text-slate-400 text-sm leading-relaxed">Your comprehensive preparation guide for cabin crew interviews at Emirates, Etihad Airways, Qatar Airways, and more.</p>
             </div>
             <div>
               <p className="text-white font-bold text-sm mb-3">Quick Navigation</p>
@@ -308,8 +308,8 @@ export default function App() {
               <button onClick={() => handleSetSection("premium")} className="text-slate-400 hover:text-amber-400 text-sm">Pricing Plans</button>
             </div>
             <div className="text-center">
-              <p className="text-slate-500 text-sm">© 2024–2025 Cabin Crew Interview Guidebook — Middle Eastern Airlines Edition</p>
-              <p className="text-slate-600 text-xs mt-1">For educational purposes only. Not affiliated with any airline.</p>
+              <p className="text-slate-400 text-sm">© 2024–2025 Cabin Crew Interview Guidebook — Middle Eastern Airlines Edition</p>
+              <p className="text-slate-400 text-xs mt-1">For educational purposes only. Not affiliated with any airline.</p>
             </div>
           </div>
         </div>
