@@ -302,6 +302,7 @@ test("lifecycle emails are idempotent, windowed, and unsubscribable", () => {
   assert.match(fn, /ageDays\s*<=\s*\d+/, "sends must be age-windowed so existing users aren't blasted");
   assert.match(fn, /List-Unsubscribe/, "promotional emails must carry a List-Unsubscribe header");
   assert.match(fn, /tier\s*!==\s*"free"/, "the upgrade nudge must be free-tier only (don't upsell payers)");
+  assert.match(fn, /next_run/, "sender must be scheduled-only (reject public HTTP triggers)");
 
   const toml = read(join(ROOT, "netlify.toml"));
   assert.match(toml, /\[functions\."lifecycle-emails"\]/, "lifecycle-emails must be registered as a scheduled function");

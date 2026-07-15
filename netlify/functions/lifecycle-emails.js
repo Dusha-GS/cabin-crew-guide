@@ -102,7 +102,16 @@ async function setMeta(SUPABASE_URL, SERVICE_KEY, id, meta) {
   });
 }
 
-export const handler = async () => {
+export const handler = async (event) => {
+  // Scheduled-only: Netlify passes a `next_run` in the body when it triggers this
+  // on cron. A plain HTTP request (browser, curl, bot) has none — reject it, so
+  // nobody can trigger customer emails by hitting the URL.
+  let scheduled = false;
+  try { scheduled = !!JSON.parse((event && event.body) || "{}").next_run; } catch { scheduled = false; }
+  if (!scheduled) {
+    return { statusCode: 401, body: JSON.stringify({ error: "This function runs on a schedule only." }) };
+  }
+
   const RESEND_API_KEY = process.env.RESEND_API_KEY;
   const SUPABASE_URL = process.env.SUPABASE_URL;
   const SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
