@@ -154,8 +154,12 @@ async function buildUserFromSupabaseUser(supaUser: {
   return user;
 }
 
-export async function loginUser(email: string, password: string): Promise<AuthUser> {
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+export async function loginUser(email: string, password: string, captchaToken?: string): Promise<AuthUser> {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+    ...(captchaToken ? { options: { captchaToken } } : {}),
+  });
   if (error) {
     // Supabase returns "Email not confirmed" when the account exists but is unverified.
     if (/confirm/i.test(error.message)) {
@@ -181,7 +185,7 @@ export type RegisterResult =
   | { status: "confirm_email"; email: string }
   | { status: "already_exists" };
 
-export async function registerUser(email: string, password: string, name: string): Promise<RegisterResult> {
+export async function registerUser(email: string, password: string, name: string, captchaToken?: string): Promise<RegisterResult> {
   if (!email || !password || !name) throw new Error("All fields are required.");
   const pwErr = validatePassword(password);
   if (pwErr) throw new Error(pwErr);
@@ -189,7 +193,7 @@ export async function registerUser(email: string, password: string, name: string
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: { data: { name } },
+    options: { data: { name }, ...(captchaToken ? { captchaToken } : {}) },
   });
   if (error) throw new Error(error.message);
   if (!data.user) throw new Error("Registration failed. Please try again.");
@@ -209,10 +213,11 @@ export async function registerUser(email: string, password: string, name: string
   return { status: "signed_in", user };
 }
 
-export async function sendPasswordReset(email: string): Promise<void> {
+export async function sendPasswordReset(email: string, captchaToken?: string): Promise<void> {
   if (!email.includes("@")) throw new Error("Please enter a valid email address.");
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: "https://cabincrewguidebook.com",
+    ...(captchaToken ? { captchaToken } : {}),
   });
   if (error) throw new Error(error.message);
 }

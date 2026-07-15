@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { loginUser, registerUser, sendPasswordReset, signInWithGoogle, AuthUser } from "../hooks/useAuth";
+import TurnstileWidget, { turnstileEnabled } from "./TurnstileWidget";
 
 type ModalView = "login" | "register" | "forgot" | "forgot-sent" | "confirm-sent";
 
@@ -33,12 +34,21 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
   const [showPass, setShowPass] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
-  const switchView = (v: ModalView) => { setError(""); setLoading(false); setView(v); };
+  // Bot protection (Cloudflare Turnstile). Disabled unless VITE_TURNSTILE_SITE_KEY is set.
+  const [captchaToken, setCaptchaToken] = useState("");
+  const [captchaKey, setCaptchaKey] = useState(0);
+  const resetCaptcha = () => { setCaptchaToken(""); setCaptchaKey((k) => k + 1); };
+  const captchaBlocking = turnstileEnabled() && !captchaToken;
+  const Captcha = (
+    <TurnstileWidget key={captchaKey} onVerify={setCaptchaToken} onExpire={() => setCaptchaToken("")} />
+  );
+
+  const switchView = (v: ModalView) => { setError(""); setLoading(false); resetCaptcha(); setView(v); };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault(); setError(""); setLoading(true);
-    try { const user = await loginUser(email, password); onSuccess(user); onClose(); }
-    catch (err: unknown) { setError(err instanceof Error ? err.message : "Login failed"); }
+    try { const user = await loginUser(email, password, captchaToken); onSuccess(user); onClose(); }
+    catch (err: unknown) { setError(err instanceof Error ? err.message : "Login failed"); resetCaptcha(); }
     finally { setLoading(false); }
   };
 
@@ -47,23 +57,23 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
     if (!tosAccepted || !privacyAccepted) { setError("You must agree to the Terms of Service and Privacy Policy."); return; }
     setLoading(true);
     try {
-      const result = await registerUser(email, password, name);
+      const result = await registerUser(email, password, name, captchaToken);
       if (result.status === "already_exists") {
-        setError("An account with this email already exists \u2014 please sign in instead.");
+        setError("An account with this email already exists — please sign in instead.");
       } else if (result.status === "confirm_email") {
         setView("confirm-sent");
       } else {
         onSuccess(result.user); onClose();
       }
     }
-    catch (err: unknown) { setError(err instanceof Error ? err.message : "Registration failed"); }
+    catch (err: unknown) { setError(err instanceof Error ? err.message : "Registration failed"); resetCaptcha(); }
     finally { setLoading(false); }
   };
 
   const handleForgot = async (e: React.FormEvent) => {
     e.preventDefault(); setError(""); setLoading(true);
-    try { await sendPasswordReset(email); setView("forgot-sent"); }
-    catch (err: unknown) { setError(err instanceof Error ? err.message : "Failed to send email"); }
+    try { await sendPasswordReset(email, captchaToken); setView("forgot-sent"); }
+    catch (err: unknown) { setError(err instanceof Error ? err.message : "Failed to send email"); resetCaptcha(); }
     finally { setLoading(false); }
   };
 
@@ -142,7 +152,8 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
                   <button type="button" onClick={() => switchView("forgot")} className="text-amber-400 hover:text-amber-300 text-sm">Forgot password?</button>
                 </div>
                 {error && <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 text-red-400 text-sm">{error}</div>}
-                <button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 font-bold py-3 rounded-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2">
+                {Captcha}
+                <button type="submit" disabled={loading || captchaBlocking} className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 font-bold py-3 rounded-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2">
                   {loading ? <><span className="w-4 h-4 border-2 border-slate-900/40 border-t-slate-900 rounded-full animate-spin" />Signing in…</> : "Sign In"}
                 </button>
               </form>
@@ -190,7 +201,8 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
                   </div>
                 </div>
                 {error && <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 text-red-400 text-sm">{error}</div>}
-                <button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 font-bold py-3 rounded-xl disabled:opacity-50 flex items-center justify-center gap-2">
+                {Captcha}
+                <button type="submit" disabled={loading || captchaBlocking} className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 font-bold py-3 rounded-xl disabled:opacity-50 flex items-center justify-center gap-2">
                   {loading ? <><span className="w-4 h-4 border-2 border-slate-900/40 border-t-slate-900 rounded-full animate-spin" />Creating account…</> : "Create Free Account"}
                 </button>
               </form>
@@ -211,7 +223,8 @@ export default function AuthModal({ onClose, onSuccess, onNavigate, initialView 
                   <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 text-sm" />
                 </div>
                 {error && <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 text-red-400 text-sm">{error}</div>}
-                <button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 font-bold py-3 rounded-xl disabled:opacity-50 flex items-center justify-center gap-2">
+                {Captcha}
+                <button type="submit" disabled={loading || captchaBlocking} className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 font-bold py-3 rounded-xl disabled:opacity-50 flex items-center justify-center gap-2">
                   {loading ? <><span className="w-4 h-4 border-2 border-slate-900/40 border-t-slate-900 rounded-full animate-spin" />Sending…</> : "Send Reset Link"}
                 </button>
               </form>

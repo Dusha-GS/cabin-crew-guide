@@ -214,3 +214,18 @@ test("an error boundary wraps the app", () => {
   const main = read(join(ROOT, "src/main.tsx"));
   assert.match(main, /ErrorBoundary/, "no error boundary — one render crash gives the user a white screen");
 });
+
+// ---------------------------------------------------------------------------
+// 7. BOT PROTECTION. The captcha wiring must stay attached to the auth forms.
+// ---------------------------------------------------------------------------
+test("auth forms are wired for Turnstile bot protection", () => {
+  const modal = read(join(ROOT, "src/components/AuthModal.tsx"));
+  assert.match(modal, /TurnstileWidget/, "AuthModal must render the Turnstile widget");
+  assert.match(modal, /captchaBlocking/, "submit must be gated on a captcha token when enabled");
+
+  const auth = read(join(ROOT, "src/hooks/useAuth.ts"));
+  // All three protected flows must forward the captcha token.
+  assert.match(auth, /loginUser\([^)]*captchaToken/, "loginUser must accept a captchaToken");
+  assert.match(auth, /registerUser\([^)]*captchaToken/, "registerUser must accept a captchaToken");
+  assert.match(auth, /sendPasswordReset\([^)]*captchaToken/, "sendPasswordReset must accept a captchaToken");
+});
