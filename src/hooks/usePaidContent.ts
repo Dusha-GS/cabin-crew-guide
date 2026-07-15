@@ -6,7 +6,7 @@ import { supabase } from "../supabaseClient";
  * netlify/functions/get-content.js and is only released to a caller who has a
  * valid Supabase session AND whose tier (checked server-side) covers it.
  */
-export type ContentKey = "cv-guide" | "interview-questions" | "group-discussion" | "mock-exam";
+export type ContentKey = "cv-guide" | "interview-questions" | "group-discussion" | "mock-exam" | "rejection-decoded";
 
 export function usePaidContent<T>(key: ContentKey) {
   const [data, setData] = useState<T | null>(null);
