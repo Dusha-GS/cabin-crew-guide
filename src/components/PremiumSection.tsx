@@ -38,14 +38,9 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
       termsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
-    // An existing subscriber changing plans must go through the billing portal,
-    // where Stripe SWAPS the plan on the same subscription (and prorates).
-    // Opening a fresh checkout would create a SECOND subscription = double billing.
-    if (user?.tier === "standard" || user?.tier === "premium") {
-      track("checkout_started", { plan: selectedPlan, via: "portal" });
-      openBillingPortal().catch(() => {});
-      return;
-    }
+    // Only free users reach this handler (the CTA box below is gated to the free tier).
+    // Existing subscribers change plans via the billing portal from the cards above,
+    // so a fresh checkout here can never create a second subscription or double bill.
     const link = selectedPlan === "premium"
       ? getStripeLink(STRIPE_PREMIUM_LINK)
       : getStripeLink(STRIPE_STANDARD_LINK);
@@ -195,6 +190,13 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
             </ul>
             {isPremium ? (
               <div className="w-full bg-amber-500/20 border border-amber-500/30 text-amber-400 font-semibold py-3 rounded-xl text-center text-sm">✓ Current Plan</div>
+            ) : isStandard ? (
+              <button
+                onClick={(e) => { e.stopPropagation(); track("checkout_started", { plan: "premium", via: "portal" }); openBillingPortal().catch(() => {}); }}
+                className="w-full font-bold py-3 rounded-xl text-sm transition-all bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 hover:from-amber-400"
+              >
+                Upgrade to Premium →
+              </button>
             ) : (
               <button
                 onClick={(e) => { e.stopPropagation(); handleSelectPlan("premium"); }}
@@ -224,8 +226,10 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
           </div>
         )}
 
-        {/* Terms + CTA */}
-        {isLoggedIn && !isPremium && (
+        {/* Terms + CTA — only for a FREE user starting a fresh subscription.
+            Existing subscribers change plans via the billing portal (the card
+            buttons above), so they never see this fresh-checkout box. */}
+        {isLoggedIn && user?.tier === "free" && (
           <div className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6 mb-10">
             <p className="text-white font-bold text-base mb-4">
               Before subscribing to {selectedPlan === "standard" ? "Standard ($15/mo)" : "Premium ($25/mo)"}:
