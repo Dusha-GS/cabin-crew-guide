@@ -1,53 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Only the FREE, publicly-visible sections are listed. Paid sections are gated
-  and must never be advertised to crawlers.
-  Note: this is a hash-routed SPA, so search engines index a single URL well and
-  hash fragments poorly. Real per-page SEO needs distinct paths + prerendering —
-  see CITO-FULL-AUDIT.md (G3).
+  Only FREE, publicly-viewable pages are listed. Paid/gated pages are noindex and
+  omitted. Each page now has a REAL path (was hash-routed) so it can be indexed
+  and ranked individually. Per-page <title>/description/canonical are set at runtime
+  (see applySeo in src/App.tsx); Google renders the JS.
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://cabincrewguidebook.com/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://cabincrewguidebook.com/#airlines</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://cabincrewguidebook.com/#requirements</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://cabincrewguidebook.com/#dress-code</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://cabincrewguidebook.com/#conduct</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://cabincrewguidebook.com/#open-days</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://cabincrewguidebook.com/#premium</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://cabincrewguidebook.com/#terms</loc>
-    <priority>0.2</priority>
-  </url>
-  <url>
-    <loc>https://cabincrewguidebook.com/#privacy</loc>
-    <priority>0.2</priority>
-  </url>
+  <url><loc>https://cabincrewguidebook.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://cabincrewguidebook.com/airlines</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://cabincrewguidebook.com/requirements</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://cabincrewguidebook.com/dress-code</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cabincrewguidebook.com/code-of-conduct</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://cabincrewguidebook.com/open-days</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://cabincrewguidebook.com/rejection-decoded</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://cabincrewguidebook.com/after-the-interview</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://cabincrewguidebook.com/premium</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://cabincrewguidebook.com/terms</loc><priority>0.2</priority></url>
+  <url><loc>https://cabincrewguidebook.com/privacy</loc><priority>0.2</priority></url>
 </urlset>

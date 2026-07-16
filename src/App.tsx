@@ -47,6 +47,90 @@ const PREMIUM_SECTIONS = ["ask-cabin-crew", "group-discussion", "mock-interview"
 // cv-review included: free users get 1 trial review, but must be logged in first
 const LOGIN_REQUIRED_SECTIONS = [...STANDARD_SECTIONS, ...PREMIUM_SECTIONS, "cv-review"];
 
+// ---------------------------------------------------------------------------
+// URL routing + per-page SEO. Each section has a REAL path (was hash-routed,
+// which Google collapses into a single page). applySeo keeps <title>, meta
+// description, canonical, Open Graph and robots in sync with the current page,
+// so every free page is individually crawlable and rankable.
+// ---------------------------------------------------------------------------
+const SITE_ORIGIN = "https://cabincrewguidebook.com";
+
+const SECTION_PATHS: Record<string, string> = {
+  home: "/",
+  airlines: "/airlines",
+  requirements: "/requirements",
+  "dress-code": "/dress-code",
+  "cv-guide": "/cv-guide",
+  questions: "/interview-questions",
+  "group-discussion": "/group-discussion",
+  "mock-exam": "/mock-exam",
+  conduct: "/code-of-conduct",
+  premium: "/premium",
+  "mock-interview": "/mock-interview",
+  "cv-review": "/cv-review",
+  "ask-cabin-crew": "/ask-cabin-crew",
+  "open-days": "/open-days",
+  terms: "/terms",
+  privacy: "/privacy",
+  "rejection-decoded": "/rejection-decoded",
+  "after-interview": "/after-the-interview",
+  account: "/account",
+};
+const PATH_TO_SECTION: Record<string, string> = Object.fromEntries(
+  Object.entries(SECTION_PATHS).map(([s, path]) => [path, s])
+);
+const pathForSection = (s: string) => SECTION_PATHS[s] || "/";
+const sectionForPath = (path: string) => PATH_TO_SECTION[(path.replace(/\/+$/, "") || "/")] || "home";
+
+interface Seo { title: string; description: string; index: boolean; }
+const DEFAULT_SEO: Seo = {
+  title: "Cabin Crew Interview Guidebook — Emirates, Qatar Airways & Etihad Preparation",
+  description: "Everything you need to pass a Middle Eastern cabin crew interview: real interview questions with sample answers, a CV guide, dress code, mock exams and AI interview practice for Emirates, Qatar Airways and Etihad.",
+  index: true,
+};
+const SEO_META: Record<string, Seo> = {
+  home: DEFAULT_SEO,
+  airlines: { title: "Airlines Hiring Cabin Crew — Emirates, Qatar, Etihad, flydubai & Air Arabia", description: "Compare the Gulf airlines that hire cabin crew — Emirates, Qatar Airways, Etihad, flydubai and Air Arabia: their bases, fleets, culture and what each one looks for.", index: true },
+  requirements: { title: "Cabin Crew Requirements — Height, Arm Reach, Age & Eligibility (Gulf Airlines)", description: "The real cabin crew requirements for Emirates, Qatar Airways and Etihad: minimum height and arm reach, age, education, languages, tattoos and grooming standards.", index: true },
+  "dress-code": { title: "Cabin Crew Interview Dress Code & Grooming Standards — Gulf Airlines", description: "How to dress and groom for a Gulf airline cabin crew assessment day: attire, hair, makeup, tattoo cover and the presentation standards recruiters check first.", index: true },
+  conduct: { title: "Cabin Crew Code of Conduct & Professional Standards", description: "The professional conduct and standards expected of cabin crew for Middle Eastern airlines — on duty, on layover and online.", index: true },
+  "open-days": { title: "Cabin Crew Open Days & Assessment Dates — Emirates, Qatar, Etihad", description: "How cabin crew open days and online assessments work for Gulf airlines, and what to expect from the recruitment process, step by step.", index: true },
+  premium: { title: "Pricing — Cabin Crew Interview Guidebook (Standard & Premium)", description: "Standard $15/month and Premium $25/month: the full interview guidebook, mock exam, CV guide, unlimited AI mock interviews and more. Cancel anytime.", index: true },
+  "rejection-decoded": { title: "Why Cabin Crew Applications Get Rejected — Rejection Decoded", description: "The real reasons candidates get rejected by Emirates, Qatar Airways and Etihad — from the ATS that filters your CV to the grooming check and group exercise — and how to fix each one.", index: true },
+  "after-interview": { title: "After the Cabin Crew Interview — The Offer, Medical, Wait & Comeback", description: "What really happens after your cabin crew interview: the silence, the medical, the offer letter and joining-date wait, and how to come back stronger after a rejection.", index: true },
+  terms: { title: "Terms of Service — Cabin Crew Interview Guidebook", description: "Terms of Service for the Cabin Crew Interview Guidebook, including subscription, cancellation and the EU right of withdrawal.", index: true },
+  privacy: { title: "Privacy Policy — Cabin Crew Interview Guidebook", description: "How the Cabin Crew Interview Guidebook collects, uses and protects your data, and the third-party processors involved.", index: true },
+  // Paid / gated / personal pages — keep out of the index.
+  "cv-guide": { title: "Cabin Crew CV Guide — Cabin Crew Interview Guidebook", description: "A step-by-step CV guide for Gulf airline cabin crew applications.", index: false },
+  questions: { title: "Cabin Crew Interview Questions & Answers", description: "Real cabin crew interview questions with sample answers.", index: false },
+  "group-discussion": { title: "Cabin Crew Group Discussion Practice", description: "Practice topics and technique for the cabin crew group exercise.", index: false },
+  "mock-exam": { title: "Cabin Crew Mock Exam", description: "A timed cabin crew mock exam with situational, knowledge and maths questions.", index: false },
+  "mock-interview": { title: "AI Mock Interview — Cabin Crew", description: "Practice a realistic cabin crew interview with an AI recruiter.", index: false },
+  "cv-review": { title: "AI CV Review — Cabin Crew", description: "Get your cabin crew CV reviewed against Gulf airline standards.", index: false },
+  "ask-cabin-crew": { title: "Ask Cabin Crew", description: "Ask former cabin crew your recruitment questions.", index: false },
+  account: { title: "My Account — Cabin Crew Interview Guidebook", description: "Manage your Cabin Crew Interview Guidebook account.", index: false },
+};
+
+function applySeo(section: string) {
+  if (typeof document === "undefined") return;
+  const seo = SEO_META[section] || DEFAULT_SEO;
+  const path = pathForSection(section);
+  const url = SITE_ORIGIN + path;
+  document.title = seo.title;
+  const set = (selector: string, attr: string, value: string) => {
+    const el = document.head.querySelector(selector);
+    if (el) el.setAttribute(attr, value);
+  };
+  set('meta[name="description"]', "content", seo.description);
+  set('link[rel="canonical"]', "href", url);
+  set('meta[name="robots"]', "content", seo.index ? "index, follow" : "noindex, follow");
+  set('meta[property="og:title"]', "content", seo.title);
+  set('meta[property="og:description"]', "content", seo.description);
+  set('meta[property="og:url"]', "content", url);
+  set('meta[name="twitter:title"]', "content", seo.title);
+  set('meta[name="twitter:description"]', "content", seo.description);
+}
+
 function PageLoader() {
   return (
     <div className="min-h-screen bg-slate-900 flex items-center justify-center" role="status" aria-label="Loading">
@@ -58,8 +142,11 @@ function PageLoader() {
 
 export default function App() {
   const [activeSection, setActiveSection] = useState(() => {
-    const hash = window.location.hash.replace('#', '');
-    return hash || "home";
+    const byPath = sectionForPath(window.location.pathname);
+    if (byPath !== "home") return byPath;
+    // Legacy support: an old shared /#section link.
+    const hash = window.location.hash.replace(/^#/, "");
+    return SECTION_PATHS[hash] ? hash : "home";
   });
   const historyRef = useRef<string[]>(["home"]);
   const [user, setUser] = useState<AuthUser | null>(() => getStoredUser());
@@ -122,23 +209,30 @@ export default function App() {
   // Sync browser back/forward buttons with app state
   useEffect(() => {
     const handlePopState = () => {
-      const hash = window.location.hash.replace("#", "");
-      setActiveSection(hash || "home");
+      setActiveSection(sectionForPath(window.location.pathname));
       window.scrollTo({ top: 0, behavior: "smooth" });
     };
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
+  // SEO: keep the document head in sync with the current page.
+  useEffect(() => { applySeo(activeSection); }, [activeSection]);
+
+  // Normalise any legacy #hash links (old shared /#airlines) to the real path.
+  useEffect(() => {
+    const hash = window.location.hash.replace(/^#/, "");
+    if (hash && SECTION_PATHS[hash]) {
+      window.history.replaceState(null, "", pathForSection(hash));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleSetSection = (section: string) => {
     historyRef.current.push(section);
     setActiveSection(section);
     window.scrollTo({ top: 0, behavior: "smooth" });
-    if (section === "home") {
-      window.history.pushState(null, "", window.location.pathname);
-    } else {
-      window.history.pushState(null, "", "#" + section);
-    }
+    window.history.pushState(null, "", pathForSection(section));
   };
 
   const goBack = () => {
@@ -148,11 +242,7 @@ export default function App() {
       const prev = history[history.length - 1];
       setActiveSection(prev);
       window.scrollTo({ top: 0, behavior: "smooth" });
-      if (prev === "home") {
-        window.history.pushState(null, "", window.location.pathname);
-      } else {
-        window.history.pushState(null, "", "#" + prev);
-      }
+      window.history.pushState(null, "", pathForSection(prev));
     } else {
       handleSetSection("home");
     }

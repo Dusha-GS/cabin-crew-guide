@@ -328,3 +328,19 @@ test("route sections are code-split (lazy-loaded), not bundled into the initial 
     assert.ok(!app.includes(`import ${c} from`), `${c} is statically imported again — it must stay lazy-loaded`);
   }
 });
+
+
+// ---------------------------------------------------------------------------
+// 11. SEO. Real per-page URLs (not hash-routing, which Google collapses into a
+//     single page) + per-page title/description/canonical, and a real-URL sitemap.
+// ---------------------------------------------------------------------------
+test("sections use real URLs with per-page SEO, and the sitemap is hash-free", () => {
+  const app = read(join(ROOT, "src/App.tsx"));
+  assert.match(app, /SECTION_PATHS/, "sections must map to real URL paths");
+  assert.match(app, /function applySeo/, "per-page SEO (title/description/canonical/OG) must be applied on navigation");
+  assert.ok(!/pushState\(null, "", "#"/.test(app), "navigation still pushes #hash URLs — Google collapses those into one page");
+
+  const sitemap = read(join(ROOT, "public/sitemap.xml"));
+  assert.ok(!sitemap.includes("/#"), "sitemap still lists #hash URLs (not separately indexable)");
+  assert.match(sitemap, /<loc>https:\/\/cabincrewguidebook\.com\/rejection-decoded<\/loc>/, "free content pages missing from the real-URL sitemap");
+});
