@@ -180,9 +180,10 @@ export default function App() {
   // session exists before this component's listener attached (e.g. after
   // a full page reload back from Google).
   useEffect(() => {
-    if (!user) {
-      getUserFromActiveSession().then((u) => { if (u) setUser(u); });
-    }
+    // Always re-read the tier from the server on load, even for a returning
+    // logged-in user — otherwise a fresh upgrade/downgrade wouldn't show until
+    // the next sign-in (a cached tier is not the source of truth).
+    getUserFromActiveSession().then((u) => { if (u) setUser(u); });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

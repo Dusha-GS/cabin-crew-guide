@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { STRIPE_STANDARD_LINK, STRIPE_PREMIUM_LINK, AuthUser } from "../hooks/useAuth";
+import { STRIPE_STANDARD_LINK, STRIPE_PREMIUM_LINK, AuthUser, openBillingPortal } from "../hooks/useAuth";
 import { track } from "../lib/analytics";
 import { pixelTrack } from "../lib/pixel";
 import BackButton from "./BackButton";
@@ -36,6 +36,14 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
     if (!termsAccepted || !privacyAccepted) {
       setShowTermsError(true);
       termsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    // An existing subscriber changing plans must go through the billing portal,
+    // where Stripe SWAPS the plan on the same subscription (and prorates).
+    // Opening a fresh checkout would create a SECOND subscription = double billing.
+    if (user?.tier === "standard" || user?.tier === "premium") {
+      track("checkout_started", { plan: selectedPlan, via: "portal" });
+      openBillingPortal().catch(() => {});
       return;
     }
     const link = selectedPlan === "premium"

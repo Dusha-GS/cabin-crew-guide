@@ -53,6 +53,23 @@ async function stripeGet(path) {
   return res.json();
 }
 
+// The single source of truth: derive a customer's entitled tier from their
+// CURRENT subscriptions in Stripe. Covers new/upgrade/downgrade/cancel uniformly.
+// Active, trialing and past_due (grace while Stripe retries) all keep access.
+// A plan scheduled to cancel at period end is still active until it actually ends.
+async function tierForCustomer(customerId) {
+  const res = await stripeGet(`/subscriptions?customer=${customerId}&status=all&limit=100`);
+  let tier = "free";
+  for (const sub of res?.data || []) {
+    if (!["active", "trialing", "past_due"].includes(sub.status)) continue;
+    const priceId = sub.items?.data?.[0]?.price?.id;
+    if (priceId === PREMIUM_PRICE_ID) return "premium";       // highest tier wins
+    if (priceId === STANDARD_PRICE_ID) tier = "standard";
+    else if (tier === "free") tier = "standard";              // unknown paid price → at least standard
+  }
+  return tier;
+}
+
 // Look up the auth user's id (the public.users primary key) by email.
 async function findAuthUserId(supabaseUrl, supabaseKey, email) {
   const target = email.toLowerCase();
@@ -125,24 +142,6 @@ async function activateTier(supabaseUrl, supabaseKey, email, tier, stripeCustome
   return { ok: insRes.ok, detail: `insert ${insRes.status}: ${insText}` };
 }
 
-async function downgradeUser(supabaseUrl, supabaseKey, email) {
-  console.log(`Downgrading user: ${email} → free`);
-  const res = await fetch(
-    `${supabaseUrl}/rest/v1/users?email=eq.${encodeURIComponent(email)}`,
-    {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        apikey: supabaseKey,
-        Authorization: `Bearer ${supabaseKey}`,
-      },
-      body: JSON.stringify({ tier: "free" }),
-    }
-  );
-  console.log("Downgrade status:", res.status, await res.text());
-  return res;
-}
-
 export const handler = async (event) => {
   const cors = {
     "Access-Control-Allow-Origin": "*",
@@ -164,57 +163,47 @@ export const handler = async (event) => {
     const stripeEvent = verifyStripeSignature(event.body, sig, STRIPE_WEBHOOK_SECRET);
     console.log("Stripe event:", stripeEvent.type);
 
-    // ── Payment succeeded → activate tier ───────────────────
-    if (stripeEvent.type === "checkout.session.completed") {
-      const session    = stripeEvent.data.object;
-      const email      = session.customer_details?.email || session.customer_email;
-      const customerId = session.customer;
-      const subId      = session.subscription;
+    // ── Any subscription lifecycle change → recompute the tier from Stripe ──
+    // new purchase, upgrade, downgrade, and cancellation all funnel through the
+    // same source-of-truth logic, so the account can never drift from billing.
+    const SUB_EVENTS = new Set([
+      "checkout.session.completed",
+      "customer.subscription.created",
+      "customer.subscription.updated",
+      "customer.subscription.deleted",
+    ]);
 
-      console.log("Email:", email, "| Customer:", customerId, "| Sub:", subId);
-
-      if (!email) {
-        console.error("No email found in checkout session — cannot activate tier");
+    if (SUB_EVENTS.has(stripeEvent.type)) {
+      const obj = stripeEvent.data.object;
+      const customerId = obj.customer;
+      if (!customerId) {
+        console.error("No customer id on event — skipping");
         return { statusCode: 200, headers: cors, body: JSON.stringify({ received: true }) };
       }
 
-      let tier = "standard"; // Default to standard
-
-      if (subId) {
-        const subscription = await stripeGet(`/subscriptions/${subId}`);
-        const priceId = subscription.items?.data?.[0]?.price?.id;
-        console.log("Price ID:", priceId);
-        if (priceId === PREMIUM_PRICE_ID) tier = "premium";
-      }
-
-      const result = await activateTier(SUPABASE_URL, SUPABASE_SERVICE_KEY, email, tier, customerId);
-      if (!result.ok) {
-        console.error("Tier activation FAILED:", result.detail);
-        // Return 500 so Stripe retries automatically and the failure is visible
-        // in the dashboard (a hidden 200 is how this bug shipped unnoticed).
-        return { statusCode: 500, headers: cors, body: JSON.stringify({ error: "tier activation failed", detail: result.detail }) };
-      }
-    }
-
-    // ── Subscription cancelled → downgrade to free ──────────
-    else if (stripeEvent.type === "customer.subscription.deleted") {
-      const subscription = stripeEvent.data.object;
-      const customerId   = subscription.customer;
-
       const customer = await stripeGet(`/customers/${customerId}`);
-      const email    = customer.email;
-      console.log("Subscription deleted for:", email);
+      const email = customer?.email || obj.customer_details?.email || obj.customer_email;
+      if (!email) {
+        console.error("No email for customer — skipping");
+        return { statusCode: 200, headers: cors, body: JSON.stringify({ received: true }) };
+      }
 
-      if (email) {
-        await downgradeUser(SUPABASE_URL, SUPABASE_SERVICE_KEY, email);
+      const tier = await tierForCustomer(customerId);
+      console.log(`Recomputed tier for ${email} → ${tier} (event: ${stripeEvent.type})`);
+
+      const result = await activateTier(SUPABASE_URL, SUPABASE_SERVICE_KEY, email, tier);
+      if (!result.ok) {
+        console.error("Tier write FAILED:", result.detail);
+        // 500 → Stripe retries and the failure stays visible (never a hidden 200).
+        return { statusCode: 500, headers: cors, body: JSON.stringify({ error: "tier write failed", detail: result.detail }) };
       }
     }
 
-    // ── Payment failed → log only, Stripe will retry ────────
+    // ── Payment failed → log only; Stripe retries, and a real cancellation
+    //    later fires subscription.deleted which recomputes to free. ──────────
     else if (stripeEvent.type === "invoice.payment_failed") {
       const invoice = stripeEvent.data.object;
       console.log("Payment failed — customer:", invoice.customer, "| attempt:", invoice.attempt_count);
-      // Stripe retries automatically. Downgrade only after subscription.deleted fires.
     }
 
     else {
