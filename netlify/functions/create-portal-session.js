@@ -41,13 +41,13 @@ export const handler = async (event) => {
   if (!email) return { statusCode: 400, headers: cors, body: JSON.stringify({ error: "No email on account." }) };
 
   try {
-    // Look up the Stripe customer id saved by the webhook
-    const lookup = await fetch(
-      `${SUPABASE_URL}/rest/v1/users?email=eq.${encodeURIComponent(email)}&select=stripe_customer_id`,
-      { headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}` } }
+    // Stripe is the source of truth for the customer — look it up by email.
+    const custRes = await fetch(
+      `https://api.stripe.com/v1/customers?email=${encodeURIComponent(email)}&limit=1`,
+      { headers: { Authorization: `Bearer ${STRIPE_SECRET_KEY}` } }
     );
-    const rows = await lookup.json();
-    const customerId = rows && rows[0] && rows[0].stripe_customer_id;
+    const custData = await custRes.json();
+    const customerId = custData && custData.data && custData.data[0] && custData.data[0].id;
     if (!customerId) {
       return { statusCode: 404, headers: cors, body: JSON.stringify({ error: "No active subscription found for this account." }) };
     }

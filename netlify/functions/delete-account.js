@@ -62,12 +62,12 @@ export const handler = async (event) => {
   //       leave a live subscription billing a person who no longer exists. ───
   if (STRIPE_SECRET_KEY) {
     try {
-      const lookup = await fetch(
-        `${SUPABASE_URL}/rest/v1/users?email=eq.${encodeURIComponent(email)}&select=stripe_customer_id`,
-        { headers: sbHeaders }
+      const custRes = await fetch(
+        `https://api.stripe.com/v1/customers?email=${encodeURIComponent(email)}&limit=1`,
+        { headers: { Authorization: `Bearer ${STRIPE_SECRET_KEY}` } }
       );
-      const rows = await lookup.json();
-      const customerId = rows?.[0]?.stripe_customer_id;
+      const custData = await custRes.json();
+      const customerId = custData?.data?.[0]?.id;
 
       if (customerId) {
         const subsRes = await fetch(

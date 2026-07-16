@@ -79,8 +79,9 @@ async function findAuthUserId(supabaseUrl, supabaseKey, email) {
 // surfaced (returned false) so the handler can 500 and Stripe will retry.
 async function activateTier(supabaseUrl, supabaseKey, email, tier, stripeCustomerId) {
   console.log(`Activating tier: ${email} → ${tier}`);
-  const patchBody = { tier, updated_at: new Date().toISOString() };
-  if (stripeCustomerId) patchBody.stripe_customer_id = stripeCustomerId;
+  // The users table has a `tier` column only — do NOT send columns it doesn't
+  // have (stripe_customer_id / updated_at) or PostgREST 400s the whole write.
+  const patchBody = { tier };
 
   // 1) Update the existing row by email.
   const patchRes = await fetch(
@@ -106,9 +107,8 @@ async function activateTier(supabaseUrl, supabaseKey, email, tier, stripeCustome
 
   // 2) No row updated — insert one, keyed by the auth user id.
   const userId = await findAuthUserId(supabaseUrl, supabaseKey, email);
-  const insertBody = { email, tier, updated_at: new Date().toISOString() };
+  const insertBody = { email, tier };
   if (userId) insertBody.id = userId;
-  if (stripeCustomerId) insertBody.stripe_customer_id = stripeCustomerId;
 
   const insRes = await fetch(`${supabaseUrl}/rest/v1/users`, {
     method: "POST",
@@ -136,7 +136,7 @@ async function downgradeUser(supabaseUrl, supabaseKey, email) {
         apikey: supabaseKey,
         Authorization: `Bearer ${supabaseKey}`,
       },
-      body: JSON.stringify({ tier: "free", updated_at: new Date().toISOString() }),
+      body: JSON.stringify({ tier: "free" }),
     }
   );
   console.log("Downgrade status:", res.status, await res.text());
