@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, lazy, Suspense } from "react";
 import { AuthUser, getStoredUser, signOutUser, getUserFromActiveSession, sendAccountEmail } from "./hooks/useAuth";
 import { supabase } from "./supabaseClient";
 import { identify, resetAnalytics } from "./lib/analytics";
+import { pixelPageView } from "./lib/pixel";
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
 const AirlinesSection = lazy(() => import("./components/AirlinesSection"));
@@ -217,7 +218,7 @@ export default function App() {
   }, []);
 
   // SEO: keep the document head in sync with the current page.
-  useEffect(() => { applySeo(activeSection); }, [activeSection]);
+  useEffect(() => { applySeo(activeSection); pixelPageView(); }, [activeSection]);
 
   // Normalise any legacy #hash links (old shared /#airlines) to the real path.
   useEffect(() => {

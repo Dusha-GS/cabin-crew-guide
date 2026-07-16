@@ -376,3 +376,27 @@ test("unknown URLs are real 404s and known pages still rewrite to the app", () =
   const nf = read(join(ROOT, "public/404.html"));
   assert.match(nf, /noindex/, "404 page must be noindex");
 });
+
+
+// ---------------------------------------------------------------------------
+// 13. MARKETING PIXEL. Ad tracking is a separate consent category — the Meta
+//     Pixel must never load without an explicit marketing opt-in.
+// ---------------------------------------------------------------------------
+test("Meta Pixel is consent-gated on the MARKETING category and env-gated", () => {
+  const p = stripComments(read(join(ROOT, "src/lib/pixel.ts")));
+  assert.match(p, /VITE_META_PIXEL_ID/, "pixel must be env-gated (inert until the ID is set)");
+  assert.match(p, /hasMarketingConsent/, "pixel must check marketing consent");
+  assert.match(p, /marketing\s*===\s*true/, "consent check must require an explicit marketing opt-in");
+  // Every tracking call must be behind the consent check.
+  assert.ok(!/fbq\?\.\(\s*"track"/.test(p.replace(/if\s*\(hasMarketingConsent\(\)\)[^;]*;/g, "")), "a pixel track call exists outside the consent gate");
+
+  const c = stripComments(read(join(ROOT, "src/components/CookieConsent.tsx")));
+  const m = c.match(/\[\s*marketing\s*,\s*setMarketing\s*\]\s*=\s*useState\(\s*(\w+)\s*\)/);
+  assert.ok(m, "cookie banner must have a marketing consent toggle");
+  assert.equal(m[1], "false", "marketing consent must default to OFF (pre-ticked is not consent)");
+
+  const toml = read(join(ROOT, "netlify.toml"));
+  const csp = (toml.match(/Content-Security-Policy\s*=\s*"([^"]*)"/) || [])[1] || "";
+  assert.ok((csp.match(/script-src[^;]*/) || [""])[0].includes("connect.facebook.net"), "CSP script-src must allow connect.facebook.net or the pixel silently breaks");
+  assert.ok((csp.match(/connect-src[^;]*/) || [""])[0].includes("www.facebook.com"), "CSP connect-src must allow www.facebook.com (pixel events)");
+});

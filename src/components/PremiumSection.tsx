@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { STRIPE_STANDARD_LINK, STRIPE_PREMIUM_LINK, AuthUser } from "../hooks/useAuth";
 import { track } from "../lib/analytics";
+import { pixelTrack } from "../lib/pixel";
 import BackButton from "./BackButton";
 
 interface Props {
@@ -41,6 +42,7 @@ export default function PremiumSection({ goBack, previousLabel, setActiveSection
       ? getStripeLink(STRIPE_PREMIUM_LINK)
       : getStripeLink(STRIPE_STANDARD_LINK);
     track("checkout_started", { plan: selectedPlan });
+    pixelTrack("InitiateCheckout", { content_name: selectedPlan, currency: "USD", value: selectedPlan === "premium" ? 25 : 15 });
     window.open(link, "_blank");
   };
 

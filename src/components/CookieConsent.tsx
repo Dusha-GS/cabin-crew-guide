@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { setAnalyticsConsent } from "../lib/analytics";
+import { setMarketingConsent } from "../lib/pixel";
 
 interface Props {
   onNavigate: (section: string) => void;
@@ -11,6 +12,7 @@ export default function CookieConsent({ onNavigate }: Props) {
   // GDPR: consent must be a positive opt-in. A pre-ticked box is not consent,
   // so this defaults to OFF.
   const [analytics, setAnalytics] = useState(false);
+  const [marketing, setMarketing] = useState(false);
 
   useEffect(() => {
     const consent = localStorage.getItem("cookie-consent");
@@ -23,7 +25,8 @@ export default function CookieConsent({ onNavigate }: Props) {
       try {
         const saved = localStorage.getItem("cookie-consent");
         setAnalytics(saved ? JSON.parse(saved)?.analytics === true : false);
-      } catch { setAnalytics(false); }
+        setMarketing(saved ? JSON.parse(saved)?.marketing === true : false);
+      } catch { setAnalytics(false); setMarketing(false); }
       setShowDetails(true);
       setVisible(true);
     };
@@ -33,18 +36,19 @@ export default function CookieConsent({ onNavigate }: Props) {
 
   // Save the choice AND honour it immediately — analytics only ever loads
   // after an explicit "yes".
-  const save = (analyticsGranted: boolean) => {
+  const save = (analyticsGranted: boolean, marketingGranted: boolean) => {
     localStorage.setItem(
       "cookie-consent",
-      JSON.stringify({ essential: true, analytics: analyticsGranted, timestamp: Date.now() })
+      JSON.stringify({ essential: true, analytics: analyticsGranted, marketing: marketingGranted, timestamp: Date.now() })
     );
     setAnalyticsConsent(analyticsGranted);
+    setMarketingConsent(marketingGranted);
     setVisible(false);
   };
 
-  const acceptAll = () => save(true);
-  const acceptSelected = () => save(analytics);
-  const rejectAll = () => save(false);
+  const acceptAll = () => save(true, true);
+  const acceptSelected = () => save(analytics, marketing);
+  const rejectAll = () => save(false, false);
 
   if (!visible) return null;
 
@@ -107,7 +111,25 @@ export default function CookieConsent({ onNavigate }: Props) {
                 </div>
                 <button
                   onClick={() => setAnalytics(!analytics)}
+                  role="switch"
+                  aria-checked={analytics}
+                  aria-label="Analytics cookies"
                   className={`w-10 h-6 rounded-full flex items-center transition-all flex-shrink-0 ${analytics ? "bg-amber-500 justify-end pr-0.5" : "bg-slate-600 justify-start pl-0.5"}`}
+                >
+                  <div className="w-5 h-5 bg-white rounded-full" />
+                </button>
+              </div>
+              <div className="flex items-start justify-between gap-4 bg-white/5 rounded-xl p-4">
+                <div>
+                  <p className="text-white font-semibold text-sm">Marketing Cookies</p>
+                  <p className="text-slate-400 text-xs mt-1">Used to measure our ad campaigns (Meta Pixel). We never share your CV or answers.</p>
+                </div>
+                <button
+                  onClick={() => setMarketing(!marketing)}
+                  role="switch"
+                  aria-checked={marketing}
+                  aria-label="Marketing cookies"
+                  className={`w-10 h-6 rounded-full flex items-center transition-all flex-shrink-0 ${marketing ? "bg-amber-500 justify-end pr-0.5" : "bg-slate-600 justify-start pl-0.5"}`}
                 >
                   <div className="w-5 h-5 bg-white rounded-full" />
                 </button>
