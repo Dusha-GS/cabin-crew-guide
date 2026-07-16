@@ -3,6 +3,12 @@
   publish = "dist"
   functions = "netlify/functions"
 
+# Meta Pixel dataset ID. This value is PUBLIC (it appears in the browser to any
+# visitor), so it is safe to commit. Setting it here bakes it into the Vite build
+# and activates src/lib/pixel.ts (which stays inert until this is present).
+[build.environment]
+  VITE_META_PIXEL_ID = "2174461413432722"
+
 # Server-side daily health monitor. Runs on Netlify's servers at 06:00 UTC,
 # independent of anyone's laptop. Emails a report via Resend.
 [functions."health-check"]
