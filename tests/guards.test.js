@@ -344,3 +344,35 @@ test("sections use real URLs with per-page SEO, and the sitemap is hash-free", (
   assert.ok(!sitemap.includes("/#"), "sitemap still lists #hash URLs (not separately indexable)");
   assert.match(sitemap, /<loc>https:\/\/cabincrewguidebook\.com\/rejection-decoded<\/loc>/, "free content pages missing from the real-URL sitemap");
 });
+
+
+// ---------------------------------------------------------------------------
+// 12. SOCIAL PREVIEWS + REAL 404. Social crawlers don't run JS: the og-meta
+//     edge function must rewrite raw-HTML meta per page, and unknown URLs must
+//     be real 404s (not soft-404 home pages).
+// ---------------------------------------------------------------------------
+test("og-meta edge function covers every section path and matches App.tsx titles", () => {
+  const edge = read(join(ROOT, "netlify/edge-functions/og-meta.js"));
+  const app = read(join(ROOT, "src/App.tsx"));
+  // Every real path defined in App.tsx (except home) must be handled by the edge function.
+  const paths = [...app.matchAll(/:\s*"(\/[a-z0-9-]+)",/g)].map((m) => m[1]);
+  assert.ok(paths.length >= 15, "could not extract section paths from App.tsx — did SECTION_PATHS change shape?");
+  for (const p of paths) {
+    assert.ok(edge.includes(`"${p}"`), `og-meta edge function is missing path ${p} — its social preview will show the home title`);
+  }
+  // Spot-check titles stay in sync between the app and the edge function.
+  for (const t of ["Why Cabin Crew Applications Get Rejected — Rejection Decoded", "After the Cabin Crew Interview — The Offer, Medical, Wait & Comeback"]) {
+    assert.ok(app.includes(t) && edge.includes(t), `title out of sync between App.tsx and og-meta.js: ${t}`);
+  }
+  assert.match(edge, /onError:\s*"bypass"/, "edge function must bypass on error so a bug can never take pages down");
+});
+
+test("unknown URLs are real 404s and known pages still rewrite to the app", () => {
+  const toml = read(join(ROOT, "netlify.toml"));
+  assert.match(toml, /to = "\/404\.html"\s*\n\s*status = 404/, "the catch-all must serve 404.html with HTTP 404 — soft-404s pollute Google's index");
+  for (const p of ["/rejection-decoded", "/after-the-interview", "/premium"]) {
+    assert.ok(toml.includes(`from = "${p}"`), `${p} lost its 200 rewrite — direct visits would 404`);
+  }
+  const nf = read(join(ROOT, "public/404.html"));
+  assert.match(nf, /noindex/, "404 page must be noindex");
+});

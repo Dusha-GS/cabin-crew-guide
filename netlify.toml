@@ -21,10 +21,104 @@
 # now that those files actually exist.
 # ---------------------------------------------------------------------------
 
+# Known app pages rewrite to the SPA shell (the og-meta edge function then
+# injects per-page titles/descriptions for social crawlers).
 [[redirects]]
-  from = "/*"
+  from = "/airlines"
   to = "/index.html"
   status = 200
+
+[[redirects]]
+  from = "/requirements"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/dress-code"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/cv-guide"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/interview-questions"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/group-discussion"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/mock-exam"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/code-of-conduct"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/premium"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/mock-interview"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/cv-review"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/ask-cabin-crew"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/open-days"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/terms"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/privacy"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/rejection-decoded"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/after-the-interview"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/account"
+  to = "/index.html"
+  status = 200
+
+# Anything else is a REAL 404 (was a soft-404: unknown URLs returned the home
+# page with HTTP 200, which pollutes Google's index).
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
 
 # ---------------------------------------------------------------------------
 # Security headers
