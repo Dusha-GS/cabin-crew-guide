@@ -53,17 +53,64 @@ async function stripeGet(path) {
   return res.json();
 }
 
-async function upsertUser(supabaseUrl, supabaseKey, email, tier, stripeCustomerId) {
-  console.log(`Upserting user: ${email} → ${tier}`);
-  const body = {
-    email,
-    tier,
-    updated_at: new Date().toISOString(),
-  };
-  // Only add stripe_customer_id if provided — avoids column-not-found errors
-  if (stripeCustomerId) body.stripe_customer_id = stripeCustomerId;
+// Look up the auth user's id (the public.users primary key) by email.
+async function findAuthUserId(supabaseUrl, supabaseKey, email) {
+  const target = email.toLowerCase();
+  for (let page = 1; page <= 20; page++) {
+    const r = await fetch(`${supabaseUrl}/auth/v1/admin/users?page=${page}&per_page=200`, {
+      headers: { apikey: supabaseKey, Authorization: `Bearer ${supabaseKey}` },
+    });
+    if (!r.ok) return null;
+    const data = await r.json();
+    const users = Array.isArray(data) ? data : (data.users || []);
+    if (!users.length) return null;
+    const hit = users.find((u) => (u.email || "").toLowerCase() === target);
+    if (hit) return hit.id;
+    if (users.length < 200) return null;
+  }
+  return null;
+}
 
-  const res = await fetch(`${supabaseUrl}/rest/v1/users`, {
+// Activate a paid tier for a user. Returns { ok, detail }.
+// public.users is keyed by the auth user's id (a NOT NULL primary key), so the
+// old email-only POST-upsert could never match and silently failed. We now
+// UPDATE the existing row by email (created at signup); if there is genuinely no
+// row yet, we look up the auth id and INSERT with it. Any real failure is
+// surfaced (returned false) so the handler can 500 and Stripe will retry.
+async function activateTier(supabaseUrl, supabaseKey, email, tier, stripeCustomerId) {
+  console.log(`Activating tier: ${email} → ${tier}`);
+  const patchBody = { tier, updated_at: new Date().toISOString() };
+  if (stripeCustomerId) patchBody.stripe_customer_id = stripeCustomerId;
+
+  // 1) Update the existing row by email.
+  const patchRes = await fetch(
+    `${supabaseUrl}/rest/v1/users?email=eq.${encodeURIComponent(email)}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        apikey: supabaseKey,
+        Authorization: `Bearer ${supabaseKey}`,
+        Prefer: "return=representation",
+      },
+      body: JSON.stringify(patchBody),
+    }
+  );
+  const patchText = await patchRes.text();
+  let patchedRows = [];
+  try { patchedRows = JSON.parse(patchText); } catch { patchedRows = []; }
+  console.log("Tier PATCH status:", patchRes.status, "| rows:", Array.isArray(patchedRows) ? patchedRows.length : "?");
+  if (patchRes.ok && Array.isArray(patchedRows) && patchedRows.length > 0) {
+    return { ok: true, detail: "updated existing row" };
+  }
+
+  // 2) No row updated — insert one, keyed by the auth user id.
+  const userId = await findAuthUserId(supabaseUrl, supabaseKey, email);
+  const insertBody = { email, tier, updated_at: new Date().toISOString() };
+  if (userId) insertBody.id = userId;
+  if (stripeCustomerId) insertBody.stripe_customer_id = stripeCustomerId;
+
+  const insRes = await fetch(`${supabaseUrl}/rest/v1/users`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -71,10 +118,11 @@ async function upsertUser(supabaseUrl, supabaseKey, email, tier, stripeCustomerI
       Authorization: `Bearer ${supabaseKey}`,
       Prefer: "resolution=merge-duplicates",
     },
-    body: JSON.stringify(body),
+    body: JSON.stringify(insertBody),
   });
-  console.log("Supabase upsert status:", res.status, await res.text());
-  return res;
+  const insText = await insRes.text();
+  console.log("Tier INSERT status:", insRes.status, insText, "| id used:", userId ? "yes" : "NONE");
+  return { ok: insRes.ok, detail: `insert ${insRes.status}: ${insText}` };
 }
 
 async function downgradeUser(supabaseUrl, supabaseKey, email) {
@@ -139,7 +187,13 @@ export const handler = async (event) => {
         if (priceId === PREMIUM_PRICE_ID) tier = "premium";
       }
 
-      await upsertUser(SUPABASE_URL, SUPABASE_SERVICE_KEY, email, tier, customerId);
+      const result = await activateTier(SUPABASE_URL, SUPABASE_SERVICE_KEY, email, tier, customerId);
+      if (!result.ok) {
+        console.error("Tier activation FAILED:", result.detail);
+        // Return 500 so Stripe retries automatically and the failure is visible
+        // in the dashboard (a hidden 200 is how this bug shipped unnoticed).
+        return { statusCode: 500, headers: cors, body: JSON.stringify({ error: "tier activation failed", detail: result.detail }) };
+      }
     }
 
     // ── Subscription cancelled → downgrade to free ──────────
